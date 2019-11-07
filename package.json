@@ -5,14 +5,27 @@
   "private": false,
   "main": "dist/index.js",
   "dependencies": {
-    "@material-ui/core": "4.3.2",
-    "@material-ui/icons": "4.2.1",
+    "@devexpress/dx-react-core": "^2.2.0",
+    "@devexpress/dx-react-grid": "^2.2.0",
+    "@devexpress/dx-react-grid-bootstrap3": "^2.2.0",
+    "@devexpress/dx-react-grid-material-ui": "^2.2.0",
+    "@devexpress/dx-react-scheduler": "^2.2.0",
+    "@devexpress/dx-react-scheduler-material-ui": "^2.2.0",
+    "@material-ui/core": "4.5.2",
+    "@material-ui/icons": "4.5.1",
+    "@material-ui/pickers": "^3.2.7",
+    "ag-grid-community": "^21.2.2",
+    "ag-grid-enterprise": "^21.2.2",
+    "ag-grid-react": "^21.2.2",
     "chartist": "0.10.1",
-    "classnames": "2.2.6",
     "history": "4.9.0",
+    "jquery": "^3.4.1",
+    "material-table": "^1.52.0",
+    "moment": "^2.24.0",
     "perfect-scrollbar": "1.4.0",
     "prop-types": "15.7.2",
     "react": "16.9.0",
+    "react-avatar": "^3.7.0",
     "react-chartist": "0.13.3",
     "react-dom": "16.9.0",
     "react-google-maps": "9.4.5",
@@ -49,6 +62,7 @@
     "typescript": "3.5.3"
   },
   "devDependencies": {
+    "classnames": "^2.2.6",
     "eslint-config-prettier": "6.0.0",
     "eslint-plugin-prettier": "3.1.0",
     "gulp": "4.0.2",
@@ -62,5 +76,14 @@
       "not op_mini all"
     ],
     "development": []
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "printWidth": 120,
+    "tabWidth": 2,
+    "semi": true,
+    "jsxBracketSameLine": false,
+    "endOfLine": "auto"
   }
 }

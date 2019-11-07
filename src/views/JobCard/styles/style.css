@@ -1,0 +1,11 @@
+.cardAnimation {
+  animation-name: openCard;
+  animation-duration: 10s; 
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+}
+
+@keyframes openCard {
+  from { width: 0%}
+  to {width: 70%}
+}

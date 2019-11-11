@@ -60,7 +60,7 @@ FocusableCell.propTypes = {
 };
 
 export default function TaskTable(props) {
-  const { dataRow, showCardTask } = props;
+  const { dataRow, showCardTask, setUpdatedTask } = props;
   const [data, setData] = useState(dataRow);
 
   const commitChanges = ({ added, changed, deleted }) => {
@@ -76,16 +76,6 @@ export default function TaskTable(props) {
       ];
     }
     if (changed) {
-      /*changedRows = data.map(row => {
-        if (changed[row.id]) {
-          const key = Object.keys(changed[row.id])[0];
-          const value = changed[row.id][key];
-          const field = key.slice(7);
-          const changedRow = { ...row, ...{ actual: { ...row.actual, ...{ [field]: value } } } };
-          alert(`Улетело на сервер ${JSON.stringify(changedRow)}`);
-          return changedRow;
-        } else return row;
-      });*/
       changedRows = data.map(row => (changed[row.id] ? { ...row, ...changed[row.id] } : row));
       alert(`Улетело на сервер ${JSON.stringify(changedRows)}`);
     }
@@ -94,6 +84,7 @@ export default function TaskTable(props) {
       changedRows = data.filter(row => !deletedSet.has(row.id));
     }
     setData(changedRows);
+    setUpdatedTask(changedRows);
   };
 
   const TableRow = ({ row, ...restProps }) => {
@@ -182,4 +173,5 @@ export default function TaskTable(props) {
 TaskTable.propTypes = {
   dataRow: PropTypes.array,
   showCardTask: PropTypes.func,
+  setUpdatedTask: PropTypes.func,
 };

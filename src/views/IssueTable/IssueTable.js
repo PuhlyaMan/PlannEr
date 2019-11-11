@@ -19,6 +19,7 @@ import {
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
+  VirtualTable,
   Table,
   Toolbar,
   SearchPanel,
@@ -62,7 +63,7 @@ export default function IssueTables() {
     import('./settings/data.js')
       .then(dataRow => setData(dataRow.default))
       .catch(err => new Error(err));
-  });
+  }, []);
 
   const TableRow = ({ row, ...restProps }) => {
     return (
@@ -89,13 +90,18 @@ export default function IssueTables() {
     setSelectedRow();
   };
 
+  const setUpdatedTask = updatedTask => {
+    const changedData = data.map(row => (selectedRow.id === row.id ? { ...selectedRow, tasks: updatedTask } : row));
+    setData(changedData);
+  };
+
   //const [pageSizes] = useState([5, 10, 15, 0]);
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Paper>
-          <IssueCard getRowId={getRowId} data={selectedRow} visible={showIssueCard} setHidden={setHidden} />
-          <Grid rows={data} columns={settings.columns}>
+          <IssueCard data={selectedRow} visible={showIssueCard} setHidden={setHidden} setUpdatedTask={setUpdatedTask} />
+          <Grid getRowId={getRowId} rows={data} columns={settings.columns}>
             <DragDropProvider />
             <DataTypeProvider for={settings.dateColumns} availableFilterOperations={settings.dateFilterOperations} />
             <DataTypeProvider
@@ -122,7 +128,8 @@ export default function IssueTables() {
             <IntegratedPaging />
             <IntegratedSummary />
 
-            <Table
+            <VirtualTable
+              height={770}
               rowComponent={TableRow}
               messages={localisation.table}
               columnExtensions={settings.tableColumnExtensions}

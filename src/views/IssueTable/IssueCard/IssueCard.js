@@ -16,7 +16,7 @@ export default function IssueCard(props) {
   const [showTaskCard, setShowTaskCard] = useState('hidden');
   const [selectedRow, setSelectedRow] = useState();
 
-  const { data, visible, setHidden } = props;
+  const { data, visible, setHidden, setUpdatedTask } = props;
   const classes = useStyles(properties);
 
   if (!data) return <div></div>;
@@ -192,7 +192,7 @@ export default function IssueCard(props) {
               <span style={{ display: 'block' }} className={classes.bigTitle}>
                 Задачи:
               </span>
-              <TaskTable dataRow={data.tasks} showCardTask={showCardTask} />
+              <TaskTable dataRow={data.tasks} showCardTask={showCardTask} setUpdatedTask={setUpdatedTask} />
             </div>
             <button
               onClick={() => setHidden()}
@@ -212,4 +212,5 @@ IssueCard.propTypes = {
   data: PropTypes.object,
   visible: PropTypes.string,
   setHidden: PropTypes.func,
+  setUpdatedTask: PropTypes.func,
 };

@@ -91,7 +91,7 @@ export const columns = [
 ];
 
 export const tableColumnExtensions = [
-  { columnName: 'name', width: 350, wordWrapEnabled: true },
+  { columnName: 'name', width: 600, wordWrapEnabled: true },
   { columnName: 'id', width: 150, align: 'center' },
   { columnName: 'state', width: 150 },
   { columnName: 'point', width: 150 },
@@ -216,6 +216,7 @@ export const TableCellFixed = ({ ...restProps }) => {
       {...restProps}
       style={{
         backgroundColor: row ? font(row.state) : '#fff',
+        padding: '5px 10px',
       }}
     />
   );

@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import classNames from 'classnames';
 // @material-ui/core components
 import { makeStyles } from '@material-ui/core/styles';
-import Footer from 'components/Footer/Footer.js';
+//import Footer from 'components/Footer/Footer.js';
 import Toolbar from '@material-ui/core/Toolbar';
 import MiniDrawer from 'components/MiniDrawer/MiniDrawer';
 import Container from '@material-ui/core/Container';

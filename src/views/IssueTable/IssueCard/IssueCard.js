@@ -11,7 +11,7 @@ import styles from './styles/issueCardStyle.js';
 const useStyles = makeStyles(styles);
 
 export default function IssueCard(props) {
-  const [widthCard, setWidthCard] = useState('70%');
+  const [widthCard] = useState('70%');
   const properties = { width: widthCard };
   const [showTaskCard, setShowTaskCard] = useState('hidden');
   const [selectedRow, setSelectedRow] = useState();
@@ -192,7 +192,7 @@ export default function IssueCard(props) {
               <span style={{ display: 'block' }} className={classes.bigTitle}>
                 Задачи:
               </span>
-              <TaskTable data={data.tasks} showCardTask={showCardTask} />
+              <TaskTable dataRow={data.tasks} showCardTask={showCardTask} />
             </div>
             <button
               onClick={() => setHidden()}

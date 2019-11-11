@@ -1,6 +1,6 @@
 let width = '70%';
 
-const styles = theme => ({
+const styles = {
   buttonSend: {
     margin: '15px',
   },
@@ -93,6 +93,6 @@ const styles = theme => ({
     from: { width: width },
     to: { width: '30%' },
   },
-});
+};
 
 export default styles;

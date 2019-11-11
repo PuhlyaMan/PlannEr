@@ -35,7 +35,7 @@ export default function TaskCard(props) {
 
   const handleSubmit = e => {
     alert(
-      `ИД задачи:${selectedRow.id} Дата начала:${startDate.value} Дата окончания:${endDate.value} Трудозатраты:${labor.value} `
+      `ИД задачи: ${selectedRow.id} Дата начала: ${startDate.value} Дата окончания: ${endDate.value} Трудозатраты: ${labor.value} `
     );
     e.preventDefault();
   };

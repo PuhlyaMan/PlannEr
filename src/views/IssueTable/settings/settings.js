@@ -1,14 +1,15 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import { IntegratedFiltering } from '@devexpress/dx-react-grid';
+import { TableFixedColumns, TableBandHeader } from '@devexpress/dx-react-grid-material-ui';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 
 export const columns = [
-  { name: 'id', title: 'ИД работы' },
   { name: 'name', title: 'Наименование работы' },
+  { name: 'id', title: 'ИД работы' },
   { name: 'state', title: 'Статус' },
   { name: 'point', title: 'Пункт плана' },
   { name: 'type', title: 'Тип работы' },
@@ -90,8 +91,8 @@ export const columns = [
 ];
 
 export const tableColumnExtensions = [
-  { columnName: 'id', width: 150, align: 'center' },
   { columnName: 'name', width: 350, wordWrapEnabled: true },
+  { columnName: 'id', width: 150, align: 'center' },
   { columnName: 'state', width: 150 },
   { columnName: 'point', width: 150 },
   { columnName: 'type', width: 200, wordWrapEnabled: true },
@@ -191,7 +192,49 @@ ContentComponentBase.defaultProps = {
 
 export const ContentComponent = withStyles(styles, { name: 'Content' })(ContentComponentBase);
 
-export const fixedLeftColumns = ['id', 'name'];
+export const font = state => {
+  switch (state) {
+    case 'В работе':
+      return '#80cf95';
+    case 'Ожидание':
+      return '#ecf272';
+    case 'Выполнено':
+      return '#b7b8b2';
+    case 'Запланировано':
+      return '#7daed4';
+    case 'Новая':
+      return '#fff';
+    default:
+      return '';
+  }
+};
+
+export const TableCellFixed = ({ ...restProps }) => {
+  const row = restProps.tableRow.row;
+  return (
+    <TableFixedColumns.Cell
+      {...restProps}
+      style={{
+        backgroundColor: row ? font(row.state) : '#fff',
+      }}
+    />
+  );
+};
+
+export const TableCellBand = ({ ...restProps }) => {
+  return (
+    <TableBandHeader.Cell
+      {...restProps}
+      style={{
+        textAlign: 'center',
+        fontSize: '15px',
+        fontWeight: 'bold',
+      }}
+    />
+  );
+};
+
+export const fixedLeftColumns = ['name'];
 
 export const defaultHiddenColumnNames = [
   'type',

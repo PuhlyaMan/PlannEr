@@ -1,8 +1,6 @@
-import $ from 'jquery';
-
 let width = '70%';
 
-const styles = theme => ({
+const styles = {
   card: {
     color: 'black',
     position: 'absolute',
@@ -89,6 +87,6 @@ const styles = theme => ({
     from: { width: width },
     to: { width: '30%' },
   },
-});
+};
 
 export default styles;

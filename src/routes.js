@@ -21,9 +21,9 @@ import Person from '@material-ui/icons/Person';
 // core components/views for Admin layout
 import DashboardPage from 'views/Dashboard/Dashboard.js';
 import UserProfile from 'views/UserProfile/UserProfile.js';
-import TableList from 'views/TableList/TableList.js';
-import JobTables from 'views/JobTables/JobTables.js';
-import Issues from 'views/Issues/Issues.js';
+//import TableList from 'views/TableList/TableList.js';
+//import JobTables from 'views/JobTables/JobTables.js';
+//import Issues from 'views/Issues/Issues.js';
 import IssueTable from 'views/IssueTable/IssueTable.js';
 
 const dashboardRoutes = [

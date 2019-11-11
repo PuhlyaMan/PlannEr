@@ -1,6 +1,7 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import { IntegratedFiltering } from '@devexpress/dx-react-grid';
+import { TableFixedColumns, TableBandHeader } from '@devexpress/dx-react-grid-material-ui';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
@@ -14,7 +15,7 @@ export const columns = [
   {
     name: 'department_id',
     title: 'ИД отдела',
-    getCellValue: row => (row.actual ? row.department.id : undefined),
+    getCellValue: row => (row.department ? row.department.id : undefined),
   },
   {
     name: 'title',
@@ -61,21 +62,60 @@ export const columns = [
 ];
 
 export const tableColumnExtensions = [
-  { columnName: 'name', width: 300, wordWrapEnabled: true },
-  { columnName: 'id', width: 150, align: 'center' },
-  { columnName: 'state', width: 120 },
-  { columnName: 'developer', width: 200, wordWrapEnabled: true },
-  { columnName: 'department_id', width: 150, align: 'center' },
-  { columnName: 'title', width: 150 },
-  { columnName: 'breadcrumb', width: 250 },
-  { columnName: 'plan_start_date', width: 150, align: 'center' },
-  { columnName: 'plan_finish_date', width: 150, align: 'center' },
-  { columnName: 'plan_labor', width: 150, align: 'center' },
+  { columnName: 'name', width: 300, wordWrapEnabled: true, editingEnabled: false },
+  { columnName: 'id', width: 150, align: 'center', editingEnabled: false },
+  { columnName: 'state', width: 120, editingEnabled: false },
+  { columnName: 'developer', width: 200, wordWrapEnabled: true, editingEnabled: false },
+  { columnName: 'department_id', width: 150, align: 'center', editingEnabled: false },
+  { columnName: 'title', width: 150, editingEnabled: false },
+  { columnName: 'breadcrumb', width: 250, editingEnabled: false },
+  { columnName: 'plan_start_date', width: 150, align: 'center', editingEnabled: false },
+  { columnName: 'plan_finish_date', width: 150, align: 'center', editingEnabled: false },
+  { columnName: 'plan_labor', width: 150, align: 'center', editingEnabled: false },
   { columnName: 'actual_start_date', width: 150, align: 'center' },
   { columnName: 'actual_finish_date', width: 150, align: 'center' },
   { columnName: 'actual_labor', width: 150, align: 'center' },
   { columnName: 'comment', width: 200 },
-  { columnName: '@timestamp', width: 200, align: 'center' },
+  { columnName: '@timestamp', width: 200, align: 'center', editingEnabled: false },
+];
+
+export const editingColumnExtensions = [
+  {
+    columnName: 'department_id',
+    createRowChange: (row, value) => ({ department: { ...row.department, id: value } }),
+  },
+  {
+    columnName: 'title',
+    createRowChange: (row, value) => ({ department: { ...row.department, title: value } }),
+  },
+  {
+    columnName: 'breadcrumb',
+    createRowChange: (row, value) => ({ department: { ...row.department, breadcrumb: value } }),
+  },
+  {
+    columnName: 'plan_start_date',
+    createRowChange: (row, value) => ({ plan: { ...row.plan, start_date: value } }),
+  },
+  {
+    columnName: 'plan_finish_date',
+    createRowChange: (row, value) => ({ plan: { ...row.plan, finish_date: value } }),
+  },
+  {
+    columnName: 'plan_labor',
+    createRowChange: (row, value) => ({ plan: { ...row.plan, labor: value } }),
+  },
+  {
+    columnName: 'actual_start_date',
+    createRowChange: (row, value) => ({ actual: { ...row.actual, start_date: value } }),
+  },
+  {
+    columnName: 'actual_finish_date',
+    createRowChange: (row, value) => ({ actual: { ...row.actual, finish_date: value } }),
+  },
+  {
+    columnName: 'actual_labor',
+    createRowChange: (row, value) => ({ actual: { ...row.actual, labor: value } }),
+  },
 ];
 
 const styles = {
@@ -117,7 +157,7 @@ const StateFilterBase = ({ value, onValueChange, classes }) => {
 };
 
 StateFilterBase.propTypes = {
-  value: PropTypes.number,
+  value: PropTypes.string,
   onValueChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
@@ -146,6 +186,48 @@ ContentComponentBase.defaultProps = {
 };
 
 export const ContentComponent = withStyles(styles, { name: 'Content' })(ContentComponentBase);
+
+export const font = state => {
+  switch (state) {
+    case 'В работе':
+      return '#80cf95';
+    case 'Ожидание':
+      return '#ecf272';
+    case 'Выполнено':
+      return '#b7b8b2';
+    case 'Запланировано':
+      return '#7daed4';
+    case 'Новая':
+      return '#fff';
+    default:
+      return '';
+  }
+};
+
+export const TableCellFixed = ({ ...restProps }) => {
+  const row = restProps.tableRow.row;
+  return (
+    <TableFixedColumns.Cell
+      {...restProps}
+      style={{
+        backgroundColor: row ? font(row.state) : '#fff',
+      }}
+    />
+  );
+};
+
+export const TableCellBand = ({ ...restProps }) => {
+  return (
+    <TableBandHeader.Cell
+      {...restProps}
+      style={{
+        textAlign: 'center',
+        fontSize: '15px',
+        fontWeight: 'bold',
+      }}
+    />
+  );
+};
 
 export const fixedLeftColumns = ['name'];
 

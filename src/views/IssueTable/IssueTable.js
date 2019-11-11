@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
@@ -35,12 +36,12 @@ import {
   DragDropProvider,
   PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui';
-import { withStyles } from '@material-ui/core/styles';
 import DateRange from '@material-ui/icons/DateRange';
 import IssueCard from './IssueCard/IssueCard.js';
 import * as settings from './settings/settings.js';
 import * as localisation from './settings/ru.js';
-import data from './settings/data.js';
+
+const getRowId = row => row.id;
 
 const FilterIcon = ({ type, ...restProps }) => {
   if (type === 'month') return <DateRange {...restProps} />;
@@ -48,64 +49,52 @@ const FilterIcon = ({ type, ...restProps }) => {
   return <TableFilterRow.Icon type={type} {...restProps} />;
 };
 
+FilterIcon.propTypes = {
+  type: PropTypes.string,
+};
+
 export default function IssueTables() {
+  const [data, setData] = useState([]);
+  const [showIssueCard, setShow] = useState('hidden');
+  const [selectedRow, setSelectedRow] = useState();
+
+  useEffect(() => {
+    import('./settings/data.js')
+      .then(dataRow => setData(dataRow.default))
+      .catch(err => new Error(err));
+  });
+
   const TableRow = ({ row, ...restProps }) => {
-    const font = state => {
-      switch (state) {
-        case 'В работе':
-          return '#80cf95';
-        case 'Ожидание':
-          return '#ecf272';
-        case 'Выполнено':
-          return '#b7b8b2';
-        case 'Запланировано':
-          return '#7daed4';
-        default:
-          return '';
-      }
-    };
     return (
       <Table.Row
         {...restProps}
-        // eslint-disable-next-line no-alert
-        onClick={() => {
+        onDoubleClick={() => {
           setShow('visible');
           setSelectedRow(row);
         }}
         style={{
           cursor: 'pointer',
-          backgroundColor: font(row.state),
+          backgroundColor: settings.font(row.state),
         }}
       />
     );
   };
 
-  const TableCellBand = ({ ...restProps }) => {
-    return (
-      <TableBandHeader.Cell
-        {...restProps}
-        style={{
-          textAlign: 'center',
-          fontSize: '15px',
-          fontWeight: 'bold',
-        }}
-      />
-    );
+  TableRow.propTypes = {
+    row: PropTypes.object,
   };
 
   const setHidden = () => {
     setShow('hidden');
     setSelectedRow();
   };
-  const [showIssueCard, setShow] = useState('hidden');
-  const [selectedRow, setSelectedRow] = useState();
 
   //const [pageSizes] = useState([5, 10, 15, 0]);
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Paper>
-          <IssueCard data={selectedRow} visible={showIssueCard} setHidden={setHidden} />
+          <IssueCard getRowId={getRowId} data={selectedRow} visible={showIssueCard} setHidden={setHidden} />
           <Grid rows={data} columns={settings.columns}>
             <DragDropProvider />
             <DataTypeProvider for={settings.dateColumns} availableFilterOperations={settings.dateFilterOperations} />
@@ -149,8 +138,8 @@ export default function IssueTables() {
             <TableSummaryRow messages={localisation.tableSummaryRow} />
             <TableGroupRow />
             <TableFilterRow showFilterSelector messages={localisation.tableFilterRow} iconComponent={FilterIcon} />
-            <TableBandHeader cellComponent={TableCellBand} columnBands={settings.columnBands} />
-            <TableFixedColumns leftColumns={settings.fixedLeftColumns} />
+            <TableBandHeader cellComponent={settings.TableCellBand} columnBands={settings.columnBands} />
+            <TableFixedColumns cellComponent={settings.TableCellFixed} leftColumns={settings.fixedLeftColumns} />
             <Toolbar />
             <ColumnChooser messages={localisation.columnChooser} />
 

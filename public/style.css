@@ -1,0 +1,20 @@
+.ag-theme-material .error {
+  background-color: red !important;
+}
+
+.ag-theme-material .wait {
+  background-color: yellow !important;
+}
+
+.ag-theme-material .in-work {
+  background-color: green !important;
+}
+
+.ag-theme-material .complete {
+  background-color: grey !important;
+}
+
+.ag-row-hover {
+  /* putting in !important so it overrides the theme's styling as it hovers the row also */
+  background-color: #9e9ef7 !important;
+}

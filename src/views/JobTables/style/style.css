@@ -1,0 +1,15 @@
+.ag-theme-material .error {
+  background-color: red;
+}
+
+.ag-theme-material .wait {
+  background-color: yellow;
+}
+
+.ag-theme-material .in-work {
+  background-color: green;
+}
+
+.ag-theme-material .complete {
+  background-color: grey;
+}

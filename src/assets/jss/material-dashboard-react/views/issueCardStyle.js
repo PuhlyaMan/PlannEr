@@ -26,10 +26,10 @@ const styles = {
     left: '0px',
     width: '69%',
     right: '0px',
-    animationName: '$openTaskCard',
+    /*animationName: '$openTaskCard',
     animationDuration: '600ms',
     animationTimingFunction: 'linear',
-    animationIterationCount: 1,
+    animationIterationCount: 1,*/
   },
   button: {
     border: 'none',
@@ -52,26 +52,26 @@ const styles = {
   jobCardLongAfter: {
     right: '0px',
     width: width,
-    animationName: '$openJobCard',
+    /*animationName: '$openJobCard',
     animationDuration: '600ms',
     animationTimingFunction: 'linear',
-    animationIterationCount: 1,
+    animationIterationCount: 1,*/
   },
   jobCardLongBefore: {
     right: '0px',
     width: '30%',
-    animationName: '$openJobCard',
+    /*animationName: '$openJobCard',
     animationDuration: '300ms',
     animationTimingFunction: 'linear',
-    animationIterationCount: 1,
+    animationIterationCount: 1,*/
   },
   jobCardSmall: {
     right: '0px',
     width: '30%',
-    animationName: '$miniJobCard',
+    /*animationName: '$miniJobCard',
     animationDuration: '450ms',
     animationTimingFunction: 'linear',
-    animationIterationCount: 1,
+    animationIterationCount: 1,*/
   },
   '@keyframes openJobCardBefore': {
     from: {

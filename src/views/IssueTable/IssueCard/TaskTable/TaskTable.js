@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import GridItem from 'components/Grid/GridItem.js';
@@ -19,6 +19,7 @@ import {
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
+  VirtualTable,
   Table,
   Toolbar,
   SearchPanel,
@@ -61,7 +62,11 @@ FocusableCell.propTypes = {
 
 export default function TaskTable(props) {
   const { dataRow, showCardTask, setUpdatedTask } = props;
-  const [data, setData] = useState(dataRow);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData(dataRow);
+  }, [dataRow]);
 
   const commitChanges = ({ added, changed, deleted }) => {
     let changedRows;
@@ -137,7 +142,7 @@ export default function TaskTable(props) {
           <IntegratedSummary />
 
           <EditingState onCommitChanges={commitChanges} columnExtensions={settings.editingColumnExtensions} />
-          <Table
+          <VirtualTable
             cellComponent={FocusableCell}
             rowComponent={TableRow}
             messages={localisation.table}

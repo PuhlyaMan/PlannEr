@@ -6,7 +6,7 @@ import GridItem from 'components/Grid/GridItem.js';
 import GridContainer from 'components/Grid/GridContainer.js';
 import TaskTable from './TaskTable/TaskTable.js';
 import TaskCard from './TaskCard/TaskCard.js';
-import styles from './styles/issueCardStyle.js';
+import styles from 'assets/jss/material-dashboard-react/views/issueCardStyle.js';
 
 const useStyles = makeStyles(styles);
 

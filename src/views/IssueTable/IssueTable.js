@@ -91,7 +91,9 @@ export default function IssueTables() {
   };
 
   const setUpdatedTask = updatedTask => {
-    const changedData = data.map(row => (selectedRow.id === row.id ? { ...selectedRow, tasks: updatedTask } : row));
+    const changedSelectedRow = { ...selectedRow, tasks: updatedTask };
+    setSelectedRow(changedSelectedRow);
+    const changedData = data.map(row => (selectedRow.id === row.id ? changedSelectedRow : row));
     setData(changedData);
   };
 

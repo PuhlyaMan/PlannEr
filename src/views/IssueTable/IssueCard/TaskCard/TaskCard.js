@@ -8,7 +8,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import Icon from '@material-ui/core/Icon';
 import CloseIcon from '@material-ui/icons/Close';
-import styles from '../styles/issueCardStyle.js';
+import styles from 'assets/jss/material-dashboard-react/views/issueCardStyle.js';
 
 const useStyles = makeStyles(styles);
 

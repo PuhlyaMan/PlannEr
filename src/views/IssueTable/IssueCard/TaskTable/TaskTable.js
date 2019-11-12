@@ -10,7 +10,7 @@ import {
   IntegratedPaging,
   FilteringState,
   IntegratedFiltering,
-  DataTypeProvider,
+  //DataTypeProvider,
   GroupingState,
   IntegratedGrouping,
   SummaryState,
@@ -82,7 +82,7 @@ export default function TaskTable(props) {
     }
     if (changed) {
       changedRows = data.map(row => (changed[row.id] ? { ...row, ...changed[row.id] } : row));
-      alert(`Улетело на сервер ${JSON.stringify(changedRows)}`);
+      //alert(`Улетело на сервер ${JSON.stringify(changedRows)}`);
     }
     if (deleted) {
       const deletedSet = new Set(deleted);
@@ -112,21 +112,20 @@ export default function TaskTable(props) {
     row: PropTypes.object,
   };
 
+  /*const TableCellInlineComponent = ({ ...restProps }) => {
+    //сonst row = restProps.tableRow.row;
+    return <TableInlineCellEditing.Cell {...restProps} />;
+  };*/
+
   return (
     <GridItem xs={12} sm={12} md={12}>
       <Paper>
         <Grid getRowId={getRowId} rows={data} columns={settings.columns}>
           <DragDropProvider />
-          <DataTypeProvider for={settings.dateColumns} availableFilterOperations={settings.dateFilterOperations} />
-          <DataTypeProvider
-            editorComponent={settings.StateFilter}
-            for={settings.stateColumn}
-            availableFilterOperations={settings.stateFilterOperation}
-          />
-          <DataTypeProvider
-            for={settings.numberColumns}
-            availableFilterOperations={settings.currencyFilterOperations}
-          />
+          <settings.DateTypeProvider />
+          {/*<settings.DateEditorProvider />*/}
+          <settings.StateEditorProvider />
+          <settings.NumberTypeProvider />
 
           <SearchState />
           <FilteringState defaultFilters={[]} />
@@ -163,7 +162,7 @@ export default function TaskTable(props) {
           <TableBandHeader cellComponent={settings.TableCellBand} columnBands={settings.columnBands} />
           <TableFixedColumns cellComponent={settings.TableCellFixed} leftColumns={settings.fixedLeftColumns} />
           <Toolbar />
-          <TableInlineCellEditing selectTextOnEditStart="true" />
+          <TableInlineCellEditing selectTextOnEditStart="true" /*cellComponent={TableCellInlineComponent}*/ />
           <ColumnChooser messages={localisation.columnChooser} />
 
           <SearchPanel messages={localisation.searchPanel} />

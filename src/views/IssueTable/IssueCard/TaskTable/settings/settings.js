@@ -2,6 +2,10 @@ import React from 'react';
 import * as PropTypes from 'prop-types';
 import { IntegratedFiltering } from '@devexpress/dx-react-grid';
 import { TableFixedColumns, TableBandHeader } from '@devexpress/dx-react-grid-material-ui';
+import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import ruLocale from 'date-fns/locale/ru';
+import { DataTypeProvider } from '@devexpress/dx-react-grid';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
@@ -62,46 +66,56 @@ export const columns = [
 ];
 
 export const tableColumnExtensions = [
-  { columnName: 'name', width: 300, wordWrapEnabled: true, editingEnabled: false },
-  { columnName: 'id', width: 150, align: 'center', editingEnabled: false },
-  { columnName: 'state', width: 120, editingEnabled: false },
-  { columnName: 'developer', width: 200, wordWrapEnabled: true, editingEnabled: false },
-  { columnName: 'department_id', width: 150, align: 'center', editingEnabled: false },
-  { columnName: 'title', width: 150, editingEnabled: false },
-  { columnName: 'breadcrumb', width: 250, editingEnabled: false },
-  { columnName: 'plan_start_date', width: 150, align: 'center', editingEnabled: false },
-  { columnName: 'plan_finish_date', width: 150, align: 'center', editingEnabled: false },
-  { columnName: 'plan_labor', width: 150, align: 'center', editingEnabled: false },
+  { columnName: 'name', width: 300, wordWrapEnabled: true },
+  { columnName: 'id', width: 150, align: 'center' },
+  { columnName: 'state', width: 120 },
+  { columnName: 'developer', width: 200, wordWrapEnabled: true },
+  { columnName: 'department_id', width: 150, align: 'center' },
+  { columnName: 'title', width: 150 },
+  { columnName: 'breadcrumb', width: 250 },
+  { columnName: 'plan_start_date', width: 150, align: 'center' },
+  { columnName: 'plan_finish_date', width: 150, align: 'center' },
+  { columnName: 'plan_labor', width: 150, align: 'center' },
   { columnName: 'actual_start_date', width: 150, align: 'center' },
   { columnName: 'actual_finish_date', width: 150, align: 'center' },
   { columnName: 'actual_labor', width: 150, align: 'center' },
   { columnName: 'comment', width: 200 },
-  { columnName: '@timestamp', width: 200, align: 'center', editingEnabled: false },
+  { columnName: '@timestamp', width: 200, align: 'center' },
 ];
 
 export const editingColumnExtensions = [
+  { columnName: 'name', editingEnabled: false },
+  { columnName: 'id', editingEnabled: false },
+  { columnName: 'state', editingEnabled: false },
+  { columnName: 'developer', editingEnabled: false },
   {
     columnName: 'department_id',
+    editingEnabled: false,
     createRowChange: (row, value) => ({ department: { ...row.department, id: value } }),
   },
   {
     columnName: 'title',
+    editingEnabled: false,
     createRowChange: (row, value) => ({ department: { ...row.department, title: value } }),
   },
   {
     columnName: 'breadcrumb',
+    editingEnabled: false,
     createRowChange: (row, value) => ({ department: { ...row.department, breadcrumb: value } }),
   },
   {
     columnName: 'plan_start_date',
+    editingEnabled: false,
     createRowChange: (row, value) => ({ plan: { ...row.plan, start_date: value } }),
   },
   {
     columnName: 'plan_finish_date',
+    editingEnabled: false,
     createRowChange: (row, value) => ({ plan: { ...row.plan, finish_date: value } }),
   },
   {
     columnName: 'plan_labor',
+    editingEnabled: false,
     createRowChange: (row, value) => ({ plan: { ...row.plan, labor: value } }),
   },
   {
@@ -116,6 +130,7 @@ export const editingColumnExtensions = [
     columnName: 'actual_labor',
     createRowChange: (row, value) => ({ actual: { ...row.actual, labor: value } }),
   },
+  { columnName: '@timestamp', editingEnabled: false },
 ];
 
 const styles = {
@@ -131,7 +146,37 @@ const styles = {
   },
 };
 
-const StateFilterBase = ({ value, onValueChange, classes }) => {
+const DateEditor = ({ disabled, value, onValueChange }) => {
+  const handleChange = event => {
+    const { value: targetValue } = event.target;
+    if (targetValue.trim() === '') {
+      onValueChange();
+      return;
+    }
+    onValueChange(targetValue);
+  };
+  return (
+    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
+      <DateTimePicker
+        disabled={disabled}
+        autoOk
+        ampm={false}
+        disableFuture
+        value={value === undefined ? '' : value}
+        onChange={handleChange}
+        format="yyyy-MM-dd HH:mm:ss"
+      />
+    </MuiPickersUtilsProvider>
+  );
+};
+
+DateEditor.propTypes = {
+  value: PropTypes.string,
+  onValueChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
+};
+
+const StateEditorBase = ({ disabled, value, onValueChange, classes }) => {
   const handleChange = event => {
     const { value: targetValue } = event.target;
     if (targetValue.trim() === '') {
@@ -142,6 +187,7 @@ const StateFilterBase = ({ value, onValueChange, classes }) => {
   };
   return (
     <Select
+      disabled={disabled}
       className={classes.selectState}
       labelId="stateLabel"
       id="stateSelect"
@@ -156,17 +202,18 @@ const StateFilterBase = ({ value, onValueChange, classes }) => {
   );
 };
 
-StateFilterBase.propTypes = {
+StateEditorBase.propTypes = {
   value: PropTypes.string,
   onValueChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
-StateFilterBase.defaultProps = {
+StateEditorBase.defaultProps = {
   value: undefined,
 };
 
-export const StateFilter = withStyles(styles)(StateFilterBase);
+const StateEditor = withStyles(styles)(StateEditorBase);
 
 const ContentComponentBase = ({ children, classes, className, ...restProps }) => (
   <div className={classNames(classes.content, className)} {...restProps}>
@@ -202,6 +249,36 @@ export const font = state => {
     default:
       return '';
   }
+};
+
+export const DateEditorProvider = ({ ...restProps }) => {
+  return (
+    <DataTypeProvider
+      editorComponent={DateEditor}
+      for={dateEditorColumns}
+      availableFilterOperations={dateFilterOperations}
+      {...restProps}
+    />
+  );
+};
+
+export const StateEditorProvider = ({ ...restProps }) => {
+  return (
+    <DataTypeProvider
+      editorComponent={StateEditor}
+      for={stateColumn}
+      availableFilterOperations={stateFilterOperation}
+      {...restProps}
+    />
+  );
+};
+
+export const DateTypeProvider = ({ ...restProps }) => {
+  return <DataTypeProvider for={dateColumns} availableFilterOperations={dateFilterOperations} {...restProps} />;
+};
+
+export const NumberTypeProvider = ({ ...restProps }) => {
+  return <DataTypeProvider for={numberColumns} availableFilterOperations={currencyFilterOperations} {...restProps} />;
 };
 
 export const TableCellFixed = ({ ...restProps }) => {
@@ -263,6 +340,7 @@ export const dateColumns = [
   'actual_finish_date',
   '@timestamp',
 ];
+export const dateEditorColumns = ['actual_start_date', 'actual_finish_date'];
 export const stateColumn = ['state'];
 const customFilter = [...dateColumns, ...stateColumn];
 

@@ -161,7 +161,7 @@ export default function TaskTable(props) {
             showSortingControls
             messages={localisation.tableHeaderRow}
           />
-          <TableEditRow />
+          <TableEditRow cellComponent={settings.EditCell} />
           <TableEditColumn showEditCommand commandComponent={settings.Command} width={100} />
           <TableSummaryRow messages={localisation.tableSummaryRow} />
           <TableGroupRow />
@@ -170,7 +170,6 @@ export default function TaskTable(props) {
           <TableFixedColumns
             cellComponent={settings.TableCellFixed}
             leftColumns={[TableEditColumn.COLUMN_TYPE, ...settings.fixedLeftColumns]}
-            //rightColumns={[TableEditColumn.COLUMN_TYPE]}
           />
           <Toolbar />
           {/*<TableInlineCellEditing selectTextOnEditStart="true" />*/}

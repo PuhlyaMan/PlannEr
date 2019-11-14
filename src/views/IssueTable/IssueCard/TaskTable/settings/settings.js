@@ -1,14 +1,16 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import { IntegratedFiltering } from '@devexpress/dx-react-grid';
-import { TableFixedColumns, TableBandHeader } from '@devexpress/dx-react-grid-material-ui';
+import { TableFixedColumns, TableBandHeader, TableEditRow } from '@devexpress/dx-react-grid-material-ui';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
+import moment from 'moment';
 import { DataTypeProvider } from '@devexpress/dx-react-grid';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
+import TableCell from '@material-ui/core/TableCell';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -137,7 +139,10 @@ export const editingColumnExtensions = [
   { columnName: '@timestamp', editingEnabled: false },
 ];
 
-const styles = {
+const styles = theme => ({
+  lookupEditCell: {
+    padding: theme.spacing(1),
+  },
   selectState: {
     fontSize: '14px',
     width: '100%',
@@ -148,7 +153,7 @@ const styles = {
     fontSize: '15px',
     fontWeight: 'bold',
   },
-};
+});
 
 const DateEditor = ({ disabled, value, onValueChange }) => {
   const handleChange = event => {
@@ -292,6 +297,7 @@ export const TableCellFixed = ({ ...restProps }) => {
       {...restProps}
       style={{
         backgroundColor: row ? font(row.state) : '#fff',
+        padding: '5px 10px',
       }}
     />
   );
@@ -432,4 +438,51 @@ export const Command = ({ id, onExecute }) => {
 Command.propTypes = {
   onExecute: PropTypes.func,
   id: PropTypes.string,
+};
+
+const DateEditCellBase = ({ value, onValueChange, classes }) => (
+  <TableCell className={classes.lookupEditCell}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
+      <DateTimePicker
+        autoOk
+        format="yyyy-MM-dd HH:mm:ss"
+        ampm={false}
+        value={value}
+        showTodayButton
+        onChange={event =>
+          onValueChange(
+            moment(event)
+              .format()
+              .substring(0, 19)
+          )
+        }
+      />
+    </MuiPickersUtilsProvider>
+  </TableCell>
+);
+
+DateEditCellBase.propTypes = {
+  value: PropTypes.string,
+  onValueChange: PropTypes.func,
+  classes: PropTypes.object,
+};
+
+const DateEditCell = withStyles(styles, { name: 'ControlledModeDemo' })(DateEditCellBase);
+
+const availableValues = {
+  actual_start_date: 'actual_start_date',
+  actual_finish_date: 'actual_finish_date',
+};
+
+export const EditCell = props => {
+  const { column } = props;
+  const availableColumnValues = availableValues[column.name];
+  if (availableColumnValues) {
+    return <DateEditCell {...props} />;
+  }
+  return <TableEditRow.Cell {...props} />;
+};
+
+EditCell.propTypes = {
+  column: PropTypes.object,
 };

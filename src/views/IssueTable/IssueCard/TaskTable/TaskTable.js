@@ -10,7 +10,6 @@ import {
   IntegratedPaging,
   FilteringState,
   IntegratedFiltering,
-  //DataTypeProvider,
   GroupingState,
   IntegratedGrouping,
   SummaryState,
@@ -31,7 +30,9 @@ import {
   TableGroupRow,
   TableSummaryRow,
   TableFixedColumns,
-  TableInlineCellEditing,
+  //TableInlineCellEditing,
+  TableEditColumn,
+  TableEditRow,
   GroupingPanel,
   ColumnChooser,
   TableColumnVisibility,
@@ -63,6 +64,8 @@ FocusableCell.propTypes = {
 export default function TaskTable(props) {
   const { dataRow, showCardTask, setUpdatedTask } = props;
   const [data, setData] = useState([]);
+  const [editingRowIds, getEditingRowIds] = useState([]);
+  const [rowChanges, setRowChanges] = useState({});
 
   useEffect(() => {
     setData(dataRow);
@@ -112,11 +115,6 @@ export default function TaskTable(props) {
     row: PropTypes.object,
   };
 
-  /*const TableCellInlineComponent = ({ ...restProps }) => {
-    //сonst row = restProps.tableRow.row;
-    return <TableInlineCellEditing.Cell {...restProps} />;
-  };*/
-
   return (
     <GridItem xs={12} sm={12} md={12}>
       <Paper>
@@ -140,7 +138,14 @@ export default function TaskTable(props) {
           <IntegratedPaging />
           <IntegratedSummary />
 
-          <EditingState onCommitChanges={commitChanges} columnExtensions={settings.editingColumnExtensions} />
+          <EditingState
+            onCommitChanges={commitChanges}
+            columnExtensions={settings.editingColumnExtensions}
+            editingRowIds={editingRowIds}
+            onEditingRowIdsChange={getEditingRowIds}
+            rowChanges={rowChanges}
+            onRowChangesChange={setRowChanges}
+          />
           <VirtualTable
             cellComponent={FocusableCell}
             rowComponent={TableRow}
@@ -156,13 +161,19 @@ export default function TaskTable(props) {
             showSortingControls
             messages={localisation.tableHeaderRow}
           />
+          <TableEditRow />
+          <TableEditColumn showEditCommand commandComponent={settings.Command} width={100} />
           <TableSummaryRow messages={localisation.tableSummaryRow} />
           <TableGroupRow />
           <TableFilterRow showFilterSelector messages={localisation.tableFilterRow} iconComponent={FilterIcon} />
           <TableBandHeader cellComponent={settings.TableCellBand} columnBands={settings.columnBands} />
-          <TableFixedColumns cellComponent={settings.TableCellFixed} leftColumns={settings.fixedLeftColumns} />
+          <TableFixedColumns
+            cellComponent={settings.TableCellFixed}
+            leftColumns={[TableEditColumn.COLUMN_TYPE, ...settings.fixedLeftColumns]}
+            //rightColumns={[TableEditColumn.COLUMN_TYPE]}
+          />
           <Toolbar />
-          <TableInlineCellEditing selectTextOnEditStart="true" /*cellComponent={TableCellInlineComponent}*/ />
+          {/*<TableInlineCellEditing selectTextOnEditStart="true" />*/}
           <ColumnChooser messages={localisation.columnChooser} />
 
           <SearchPanel messages={localisation.searchPanel} />

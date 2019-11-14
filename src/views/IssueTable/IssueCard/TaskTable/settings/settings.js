@@ -8,6 +8,10 @@ import ruLocale from 'date-fns/locale/ru';
 import { DataTypeProvider } from '@devexpress/dx-react-grid';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import SaveIcon from '@material-ui/icons/Save';
+import CancelIcon from '@material-ui/icons/Cancel';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 
@@ -254,10 +258,10 @@ export const font = state => {
 export const DateEditorProvider = ({ ...restProps }) => {
   return (
     <DataTypeProvider
+      {...restProps}
       editorComponent={DateEditor}
       for={dateEditorColumns}
       availableFilterOperations={dateFilterOperations}
-      {...restProps}
     />
   );
 };
@@ -265,20 +269,20 @@ export const DateEditorProvider = ({ ...restProps }) => {
 export const StateEditorProvider = ({ ...restProps }) => {
   return (
     <DataTypeProvider
+      {...restProps}
       editorComponent={StateEditor}
       for={stateColumn}
       availableFilterOperations={stateFilterOperation}
-      {...restProps}
     />
   );
 };
 
 export const DateTypeProvider = ({ ...restProps }) => {
-  return <DataTypeProvider for={dateColumns} availableFilterOperations={dateFilterOperations} {...restProps} />;
+  return <DataTypeProvider {...restProps} for={dateColumns} availableFilterOperations={dateFilterOperations} />;
 };
 
 export const NumberTypeProvider = ({ ...restProps }) => {
-  return <DataTypeProvider for={numberColumns} availableFilterOperations={currencyFilterOperations} {...restProps} />;
+  return <DataTypeProvider {...restProps} for={numberColumns} availableFilterOperations={currencyFilterOperations} />;
 };
 
 export const TableCellFixed = ({ ...restProps }) => {
@@ -383,3 +387,49 @@ export const columnNames = () => {
 };
 
 export const totalSummaryItems = [{ columnName: 'id', type: 'count' }];
+
+const EditButton = ({ onExecute }) => (
+  <IconButton onClick={onExecute} title="Редактировать">
+    <EditIcon />
+  </IconButton>
+);
+
+EditButton.propTypes = {
+  onExecute: PropTypes.func,
+};
+
+const CommitButton = ({ onExecute }) => (
+  <IconButton onClick={onExecute} title="Сохранить" style={{ padding: '0', marginRight: '10px' }}>
+    <SaveIcon />
+  </IconButton>
+);
+
+CommitButton.propTypes = {
+  onExecute: PropTypes.func,
+};
+
+const CancelButton = ({ onExecute }) => (
+  <IconButton color="secondary" onClick={onExecute} style={{ padding: '0' }} title="Отменить">
+    <CancelIcon />
+  </IconButton>
+);
+
+CancelButton.propTypes = {
+  onExecute: PropTypes.func,
+};
+
+const commandComponents = {
+  edit: EditButton,
+  commit: CommitButton,
+  cancel: CancelButton,
+};
+
+export const Command = ({ id, onExecute }) => {
+  const CommandButton = commandComponents[id];
+  return <CommandButton onExecute={onExecute} />;
+};
+
+Command.propTypes = {
+  onExecute: PropTypes.func,
+  id: PropTypes.string,
+};

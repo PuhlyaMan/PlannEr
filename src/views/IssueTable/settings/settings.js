@@ -1,7 +1,7 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import { IntegratedFiltering } from '@devexpress/dx-react-grid';
-import { TableFixedColumns, TableBandHeader } from '@devexpress/dx-react-grid-material-ui';
+import { Table, TableFixedColumns, TableBandHeader } from '@devexpress/dx-react-grid-material-ui';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { withStyles } from '@material-ui/core/styles';
@@ -132,6 +132,14 @@ const styles = {
     fontSize: '15px',
     fontWeight: 'bold',
   },
+  cell: {
+    padding: '7px 10px',
+  },
+  cellBand: {
+    textAlign: 'center',
+    fontSize: '15px',
+    fontWeight: 'bold',
+  },
 };
 
 const StateFilterBase = ({ value, onValueChange, classes }) => {
@@ -216,24 +224,32 @@ export const TableCellFixed = ({ ...restProps }) => {
       {...restProps}
       style={{
         backgroundColor: row ? font(row.state) : '#fff',
-        padding: '5px 10px',
       }}
     />
   );
 };
 
-export const TableCellBand = ({ ...restProps }) => {
-  return (
-    <TableBandHeader.Cell
-      {...restProps}
-      style={{
-        textAlign: 'center',
-        fontSize: '15px',
-        fontWeight: 'bold',
-      }}
-    />
-  );
+const TableCellBandBase = ({ classes, className, ...restProps }) => {
+  return <TableBandHeader.Cell {...restProps} className={classNames(classes.cellBand, className)} />;
 };
+
+TableCellBandBase.propTypes = {
+  classes: PropTypes.object.isRequired,
+  className: PropTypes.string,
+};
+
+export const TableCellBand = withStyles(styles, { name: 'TableCellBand' })(TableCellBandBase);
+
+const TableCellBase = ({ classes, className, ...restProps }) => {
+  return <Table.Cell {...restProps} className={classNames(classes.cell, className)} />;
+};
+
+TableCellBase.propTypes = {
+  classes: PropTypes.object.isRequired,
+  className: PropTypes.string,
+};
+
+export const TableCell = withStyles(styles, { name: 'Cell' })(TableCellBase);
 
 export const fixedLeftColumns = ['name'];
 

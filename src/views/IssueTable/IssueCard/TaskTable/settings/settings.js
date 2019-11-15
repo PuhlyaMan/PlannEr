@@ -1,7 +1,7 @@
 import React from 'react';
 import * as PropTypes from 'prop-types';
 import { IntegratedFiltering } from '@devexpress/dx-react-grid';
-import { TableFixedColumns, TableBandHeader, TableEditRow } from '@devexpress/dx-react-grid-material-ui';
+import { Table, TableFixedColumns, TableBandHeader, TableEditRow } from '@devexpress/dx-react-grid-material-ui';
 import { MuiPickersUtilsProvider, DateTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
@@ -10,7 +10,6 @@ import { DataTypeProvider } from '@devexpress/dx-react-grid';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
-import TableCell from '@material-ui/core/TableCell';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -153,37 +152,15 @@ const styles = theme => ({
     fontSize: '15px',
     fontWeight: 'bold',
   },
+  cell: {
+    padding: '7px 7px',
+  },
+  cellBand: {
+    textAlign: 'center',
+    fontSize: '15px',
+    fontWeight: 'bold',
+  },
 });
-
-const DateEditor = ({ disabled, value, onValueChange }) => {
-  const handleChange = event => {
-    const { value: targetValue } = event.target;
-    if (targetValue.trim() === '') {
-      onValueChange();
-      return;
-    }
-    onValueChange(targetValue);
-  };
-  return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
-      <DateTimePicker
-        disabled={disabled}
-        autoOk
-        ampm={false}
-        disableFuture
-        value={value === undefined ? '' : value}
-        onChange={handleChange}
-        format="yyyy-MM-dd HH:mm:ss"
-      />
-    </MuiPickersUtilsProvider>
-  );
-};
-
-DateEditor.propTypes = {
-  value: PropTypes.string,
-  onValueChange: PropTypes.func.isRequired,
-  disabled: PropTypes.bool.isRequired,
-};
 
 const StateEditorBase = ({ disabled, value, onValueChange, classes }) => {
   const handleChange = event => {
@@ -241,7 +218,7 @@ ContentComponentBase.defaultProps = {
   children: undefined,
 };
 
-export const ContentComponent = withStyles(styles, { name: 'Content' })(ContentComponentBase);
+export const ContentComponent = withStyles(styles)(ContentComponentBase);
 
 export const font = state => {
   switch (state) {
@@ -258,17 +235,6 @@ export const font = state => {
     default:
       return '';
   }
-};
-
-export const DateEditorProvider = ({ ...restProps }) => {
-  return (
-    <DataTypeProvider
-      {...restProps}
-      editorComponent={DateEditor}
-      for={dateEditorColumns}
-      availableFilterOperations={dateFilterOperations}
-    />
-  );
 };
 
 export const StateEditorProvider = ({ ...restProps }) => {
@@ -297,24 +263,32 @@ export const TableCellFixed = ({ ...restProps }) => {
       {...restProps}
       style={{
         backgroundColor: row ? font(row.state) : '#fff',
-        padding: '5px 10px',
       }}
     />
   );
 };
 
-export const TableCellBand = ({ ...restProps }) => {
-  return (
-    <TableBandHeader.Cell
-      {...restProps}
-      style={{
-        textAlign: 'center',
-        fontSize: '15px',
-        fontWeight: 'bold',
-      }}
-    />
-  );
+const TableCellBandBase = ({ classes, className, ...restProps }) => {
+  return <TableBandHeader.Cell {...restProps} className={classNames(classes.cellBand, className)} />;
 };
+
+TableCellBandBase.propTypes = {
+  classes: PropTypes.object.isRequired,
+  className: PropTypes.string,
+};
+
+export const TableCellBand = withStyles(styles, { name: 'TableCellBand' })(TableCellBandBase);
+
+const TableCellBase = ({ classes, className, ...restProps }) => {
+  return <Table.Cell {...restProps} className={classNames(classes.cell, className)} />;
+};
+
+TableCellBase.propTypes = {
+  classes: PropTypes.object.isRequired,
+  className: PropTypes.string,
+};
+
+export const TableCell = withStyles(styles, { name: 'Cell' })(TableCellBase);
 
 export const fixedLeftColumns = ['name'];
 
@@ -440,11 +414,10 @@ Command.propTypes = {
   id: PropTypes.string,
 };
 
-const DateEditCellBase = ({ value, onValueChange, classes }) => (
-  <TableCell className={classes.lookupEditCell}>
+const DateEditCellBase = ({ value, onValueChange, classes, className }) => (
+  <Table.Cell className={classNames(classes.lookupEditCell, className)}>
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
       <DateTimePicker
-        autoOk
         format="yyyy-MM-dd HH:mm:ss"
         ampm={false}
         value={value}
@@ -458,16 +431,17 @@ const DateEditCellBase = ({ value, onValueChange, classes }) => (
         }
       />
     </MuiPickersUtilsProvider>
-  </TableCell>
+  </Table.Cell>
 );
 
 DateEditCellBase.propTypes = {
   value: PropTypes.string,
   onValueChange: PropTypes.func,
   classes: PropTypes.object,
+  className: PropTypes.string,
 };
 
-const DateEditCell = withStyles(styles, { name: 'ControlledModeDemo' })(DateEditCellBase);
+const DateEditCell = withStyles(styles)(DateEditCellBase);
 
 const availableValues = {
   actual_start_date: 'actual_start_date',

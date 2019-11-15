@@ -114,7 +114,6 @@ export default function IssueTables() {
             <DataTypeProvider
               for={settings.numberColumns}
               availableFilterOperations={settings.currencyFilterOperations}
-              //editorComponent={CurrencyEditor}
             />
 
             <SearchState />
@@ -132,6 +131,7 @@ export default function IssueTables() {
 
             <VirtualTable
               height={770}
+              cellComponent={settings.TableCell}
               rowComponent={TableRow}
               messages={localisation.table}
               columnExtensions={settings.tableColumnExtensions}

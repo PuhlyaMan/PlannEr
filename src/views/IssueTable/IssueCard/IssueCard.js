@@ -42,51 +42,51 @@ export default function IssueCard(props) {
             <div style={{ display: 'inline-flex', margin: '0 15px 0 15px' }}>
               <div style={{ margin: '0 15px 0 0' }}>
                 <span className={classes.title}>Идентификатор работы: </span>
-                <span>{data.id}</span>
+                <span className={classes.value}>{data.id}</span>
               </div>
               <div style={{ margin: '0 15px 0 0' }}>
                 <span className={classes.title}>Статус: </span>
-                <span>{data.state}</span>
+                <span className={classes.value}>{data.state}</span>
               </div>
               <div>
                 <span className={classes.title}>Пункт: </span>
-                <span>{data.point}</span>
+                <span className={classes.value}>{data.point}</span>
               </div>
             </div>
             <div style={{ margin: '0 15px 0 15px' }}>
               <span className={classes.title}>Тип: </span>
-              <span>{data.type}</span>
+              <span className={classes.value}>{data.type}</span>
             </div>
             <div style={{ display: 'inline-flex', margin: '0 15px 0 15px' }}>
               <div style={{ margin: '0 15px 0 0' }}>
                 <span className={classes.title}>Категория: </span>
-                <span>{data.category}</span>
+                <span className={classes.value}>{data.category}</span>
               </div>
               <div style={{ margin: '0 15px 0 0' }}>
                 <span className={classes.title}>Продукт: </span>
-                <span>{data.product}</span>
+                <span className={classes.value}>{data.product}</span>
               </div>
               <div>
                 <span className={classes.title}>Дата начала: </span>
-                <span>{data.term_date}</span>
+                <span className={classes.value}>{data.term_date}</span>
               </div>
             </div>
             <div style={{ margin: '0 15px 0 15px' }}>
               <span className={classes.title}>Автор: </span>
-              <span>{data.author}</span>
+              <span className={classes.value}>{data.author}</span>
             </div>
             <div style={{ margin: '0 15px 0 15px' }}>
               <span className={classes.title}>Ответственный: </span>
-              <span>{data.responsible}</span>
+              <span className={classes.value}>{data.responsible}</span>
             </div>
             <div style={{ display: 'inline-flex', margin: '0 15px 0 15px' }}>
               <div style={{ margin: '0 15px 0 0' }}>
                 <span className={classes.title}>Код документа: </span>
-                <span>{data.document_code}</span>
+                <span className={classes.value}>{data.document_code}</span>
               </div>
               <div>
                 <span className={classes.title}>Иск: </span>
-                <span>{data.suit}</span>
+                <span className={classes.value}>{data.suit}</span>
               </div>
             </div>
             <div>
@@ -96,17 +96,17 @@ export default function IssueCard(props) {
               <div style={{ display: 'inline-flex', padding: '0 0 0 50px', margin: '0 15px 0 15px' }}>
                 <div style={{ margin: '0 15px 0 0' }}>
                   <span className={classes.title}>Идентификатор: </span>
-                  <span>{data.contract.id}</span>
+                  <span className={classes.value}>{data.contract.id}</span>
                 </div>
                 <div>
                   <span className={classes.title}>Наименование: </span>
-                  <span>{data.contract.name}</span>
+                  <span className={classes.value}>{data.contract.name}</span>
                 </div>
               </div>
             </div>
             <div style={{ margin: '0 15px 0 15px' }}>
               <span className={classes.title}>График: </span>
-              <span>{data.schedule}</span>
+              <span className={classes.value}>{data.schedule}</span>
             </div>
             <div>
               <span style={{ display: 'block', margin: '0 15px 0 15px' }} className={classes.title}>
@@ -115,17 +115,17 @@ export default function IssueCard(props) {
               <div style={{ display: 'inline-flex', padding: '0 0 0 50px', margin: '0 15px 0 15px' }}>
                 <div style={{ margin: '0 15px 0 0' }}>
                   <span className={classes.title}>Идентификатор: </span>
-                  <span>{data.project.id}</span>
+                  <span className={classes.value}>{data.project.id}</span>
                 </div>
                 <div>
                   <span className={classes.title}>Наименование: </span>
-                  <span>{data.project.name}</span>
+                  <span className={classes.value}>{data.project.name}</span>
                 </div>
               </div>
             </div>
             <div style={{ margin: '0 15px 0 15px' }}>
               <span className={classes.title}>Конструкция: </span>
-              <span>{data.construction}</span>
+              <span className={classes.value}>{data.construction}</span>
             </div>
             <div>
               <span style={{ display: 'block', margin: '0 15px 0 15px' }} className={classes.title}>
@@ -134,15 +134,15 @@ export default function IssueCard(props) {
               <div style={{ display: 'inline-flex', padding: '0 0 0 50px', margin: '0 15px 0 15px' }}>
                 <div style={{ margin: '0 15px 0 0' }}>
                   <span className={classes.title}>Дата начала: </span>
-                  <span>{data.plan.start_date}</span>
+                  <span className={classes.value}>{data.plan.start_date}</span>
                 </div>
                 <div style={{ margin: '0 15px 0 0' }}>
                   <span className={classes.title}>Дата окончания: </span>
-                  <span>{data.plan.finish_date}</span>
+                  <span className={classes.value}>{data.plan.finish_date}</span>
                 </div>
                 <div>
                   <span className={classes.title}>Трудозатраты: </span>
-                  <span>{data.plan.labor}</span>
+                  <span className={classes.value}>{data.plan.labor}</span>
                 </div>
               </div>
             </div>
@@ -153,15 +153,15 @@ export default function IssueCard(props) {
               <div style={{ display: 'inline-flex', padding: '0 0 0 50px', margin: '0 15px 0 15px' }}>
                 <div style={{ margin: '0 15px 0 0' }}>
                   <span className={classes.title}>Дата начала: </span>
-                  <span>{data.actual.start_date}</span>
+                  <span className={classes.value}>{data.actual.start_date}</span>
                 </div>
                 <div style={{ margin: '0 15px 0 0' }}>
                   <span className={classes.title}>Дата окончания: </span>
-                  <span>{data.actual.finish_date}</span>
+                  <span className={classes.value}>{data.actual.finish_date}</span>
                 </div>
                 <div>
                   <span className={classes.title}>Трудозатраты: </span>
-                  <span>{data.actual.labor}</span>
+                  <span className={classes.value}>{data.actual.labor}</span>
                 </div>
               </div>
             </div>
@@ -172,21 +172,21 @@ export default function IssueCard(props) {
               <div style={{ display: 'inline-flex', padding: '0 0 0 50px', margin: '0 15px 0 15px' }}>
                 <div style={{ margin: '0 15px 0 0' }}>
                   <span className={classes.title}>Идентификатор: </span>
-                  <span>{data.department.id}</span>
+                  <span className={classes.value}>{data.department.id}</span>
                 </div>
                 <div style={{ margin: '0 15px 0 0' }}>
                   <span className={classes.title}>Наименование: </span>
-                  <span>{data.department.title}</span>
+                  <span className={classes.value}>{data.department.title}</span>
                 </div>
                 <div>
                   <span className={classes.title}>Цепочка: </span>
-                  <span>{data.department.breadcrumb}</span>
+                  <span className={classes.value}>{data.department.breadcrumb}</span>
                 </div>
               </div>
             </div>
             <div style={{ margin: '0 15px 0 15px' }}>
               <span className={classes.title}>Метка времени: </span>
-              <span>{data['@timestamp']}</span>
+              <span className={classes.value}>{data['@timestamp']}</span>
             </div>
             <div style={{ margin: '20px 0 0 0' }}>
               <span style={{ display: 'block' }} className={classes.bigTitle}>

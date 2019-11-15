@@ -8,6 +8,7 @@ const styles = {
     marginLeft: '15px',
     marginRight: '15px',
     width: 200,
+    fontSize: '20px',
   },
   card: {
     color: 'black',
@@ -43,9 +44,13 @@ const styles = {
   },
   title: {
     fontWeight: 'bold',
+    fontSize: '20px',
+  },
+  value: {
+    fontSize: '20px',
   },
   bigTitle: {
-    fontSize: '20px',
+    fontSize: '30px',
     fontWeight: 'bold',
     margin: '20px 15px',
   },

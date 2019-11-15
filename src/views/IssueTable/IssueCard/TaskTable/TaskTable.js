@@ -55,11 +55,11 @@ FilterIcon.propTypes = {
   type: PropTypes.string,
 };
 
-const FocusableCell = ({ onClick, ...restProps }) => <Table.Cell {...restProps} tabIndex={0} onFocus={onClick} />;
+/*const FocusableCell = ({ onClick, ...restProps }) => <Table.Cell {...restProps} tabIndex={0} onFocus={onClick} />;
 
 FocusableCell.propTypes = {
   onClick: PropTypes.func,
-};
+};*/
 
 export default function TaskTable(props) {
   const { dataRow, showCardTask, setUpdatedTask } = props;
@@ -121,7 +121,6 @@ export default function TaskTable(props) {
         <Grid getRowId={getRowId} rows={data} columns={settings.columns}>
           <DragDropProvider />
           <settings.DateTypeProvider />
-          {/*<settings.DateEditorProvider />*/}
           <settings.StateEditorProvider />
           <settings.NumberTypeProvider />
 
@@ -147,7 +146,7 @@ export default function TaskTable(props) {
             onRowChangesChange={setRowChanges}
           />
           <VirtualTable
-            cellComponent={FocusableCell}
+            cellComponent={settings.TableCell}
             rowComponent={TableRow}
             messages={localisation.table}
             columnExtensions={settings.tableColumnExtensions}
@@ -156,7 +155,6 @@ export default function TaskTable(props) {
           <TableColumnReordering defaultOrder={settings.columnNames()} />
           <TableColumnVisibility defaultHiddenColumnNames={settings.defaultHiddenColumnNames} />
           <TableHeaderRow
-            //cellComponent={}
             contentComponent={settings.ContentComponent}
             showSortingControls
             messages={localisation.tableHeaderRow}

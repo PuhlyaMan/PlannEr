@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import { MuiPickersUtilsProvider, KeyboardDateTimePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import ruLocale from 'date-fns/locale/ru';
 import Icon from '@material-ui/core/Icon';
@@ -48,11 +48,11 @@ export default function TaskCard(props) {
       <div style={{ display: 'inline-flex', margin: '0 15px 0 15px' }}>
         <div style={{ margin: '0 15px 0 0' }}>
           <span className={classes.title}>Статус: </span>
-          <span>{selectedRow.state}</span>
+          <span className={classes.value}>{selectedRow.state}</span>
         </div>
         <div>
           <span className={classes.title}>Ответственный: </span>
-          <span>{selectedRow.developer}</span>
+          <span className={classes.value}>{selectedRow.developer}</span>
         </div>
       </div>
       <div>
@@ -62,15 +62,15 @@ export default function TaskCard(props) {
         <div style={{ display: 'inline-flex', padding: '0 0 0 50px', margin: '0 15px 0 15px' }}>
           <div style={{ margin: '0 15px 0 0' }}>
             <span className={classes.title}>Идентификатор: </span>
-            <span>{selectedRow.department.id}</span>
+            <span className={classes.value}>{selectedRow.department.id}</span>
           </div>
           <div style={{ margin: '0 15px 0 0' }}>
             <span className={classes.title}>Наименование: </span>
-            <span>{selectedRow.department.title}</span>
+            <span className={classes.value}>{selectedRow.department.title}</span>
           </div>
           <div>
             <span className={classes.title}>Цепочка: </span>
-            <span>{selectedRow.department.breadcrumb}</span>
+            <span className={classes.value}>{selectedRow.department.breadcrumb}</span>
           </div>
         </div>
       </div>
@@ -81,15 +81,15 @@ export default function TaskCard(props) {
         <div style={{ display: 'inline-flex', padding: '0 0 0 50px', margin: '0 15px 0 15px' }}>
           <div style={{ margin: '0 15px 0 0' }}>
             <span className={classes.title}>Дата начала: </span>
-            <span>{selectedRow.plan.start_date}</span>
+            <span className={classes.value}>{selectedRow.plan.start_date}</span>
           </div>
           <div style={{ margin: '0 15px 0 0' }}>
             <span className={classes.title}>Дата окончания: </span>
-            <span>{selectedRow.plan.finish_date}</span>
+            <span className={classes.value}>{selectedRow.plan.finish_date}</span>
           </div>
           <div>
             <span className={classes.title}>Трудозатраты: </span>
-            <span>{selectedRow.plan.labor}</span>
+            <span className={classes.value}>{selectedRow.plan.labor}</span>
           </div>
         </div>
       </div>
@@ -100,15 +100,15 @@ export default function TaskCard(props) {
         <div style={{ display: 'inline-flex', padding: '0 0 0 50px', margin: '0 15px 0 15px' }}>
           <div style={{ margin: '0 15px 0 0' }}>
             <span className={classes.title}>Дата начала: </span>
-            <span>{selectedRow.actual.start_date}</span>
+            <span className={classes.value}>{selectedRow.actual.start_date}</span>
           </div>
           <div style={{ margin: '0 15px 0 0' }}>
             <span className={classes.title}>Дата окончания: </span>
-            <span>{selectedRow.actual.finish_date}</span>
+            <span className={classes.value}>{selectedRow.actual.finish_date}</span>
           </div>
           <div>
             <span className={classes.title}>Трудозатраты: </span>
-            <span>{selectedRow.actual.labor}</span>
+            <span className={classes.value}>{selectedRow.actual.labor}</span>
           </div>
         </div>
       </div>
@@ -129,9 +129,9 @@ export default function TaskCard(props) {
           <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
             <div style={{ display: 'inline-flex' }}>
               <div style={{ margin: '0 15px' }}>
-                <KeyboardDatePicker
+                <KeyboardDateTimePicker
                   variant="inline"
-                  format="yyyy-MM-dd"
+                  format="yyyy-MM-dd hh:mm:ss"
                   margin="normal"
                   id="startDate"
                   label="Дата начала"
@@ -143,9 +143,9 @@ export default function TaskCard(props) {
                 />
               </div>
               <div style={{ margin: '0 15px' }}>
-                <KeyboardDatePicker
+                <KeyboardDateTimePicker
                   variant="inline"
-                  format="yyyy-MM-dd"
+                  format="yyyy-MM-dd hh:mm:ss"
                   margin="normal"
                   id="endDate"
                   label="Дата окончания"

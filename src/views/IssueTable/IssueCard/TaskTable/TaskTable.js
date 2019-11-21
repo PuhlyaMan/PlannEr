@@ -41,7 +41,7 @@ import {
 } from '@devexpress/dx-react-grid-material-ui';
 import DateRange from '@material-ui/icons/DateRange';
 import * as settings from './settings/settings.js';
-import * as localisation from '../../settings/ru.js';
+import * as localisation from 'assets/data/ru.js';
 
 const getRowId = row => row.id;
 

@@ -40,7 +40,7 @@ import {
 import DateRange from '@material-ui/icons/DateRange';
 import IssueCard from './IssueCard/IssueCard.js';
 import * as settings from './settings/settings.js';
-import * as localisation from './settings/ru.js';
+import * as localisation from 'assets/data/ru.js';
 
 const getRowId = row => row.id;
 
@@ -60,7 +60,7 @@ export default function IssueTables() {
   const [selectedRow, setSelectedRow] = useState();
 
   useEffect(() => {
-    import('./settings/data.js')
+    import('assets/data/data.js')
       .then(dataRow => setData(dataRow.default))
       .catch(err => new Error(err));
   }, []);

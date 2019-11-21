@@ -37,7 +37,7 @@ export const tableFilterRow = {
 };
 
 export const tableColumnVisibility = {
-  noColumns: 'Необходимо выбрать поля для отображения',
+  noColumns: 'Нечего отображать',
 };
 
 export const tableSummaryRow = {

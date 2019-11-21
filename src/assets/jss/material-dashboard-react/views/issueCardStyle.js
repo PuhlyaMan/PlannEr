@@ -5,8 +5,6 @@ const styles = {
     margin: '15px',
   },
   textField: {
-    marginLeft: '15px',
-    marginRight: '15px',
     width: 200,
     fontSize: '20px',
   },
@@ -44,13 +42,13 @@ const styles = {
   },
   title: {
     fontWeight: 'bold',
-    fontSize: '20px',
+    fontSize: '18px',
   },
   value: {
-    fontSize: '20px',
+    fontSize: '18px',
   },
   bigTitle: {
-    fontSize: '30px',
+    fontSize: '25px',
     fontWeight: 'bold',
     margin: '20px 15px',
   },

@@ -25,6 +25,8 @@ import UserProfile from 'views/UserProfile/UserProfile.js';
 //import JobTables from 'views/JobTables/JobTables.js';
 //import Issues from 'views/Issues/Issues.js';
 import IssueTable from 'views/IssueTable/IssueTable.js';
+import Labor from 'views/Labor/Labor.js';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
 const dashboardRoutes = [
   {
@@ -32,6 +34,13 @@ const dashboardRoutes = [
     name: 'Главная страница',
     icon: Dashboard,
     component: DashboardPage,
+    layout: '/admin',
+  },
+  {
+    path: '/labor',
+    name: 'Мои работы',
+    icon: AccessTimeIcon,
+    component: Labor,
     layout: '/admin',
   },
   {

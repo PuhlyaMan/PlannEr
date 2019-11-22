@@ -475,17 +475,16 @@ DateEditCellBase.propTypes = {
   editingEnabled: PropTypes.bool.isRequired,
 };
 
-const DateEditCell = withStyles(styles)(DateEditCellBase);
+export const DateEditCell = withStyles(styles)(DateEditCellBase);
 
-const availableValues = {
+export const availableValues = {
   actual_start_date: 'actual_start_date',
   actual_finish_date: 'actual_finish_date',
 };
 
 export const EditCell = props => {
   const { column } = props;
-  const availableColumnValues = availableValues[column.name];
-  if (availableColumnValues) {
+  if (availableValues[column.name]) {
     return <DateEditCell {...props} />;
   }
   return <TableEditRow.Cell {...props} />;
@@ -543,16 +542,14 @@ SortLabelBase.propTypes = {
 
 export const SortLabel = withStyles(styles)(SortLabelBase);
 
-const FilterCellBase = ({ column, ...restProps }) => {
+export const FilterCell = ({ column, ...restProps }) => {
   if (nonSortColumn[column.name]) return <Table.Cell />;
   return <TableFilterRow.Cell {...restProps} />;
 };
 
-FilterCellBase.propTypes = {
+FilterCell.propTypes = {
   column: PropTypes.object,
 };
-
-export const FilterCell = withStyles(styles)(FilterCellBase);
 
 export const FilterIcon = ({ type, ...restProps }) => {
   if (type === 'month') return <DateRange {...restProps} />;

@@ -36,7 +36,7 @@ import { eachDayOfInterval, getDaysInMonth, eachWeekendOfMonth } from 'date-fns'
 import GridContainer from 'components/Grid/GridContainer.js';
 import * as settings from './settings/settings.js';
 import * as localisation from 'assets/data/ru.js';
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 
 const getRowId = row => row.id;
@@ -118,6 +118,7 @@ export default function Tasks(props) {
       filteringEnabled: false,
     }));
 
+    //TODO
     let newColumnBand = [];
     let itemColumnBand = {};
     let children = [];
@@ -142,30 +143,48 @@ export default function Tasks(props) {
     setColumnBands([...columnBands, ...newColumnBand]);
   };
 
-  const styles = {
+  const styles = makeStyles({
     cell: {
       padding: '5px 7px',
     },
-  };
+    cellCalendar: {
+      // eslint-disable-next-line react/prop-types
+      backgroundColor: props => props.color,
+      borderLeft: '1px solid rgba(224, 224, 224, 1)',
+    },
+  });
 
-  const TableCellBase = ({ column, classes, className, ...restProps }) => {
-    const dayArray = settings.nonSortColumn;
-    if (dayArray[column.name]) {
-      const color = daysWeekendOfMonth.includes(Number(column.title)) ? '#f26b61' : '#ffffff';
-      return (
-        <Table.Cell {...restProps} className={classNames(classes.cell, className)} style={{ backgroundColor: color }} />
-      );
+  const TableCell = ({ column, className, ...restProps }) => {
+    const color = { color: daysWeekendOfMonth.includes(Number(column.title)) ? '#f26b61' : '#ffffff' };
+    const classes = styles(color);
+    if (settings.nonSortColumn[column.name]) {
+      return <Table.Cell {...restProps} className={classNames(classes.cell, className, classes.cellCalendar)} />;
     }
     return <Table.Cell {...restProps} className={classNames(classes.cell, className)} />;
   };
 
-  TableCellBase.propTypes = {
-    classes: PropTypes.object.isRequired,
+  TableCell.propTypes = {
+    classes: PropTypes.object,
     className: PropTypes.string,
     column: PropTypes.object,
   };
 
-  const TableCell = withStyles(styles, { name: 'Cell' })(TableCellBase);
+  const EditCell = ({ column, className, ...restProps }) => {
+    if (settings.availableValues[column.name]) {
+      return <settings.DateEditCell {...restProps} />;
+    }
+    const color = { color: daysWeekendOfMonth.includes(Number(column.title)) ? '#f26b61' : '#ffffff' };
+    const classes = styles(color);
+    if (settings.nonSortColumn[column.name]) {
+      return <TableEditRow.Cell {...restProps} className={classNames(className, classes.cellCalendar)} />;
+    }
+    return <TableEditRow.Cell className={className} {...restProps} />;
+  };
+
+  EditCell.propTypes = {
+    column: PropTypes.object,
+    className: PropTypes.string,
+  };
 
   return (
     <>
@@ -240,7 +259,7 @@ export default function Tasks(props) {
               sortLabelComponent={settings.SortLabel}
               messages={localisation.tableHeaderRow}
             />
-            <TableEditRow cellComponent={settings.EditCell} />
+            <TableEditRow cellComponent={EditCell} />
             <TableEditColumn showEditCommand commandComponent={settings.Command} width={100} />
             <TableFilterRow
               cellComponent={settings.FilterCell}

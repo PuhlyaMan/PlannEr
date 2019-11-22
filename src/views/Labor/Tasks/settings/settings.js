@@ -411,7 +411,7 @@ EditButton.propTypes = {
 };
 
 const CommitButton = ({ onExecute }) => (
-  <IconButton onClick={onExecute} title="Сохранить" style={{ padding: '0', marginRight: '10px' }}>
+  <IconButton onClick={onExecute} title="Сохранить" style={{ padding: '12px 0', marginRight: '10px' }}>
     <SaveIcon />
   </IconButton>
 );
@@ -421,7 +421,7 @@ CommitButton.propTypes = {
 };
 
 const CancelButton = ({ onExecute }) => (
-  <IconButton color="secondary" onClick={onExecute} style={{ padding: '0' }} title="Отменить">
+  <IconButton color="secondary" onClick={onExecute} style={{ padding: '12px 0' }} title="Отменить">
     <CancelIcon />
   </IconButton>
 );
@@ -446,8 +446,8 @@ Command.propTypes = {
   id: PropTypes.string,
 };
 
-const DateEditCellBase = ({ editingEnabled, value, onValueChange, classes, className }) => (
-  <Table.Cell className={classNames(classes.lookupEditCell, className)}>
+const DateEditCellBase = ({ editingEnabled, value, onValueChange, classes }) => (
+  <Table.Cell className={classNames(classes.lookupEditCell)}>
     <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
       <DateTimePicker
         disabled={!editingEnabled}

@@ -68,7 +68,6 @@ export default function Tasks(props) {
   const [tableColumnExtensions, setTableColumnExtensions] = useState(settings.tableColumnExtensions);
   const [columnBands, setColumnBands] = useState(settings.columnBands);
   const [daysWeekendOfMonth, setWeekend] = useState([]);
-  //const [nonSortColumn, setNonSortColumn] = useState({});
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
 
@@ -105,9 +104,7 @@ export default function Tasks(props) {
     }
 
     const resultRange = eachDayOfInterval({ start: fromDate, end: toDate });
-    //const nonSortColumnsObject = {};
     const calendar = resultRange.map(item => {
-      //nonSortColumnsObject[`day_${item.getDate()}`] = `${item.getDate()}`;
       return { name: `day_${item.getDate()}`, title: `${item.getDate()}` };
     });
     const columnExtensions = calendar.map(item => ({
@@ -137,7 +134,6 @@ export default function Tasks(props) {
       }
     }
     newColumnBand = [...newColumnBand, itemColumnBand];
-    //setNonSortColumn(nonSortColumnsObject);
     setTableColumnExtensions([...tableColumnExtensions, ...columnExtensions]);
     setColumns([...columns, ...calendar]);
     setColumnBands([...columnBands, ...newColumnBand]);
@@ -169,21 +165,31 @@ export default function Tasks(props) {
     column: PropTypes.object,
   };
 
-  const EditCell = ({ column, className, ...restProps }) => {
-    if (settings.availableValues[column.name]) {
+  //TODO onValueChange and editingEnabled
+  const EditCell = ({ column, editingEnabled, onValueChange, className, ...restProps }) => {
+    /*if (settings.availableValues[column.name]) {
       return <settings.DateEditCell {...restProps} />;
-    }
+    }*/
     const color = { color: daysWeekendOfMonth.includes(Number(column.title)) ? '#f26b61' : '#ffffff' };
     const classes = styles(color);
     if (settings.nonSortColumn[column.name]) {
-      return <TableEditRow.Cell {...restProps} className={classNames(className, classes.cellCalendar)} />;
+      return (
+        <TableEditRow.Cell
+          {...restProps}
+          editingEnabled={editingEnabled}
+          onValueChange={onValueChange}
+          className={classNames(className, classes.cellCalendar)}
+        />
+      );
     }
-    return <TableEditRow.Cell className={className} {...restProps} />;
+    return <Table.Cell className={classNames(className, classes.cell)} {...restProps} />;
   };
 
   EditCell.propTypes = {
     column: PropTypes.object,
     className: PropTypes.string,
+    editingEnabled: PropTypes.bool,
+    onValueChange: PropTypes.func,
   };
 
   return (

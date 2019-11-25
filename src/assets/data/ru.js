@@ -49,7 +49,7 @@ export const tableSummaryRow = {
 };
 
 export const table = {
-  noData: 'Нет данных',
+  noData: '',
 };
 
 export const tableHeaderRow = {

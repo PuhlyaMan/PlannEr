@@ -17,6 +17,7 @@ import {
 import {
   Grid,
   VirtualTable,
+  Table,
   Toolbar,
   SearchPanel,
   TableBandHeader,
@@ -31,8 +32,11 @@ import {
   DragDropProvider,
   PagingPanel,
 } from '@devexpress/dx-react-grid-material-ui';
+//import { css } from '@emotion/core';
+import { PacmanLoader } from 'react-spinners';
 import GridItem from 'components/Grid/GridItem';
 import Tasks from './Tasks/Tasks.js';
+import JobCard from './JobCard/JobCard.js';
 import * as settings from './settings/settings.js';
 import * as localisation from 'assets/data/ru.js';
 
@@ -40,12 +44,23 @@ const getRowId = row => row.id;
 
 export default function Labor() {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showJobCard, setShow] = useState(false);
   const [selectedRow, setSelectedRow] = useState();
 
   useEffect(() => {
-    import('assets/data/data.js')
-      .then(dataRow => setData(dataRow.default))
-      .catch(err => new Error(err));
+    const timer = setTimeout(
+      () =>
+        import('assets/data/data.js')
+          .then(dataRow => {
+            setLoading(false);
+            setData(dataRow.default);
+          })
+          //.then(dataRow => setData(dataRow.default.filter(item => item.state === 'В работе')))
+          .catch(err => new Error(err)),
+      7000
+    );
+    return () => clearTimeout(timer);
   }, []);
 
   const RowDetail = ({ row }) => {
@@ -53,8 +68,33 @@ export default function Labor() {
     return <Tasks dataRow={row.tasks} setUpdatedTask={setUpdatedTask} />;
   };
 
+  const TableRow = ({ row, ...restProps }) => {
+    return (
+      <Table.Row
+        {...restProps}
+        onDoubleClick={() => {
+          setShow(true);
+          setSelectedRow(row);
+        }}
+        style={{
+          cursor: 'pointer',
+          backgroundColor: settings.font(row.state),
+        }}
+      />
+    );
+  };
+
+  TableRow.propTypes = {
+    row: PropTypes.object,
+  };
+
   RowDetail.propTypes = {
     row: PropTypes.object,
+  };
+
+  const setHidden = () => {
+    setShow(false);
+    setSelectedRow();
   };
 
   const setUpdatedTask = updatedTask => {
@@ -67,6 +107,7 @@ export default function Labor() {
   return (
     <GridItem xs={12} sm={12} md={12}>
       <Paper>
+        {showJobCard ? <JobCard data={selectedRow} setHidden={setHidden} setUpdatedTask={setUpdatedTask} /> : null}
         <Grid getRowId={getRowId} rows={data} columns={settings.columns}>
           <DragDropProvider />
           <settings.DateTypeProvider />
@@ -85,7 +126,7 @@ export default function Labor() {
           <IntegratedPaging />
           <VirtualTable
             cellComponent={settings.TableCell}
-            rowComponent={settings.TableRow}
+            rowComponent={TableRow}
             messages={localisation.table}
             columnExtensions={settings.tableColumnExtensions}
             height={770}
@@ -112,6 +153,9 @@ export default function Labor() {
           <GroupingPanel showGroupingControls messages={localisation.groupingPanel} />
           <PagingPanel messages={localisation.pagingPanel} pageSizes={settings.pageSizes} />
         </Grid>
+        <div style={{ position: 'absolute', top: '33%', left: '47%' }}>
+          <PacmanLoader size={50} color={'#FFFB67'} loading={loading} />
+        </div>
       </Paper>
     </GridItem>
   );

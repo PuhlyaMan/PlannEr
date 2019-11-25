@@ -162,22 +162,6 @@ export const font = state => {
   }
 };
 
-export const TableRow = ({ row, ...restProps }) => {
-  return (
-    <Table.Row
-      {...restProps}
-      style={{
-        cursor: 'pointer',
-        backgroundColor: font(row.state),
-      }}
-    />
-  );
-};
-
-TableRow.propTypes = {
-  row: PropTypes.object,
-};
-
 const TableCellBandBase = ({ classes, className, ...restProps }) => {
   return <TableBandHeader.Cell {...restProps} className={classNames(classes.cellBand, className)} />;
 };

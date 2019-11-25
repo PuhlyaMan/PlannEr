@@ -25,10 +25,6 @@ const styles = {
     left: '0px',
     width: '69%',
     right: '0px',
-    /*animationName: '$openTaskCard',
-    animationDuration: '600ms',
-    animationTimingFunction: 'linear',
-    animationIterationCount: 1,*/
   },
   button: {
     border: 'none',

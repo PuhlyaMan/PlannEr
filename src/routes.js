@@ -24,9 +24,11 @@ import UserProfile from 'views/UserProfile/UserProfile.js';
 //import TableList from 'views/TableList/TableList.js';
 //import JobTables from 'views/JobTables/JobTables.js';
 //import Issues from 'views/Issues/Issues.js';
-import IssueTable from 'views/IssueTable/IssueTable.js';
-import Labor from 'views/Labor/Labor.js';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import TaskTable from 'views/TaskTable/TaskTable.js';
+//import IssueTable from 'views/IssueTable/IssueTable.js';
+//import Labor from 'views/Labor/Labor.js';
+//import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 const dashboardRoutes = [
   {
@@ -37,8 +39,15 @@ const dashboardRoutes = [
     layout: '/admin',
   },
   {
+    path: '/tasks',
+    name: 'Мои задачи',
+    icon: AssignmentTurnedInIcon,
+    component: TaskTable,
+    layout: '/admin',
+  },
+  /*{
     path: '/labor',
-    name: 'Мои работы',
+    name: 'Мои задачи',
     icon: AccessTimeIcon,
     component: Labor,
     layout: '/admin',
@@ -49,7 +58,7 @@ const dashboardRoutes = [
     icon: 'content_paste',
     component: IssueTable,
     layout: '/admin',
-  },
+  },*/
   {
     path: '/user',
     name: 'Мой профиль',

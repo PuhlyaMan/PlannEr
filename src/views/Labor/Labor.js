@@ -58,7 +58,7 @@ export default function Labor() {
           })
           //.then(dataRow => setData(dataRow.default.filter(item => item.state === 'В работе')))
           .catch(err => new Error(err)),
-      7000
+      5000
     );
     return () => clearTimeout(timer);
   }, []);

@@ -192,6 +192,55 @@ export default function Tasks(props) {
     onValueChange: PropTypes.func,
   };
 
+  /*const EditPropsPanel = ({ fromDate, toDate }) => (
+    <Plugin name="EditPropsPanel">
+      <Template name="toolbarContent">
+        <FromDatePicker value={fromDate} onValueChange={setFromDate} label="From" />
+        <ToDatePicker value={toDate} onValueChange={setToDate} label="To" />
+        <Button size="large" variant="contained" color="primary" onClick={createCanvasCalendar}>
+          Применить
+        </Button>
+        <TemplatePlaceholder />
+      </Template>
+    </Plugin>
+  );
+
+  const FromDatePicker = ({value}) => {
+    const classes = styles();
+    return (
+      <div className={classes.dataPicker}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
+          <DatePicker
+            format="yyyy-MM-dd"
+            label="From"
+            value={value}
+            showTodayButton
+            disableFuture
+            onChange={setFromDate}
+          />
+        </MuiPickersUtilsProvider>
+      </div>
+    );
+  };
+
+  const ToDatePicker = ({value}) => {
+    const classes = styles();
+    return (
+      <div className={classes.dataPicker}>
+        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
+          <DatePicker
+            format="yyyy-MM-dd"
+            label="To"
+            value={value}
+            showTodayButton
+            disableFuture
+            onChange={setToDate}
+          />
+        </MuiPickersUtilsProvider>
+      </div>
+    );
+  };*/
+
   return (
     <>
       <GridContainer style={{ paddingBottom: '16px' }}>

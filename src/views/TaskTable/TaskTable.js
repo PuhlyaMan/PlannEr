@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import 'react-tabulator/lib/styles.css'; // default theme
-import 'react-tabulator/css/semantic-ui/tabulator_semantic-ui.min.css'; // use Theme(s)
+//import 'react-tabulator/css/semantic-ui/tabulator_semantic-ui.min.css'; // use Theme(s)
 import { ReactTabulator } from 'react-tabulator';
 import * as settings from './settings/settings.js';
+import './settings/style.css';
 
 export default function TaskTable() {
   const [data, setData] = useState([]);

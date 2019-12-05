@@ -27,6 +27,7 @@
     "babel-loader": "8.0.6",
     "babel-plugin-named-asset-import": "^0.3.3",
     "babel-preset-react-app": "^9.0.1",
+    "bootstrap": "3.3.7",
     "camelcase": "^5.2.0",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "chartist": "0.10.1",
@@ -56,6 +57,7 @@
     "material-table": "^1.52.0",
     "mini-css-extract-plugin": "0.5.0",
     "moment": "^2.24.0",
+    "mui-datatables": "^2.13.1",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "perfect-scrollbar": "1.4.0",
     "pnp-webpack-plugin": "1.5.0",
@@ -69,7 +71,14 @@
     "react-animations": "^1.0.0",
     "react-app-polyfill": "^1.0.2",
     "react-avatar": "^3.7.0",
+    "react-bootstrap-table-next": "^3.3.1",
+    "react-bootstrap-table2-editor": "^1.4.0",
+    "react-bootstrap-table2-filter": "^1.3.0",
+    "react-bootstrap-table2-overlay": "^2.0.0",
+    "react-bootstrap-table2-paginator": "^2.1.0",
+    "react-bootstrap-table2-toolkit": "^2.1.0",
     "react-chartist": "0.13.3",
+    "react-dates": "^21.5.0",
     "react-dev-utils": "^9.0.2",
     "react-dom": "16.11.0",
     "react-google-maps": "9.4.5",
@@ -83,11 +92,12 @@
     "semver": "6.3.0",
     "style-loader": "1.0.0",
     "styled-components": "^4.4.1",
+    "tabulator-tables": "4.4.3",
     "terser-webpack-plugin": "1.4.1",
     "ts-pnp": "1.1.2",
     "url-loader": "2.1.0",
     "webpack": "4.39.1",
-    "webpack-dev-server": "3.2.1",
+    "webpack-dev-server": "3.9.0",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "4.3.1"
   },
@@ -202,6 +212,13 @@
     ]
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "plugins": [
+      "react-hooks"
+    ],
+    "rules": {
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
+    }
   }
 }

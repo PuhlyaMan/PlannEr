@@ -4,13 +4,13 @@ import styled, { keyframes } from 'styled-components';
 export const styles = {
   title: {
     fontWeight: 'bold',
-    fontSize: '18px',
+    fontSize: '12px',
   },
   value: {
-    fontSize: '18px',
+    fontSize: '12px',
   },
   bigTitle: {
-    fontSize: '25px',
+    fontSize: '18px',
     fontWeight: 'bold',
     margin: '20px 15px',
   },
@@ -21,6 +21,14 @@ export const styles = {
     bottom: '10px',
     right: '10px',
     cursor: 'pointer',
+  },
+  component: {
+    minWidth: '100px',
+    display: 'inline-block',
+    padding: '0 15px 5px 0',
+  },
+  componentList: {
+    padding: '0 0 0 40px',
   },
 };
 

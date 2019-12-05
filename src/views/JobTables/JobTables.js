@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import JobCard from 'views/JobCard/JobCard.js';

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 // core components
 import GridItem from 'components/Grid/GridItem.js';

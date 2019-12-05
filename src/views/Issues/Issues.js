@@ -39,12 +39,13 @@ import {
   rows,
   colWidths,
   colAlign as align,
-  CurrencyEditor,
+  //CurrencyEditor,
   ContentComponent,
-  Title,
+  //Title,
 } from './data/settings.js';
 import * as localisation from './data/localisationRu.js';
 
+// eslint-disable-next-line react/prop-types
 const FilterIcon = ({ type, ...restProps }) => {
   if (type === 'month') return <DateRange {...restProps} />;
   return <TableFilterRow.Icon type={type} {...restProps} />;

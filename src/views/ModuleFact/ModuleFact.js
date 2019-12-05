@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import 'react-tabulator/lib/styles.css'; // default theme
-//import 'react-tabulator/css/semantic-ui/tabulator_semantic-ui.min.css'; // use Theme(s)
-import { ReactTabulator } from 'react-tabulator';
-import * as settings from './settings/settings.js';
+import BootstrapTable from 'react-bootstrap-table-next';
+//import filterFactory from 'react-bootstrap-table2-filter';
+//import cellEditFactory from 'react-bootstrap-table2-editor';
+//import 'bootstrap/dist/css/bootstrap.min.css'; //"bootstrap": "3.3.7",
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.css';
 import './settings/style.css';
+import * as settings from './settings/settings.js';
 
-export default function TaskTable() {
+export default function ModuleFact() {
   const [data, setData] = useState([]);
   const [columns] = useState(settings.columns);
 
@@ -42,14 +44,16 @@ export default function TaskTable() {
   }, []);
 
   return (
-    <ReactTabulator
+    <BootstrapTable
+      keyField="task_id"
       data={data}
       columns={columns}
-      layout="fitColumns"
-      height="850px"
-      columnHeaderVertAlign="middle"
-      //initialFilter={[{ field: 'task_state', value: 'В работе' }]}
-      initialHeaderFilter={[{ field: 'task_state', value: 'В работе' }]}
+      noDataIndication="Нет данных"
+      selectRow={{ mode: 'checkbox' }}
+      tabIndexCell
+      //selectRow={{ mode: 'checkbox' }}
+      //filter={filterFactory()}
+      //cellEdit={cellEditFactory({ mode: 'click' })}
     />
   );
 }

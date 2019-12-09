@@ -4,51 +4,23 @@ import Button from '@material-ui/core/Button';
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import moment from 'moment';
-import { getDaysInMonth, eachDayOfInterval } from 'date-fns';
 import { columns as defaultColumns } from '../settings/settings.js';
+import { getDaysInMonth, eachDayOfInterval } from 'date-fns';
+import CustomCellBody from './CustomCellBody.js';
 import '../settings/style.css';
 
-export default function CustomToolbar({ columns, setColumns }) {
+export default function CustomToolbar({ columns, setColumns, changeTask, setChangeTask }) {
   const [startDate, setStartDate] = useState(moment());
   const [endDate, setEndDate] = useState(moment());
   const [disable, setDisable] = useState(true);
   const [focusedInput, setFocus] = useState(null);
-  const [changeTask, setChangeTask] = useState();
 
-  const customCellBody = (value, tableMeta) => {
-    const onChange = (e, tableMeta) => {
-      const taskLabor = {
-        tasks: {
-          [tableMeta.rowData[1]]: {
-            [tableMeta.columnData.name]: e.currentTarget.value,
-          },
-        },
-      };
-      console.log(taskLabor);
-      const newChangeTesk = { ...changeTask, ...taskLabor };
-      setChangeTask(newChangeTesk);
-    };
+  const customBodyRender = (value, tableMeta) => (
+    <CustomCellBody value={value} tableMeta={tableMeta} changeTask={changeTask} setChangeTask={setChangeTask} />
+  );
 
-    return (
-      <input
-        onChange={e => onChange(e, tableMeta)}
-        value={value}
-        style={{
-          textAlign: 'center',
-          minWidth: '40px',
-          maxWidth: '40px',
-          borderLeft: 'none',
-          borderRight: 'none',
-          borderTop: 'none',
-          borderBottom: '1px solid rgb(34, 36, 27, 1)',
-          backgroundColor: 'inherit',
-          minHeight: '24px',
-        }}
-      />
-    );
-  };
-
-  const createCanvasCalendar = () => {
+  const createCanvasCalendar = (startDate, endDate, columnss) => {
+    console.log(columnss);
     const fromDate = startDate._d;
     const toDate = endDate._d;
     const maxResultRangeLength = getDaysInMonth(fromDate);
@@ -87,12 +59,11 @@ export default function CustomToolbar({ columns, setColumns }) {
               },
             };
           },
-          customBodyRender: customCellBody,
+          customBodyRender: customBodyRender,
         },
       };
     });
-    setDisable(false);
-    setColumns([...columns, ...calendar]);
+    setColumns([...columnss, ...calendar]);
   };
 
   const save = () => {
@@ -133,7 +104,14 @@ export default function CustomToolbar({ columns, setColumns }) {
         size="small"
         variant="contained"
         color="primary"
-        onClick={disable ? createCanvasCalendar : clear}
+        onClick={
+          disable
+            ? () => {
+                createCanvasCalendar(startDate, endDate, columns);
+                setDisable(false);
+              }
+            : clear
+        }
         style={{ marginLeft: '10px' }}
       >
         {disable ? 'Открыть календарь' : 'Закрыть календарь'}
@@ -155,5 +133,6 @@ export default function CustomToolbar({ columns, setColumns }) {
 CustomToolbar.propTypes = {
   columns: PropTypes.array,
   setColumns: PropTypes.func,
-  classes: PropTypes.object,
+  changeTask: PropTypes.object,
+  setChangeTask: PropTypes.func,
 };

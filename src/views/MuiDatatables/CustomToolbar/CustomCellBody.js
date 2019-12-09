@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
-export default function CustomCellBody(value, tableMeta) {
-  const [changeTask, setChangeTask] = useState();
-
+export default function CustomCellBody({ tableMeta, changeTask, setChangeTask }) {
+  const [value, setValue] = useState();
   const onChange = (e, tableMeta) => {
     const taskLabor = {
       tasks: {
@@ -13,12 +13,13 @@ export default function CustomCellBody(value, tableMeta) {
     };
     console.log(taskLabor);
     const newChangeTesk = { ...changeTask, ...taskLabor };
+    setValue(e.currentTarget.value);
     setChangeTask(newChangeTesk);
   };
 
   return (
     <input
-      onChange={useCallback(e => onChange(e, tableMeta), [])}
+      onChange={e => onChange(e, tableMeta)}
       value={value}
       style={{
         textAlign: 'center',
@@ -33,4 +34,11 @@ export default function CustomCellBody(value, tableMeta) {
       }}
     />
   );
+}
+
+CustomCellBody.propTypes = {
+  value: PropTypes.string,
+  tableMeta: PropTypes.object,
+  changeTask: PropTypes.object,
+  setChangeTask: PropTypes.func,
 };

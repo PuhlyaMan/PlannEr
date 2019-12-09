@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import MUIDataTable from 'mui-datatables';
 import * as settings from './settings/settings.js';
 import CustomToolbar from './CustomToolbar/CustomToolbar.js';
 import JobCard from './JobCard/JobCard.js';
-import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 
-const customStyles = {
-  NameCell: {
-    fontWeight: 900,
-  },
-};
-
-function MuiDatatables(props) {
+export default function MuiDatatables() {
   const [columns, setColumns] = useState(settings.columns);
   const [data, setData] = useState([]);
+  const [changeTask, setChangeTask] = useState({});
 
   useEffect(() => {
     import('assets/data/data.js')
@@ -45,9 +38,14 @@ function MuiDatatables(props) {
           .reduce((previousValue, item) => [...previousValue, ...item]);
         setData(jobsWithTasks);
       })
-      //.then(dataRow => setData(dataRow.default.filter(item => item.state === 'В работе')))
       .catch(err => new Error(err));
   }, []);
+
+  const customToolbar = () => (
+    <CustomToolbar columns={columns} setColumns={setColumns} changeTask={changeTask} setChangeTask={setChangeTask} />
+  );
+
+  const renderExpandableRow = rowData => <JobCard data={rowData} />;
 
   const options = {
     filterType: 'textField',
@@ -60,23 +58,14 @@ function MuiDatatables(props) {
       yAxis: true,
     },
     textLabels: settings.local,
-    // eslint-disable-next-line react/display-name
-    customToolbar: () => <CustomToolbar columns={columns} setColumns={setColumns} />,
+    customToolbar: customToolbar,
     setRowProps: rowData => {
       return {
-        //className добавлен, чтобы не забыть
-        className: classnames({
-          [props.classes.BusinessAnalystRow]: rowData[2] === 'hehe',
-        }),
         style: { backgroundColor: settings.font(rowData[2]) },
       };
     },
-    //resizableColumns: true,
     expandableRows: true,
-    // eslint-disable-next-line react/display-name
-    renderExpandableRow: rowData => <JobCard data={rowData} />,
-    //selectableRowsOnClick: true,
-    //disableToolbarSelect: true,
+    renderExpandableRow: renderExpandableRow,
   };
 
   return (
@@ -85,9 +74,3 @@ function MuiDatatables(props) {
     </MuiThemeProvider>
   );
 }
-
-MuiDatatables.propTypes = {
-  classes: PropTypes.object,
-};
-
-export default withStyles(customStyles)(MuiDatatables);

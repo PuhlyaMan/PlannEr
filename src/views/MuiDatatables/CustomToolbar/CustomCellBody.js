@@ -11,7 +11,6 @@ export default function CustomCellBody({ tableMeta, changeTask, setChangeTask })
         },
       },
     };
-    console.log(taskLabor);
     const newChangeTesk = { ...changeTask, ...taskLabor };
     setValue(e.currentTarget.value);
     setChangeTask(newChangeTesk);
@@ -23,8 +22,8 @@ export default function CustomCellBody({ tableMeta, changeTask, setChangeTask })
       value={value}
       style={{
         textAlign: 'center',
-        minWidth: '40px',
-        maxWidth: '40px',
+        minWidth: '30px',
+        maxWidth: '30px',
         borderLeft: 'none',
         borderRight: 'none',
         borderTop: 'none',

@@ -16,7 +16,7 @@ export default function CustomToolbar({ columns, setColumns, changeTask, setChan
   const [focusedInput, setFocus] = useState(null);
 
   const customBodyRender = (value, tableMeta) => (
-    <CustomCellBody value={value} tableMeta={tableMeta} changeTask={changeTask} setChangeTask={setChangeTask} />
+    <CustomCellBody tableMeta={tableMeta} changeTask={changeTask} setChangeTask={setChangeTask} />
   );
 
   const createCanvasCalendar = (startDate, endDate, columnss) => {
@@ -44,8 +44,8 @@ export default function CustomToolbar({ columns, setColumns, changeTask, setChan
           setCellHeaderProps: () => {
             return {
               style: {
-                minWidth: '50px',
-                width: '50px',
+                minWidth: '30px',
+                width: '30px',
                 borderLeft: '1px solid rgba(224, 224, 224, 1)',
               },
             };
@@ -53,7 +53,7 @@ export default function CustomToolbar({ columns, setColumns, changeTask, setChan
           setCellProps: () => {
             return {
               style: {
-                minWidth: '50px',
+                minWidth: '30px',
                 borderLeft: '1px solid rgba(224, 224, 224, 1)',
                 backgroundColor: 'white',
               },

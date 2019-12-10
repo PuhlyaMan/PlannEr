@@ -8,7 +8,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 export default function MuiDatatables() {
   const [columns, setColumns] = useState(settings.columns);
   const [data, setData] = useState([]);
-  const [changeTask, setChangeTask] = useState({});
+  const [changeTask, setChangeTask] = useState({ tasks: {} });
 
   useEffect(() => {
     import('assets/data/data.js')
@@ -42,24 +42,28 @@ export default function MuiDatatables() {
   }, []);
 
   const handleTask = newTask => {
-    let obj = changeTask;
+    if (Object.keys(newTask).length === 0) {
+      setChangeTask(newTask);
+    } else {
+      let obj = changeTask;
 
-    Object.keys(newTask.tasks).forEach(key => {
-      if (obj[key] !== undefined) {
-        Object.keys(newTask.tasks[key]).forEach(k => {
-          obj[key][k] = newTask.tasks[key][k];
-        });
-      } else {
-        obj[key] = newTask.tasks[key];
-      }
-    });
-    setChangeTask(obj);
+      Object.keys(newTask.tasks).forEach(key => {
+        if (obj.tasks[key] !== undefined) {
+          Object.keys(newTask.tasks[key]).forEach(k => {
+            obj.tasks[key][k] = newTask.tasks[key][k];
+          });
+        } else {
+          obj.tasks[key] = newTask.tasks[key];
+        }
+      });
+      setChangeTask(obj);
+    }
   };
 
   const setDatePickers = date => {
     let obj = changeTask;
-    obj.startDate = date.startDate.format('YYYY.MM.DD');
-    obj.endDate = date.endDate.format('YYYY.MM.DD');
+    obj.startDate = date.startDate.format('YYYY-MM-DD');
+    obj.endDate = date.endDate.format('YYYY-MM-DD');
     setChangeTask(obj);
   };
 

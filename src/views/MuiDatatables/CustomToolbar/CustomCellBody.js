@@ -3,22 +3,25 @@ import PropTypes from 'prop-types';
 
 export default function CustomCellBody({ tableMeta, changeTask, handleTask }) {
   const [value, setValue] = useState('');
-  const onChange = (e, tableMeta) => {
+
+  const onBlur = () => {
+    if (value.trim() === '') return;
     const taskLabor = {
       tasks: {
         [tableMeta.rowData[1]]: {
-          [tableMeta.columnData.name]: e.currentTarget.value,
+          [tableMeta.columnData.name]: value,
         },
       },
     };
-    const newChangeTesk = { ...changeTask, ...taskLabor };
-    setValue(e.currentTarget.value);
-    handleTask(newChangeTesk);
+    handleTask({ ...changeTask, ...taskLabor });
   };
+
+  const onChange = e => setValue(e.currentTarget.value);
 
   return (
     <input
-      onChange={e => onChange(e, tableMeta)}
+      onChange={onChange}
+      onBlur={onBlur}
       value={value}
       style={{
         textAlign: 'center',

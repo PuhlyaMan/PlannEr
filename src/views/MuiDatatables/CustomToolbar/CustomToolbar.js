@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import 'react-dates/initialize';
@@ -9,19 +9,22 @@ import { getDaysInMonth, eachDayOfInterval } from 'date-fns';
 import CustomCellBody from './CustomCellBody.js';
 import '../settings/style.css';
 
-export default function CustomToolbar({ columns, setColumns, changeTask, handleTask, setDatePickers }) {
+export default function CustomToolbar({ setColumns, changeTask, handleTask, setDatePickers }) {
   const [startDate, setStartDate] = useState(moment());
   const [endDate, setEndDate] = useState(moment());
-  const [disable, setDisable] = useState(true);
   const [focusedInput, setFocus] = useState(null);
+
+  useEffect(() => {
+    setDatePickers({ startDate: startDate, endDate: endDate });
+  }, [startDate, endDate, setDatePickers]);
 
   const customBodyRender = (value, tableMeta) => (
     <CustomCellBody tableMeta={tableMeta} changeTask={changeTask} handleTask={handleTask} />
   );
 
-  const createCanvasCalendar = (startDate, endDate) => {
-    const fromDate = startDate._d;
-    const toDate = endDate._d;
+  const createCanvasCalendar = (start, end) => {
+    const fromDate = start._d;
+    const toDate = end._d;
     const maxResultRangeLength = getDaysInMonth(fromDate);
     const curentResultRangeLength = Math.trunc((toDate - fromDate) / 86400000);
     if (maxResultRangeLength <= curentResultRangeLength) {
@@ -66,14 +69,28 @@ export default function CustomToolbar({ columns, setColumns, changeTask, handleT
   };
 
   const save = () => {
-    setDisable(true);
     setColumns(defaultColumns);
-    alert('Сохранили!');
+    handleTask({ tasks: {} });
+    alert(`Сохранили! Ушло на серевер: ${JSON.stringify(changeTask)}`);
   };
 
-  const clear = () => {
-    setColumns(defaultColumns);
-    setDisable(true);
+  const create = range => {
+    let start = moment();
+    let end = moment();
+    switch (range) {
+      case 'isoweek':
+        start = moment().startOf(range);
+        end = moment().endOf(range);
+        break;
+      case 'month':
+        start = moment().startOf(range);
+        end = moment().endOf(range);
+        break;
+    }
+    setStartDate(start);
+    setEndDate(end);
+    handleTask({ tasks: {} });
+    createCanvasCalendar(start, end);
   };
 
   return (
@@ -86,7 +103,7 @@ export default function CustomToolbar({ columns, setColumns, changeTask, handleT
         onDatesChange={({ startDate, endDate }) => {
           setStartDate(startDate);
           setEndDate(endDate);
-          setDatePickers({ startDate: startDate, endDate: endDate });
+          //setDatePickers({ startDate: startDate, endDate: endDate });
         }}
         focusedInput={focusedInput}
         onFocusChange={focus => setFocus(focus)}
@@ -97,32 +114,54 @@ export default function CustomToolbar({ columns, setColumns, changeTask, handleT
         displayFormat="YYYY-MM-DD"
         hideKeyboardShortcutsPanel
         isOutsideRange={() => false}
-        disabled={!disable}
         small
       />
       <Button
         size="small"
         variant="contained"
         color="primary"
-        onClick={
-          disable
-            ? () => {
-                createCanvasCalendar(startDate, endDate, columns);
-                setDisable(false);
-              }
-            : clear
-        }
+        onClick={() => createCanvasCalendar(startDate, endDate)}
         style={{ marginLeft: '10px' }}
       >
-        {disable ? 'Открыть календарь' : 'Закрыть календарь'}
+        Отрезок
       </Button>
       <Button
         size="small"
         variant="contained"
         color="primary"
+        onClick={create}
+        style={{ marginLeft: '10px' }}
+        //disabled={disable}
+      >
+        День
+      </Button>
+      <Button
+        size="small"
+        variant="contained"
+        color="primary"
+        onClick={() => create('isoweek')}
+        style={{ marginLeft: '10px' }}
+        //disabled={disable}
+      >
+        Неделя
+      </Button>
+      <Button
+        size="small"
+        variant="contained"
+        color="primary"
+        onClick={() => create('month')}
+        style={{ marginLeft: '10px' }}
+        //disabled={disable}
+      >
+        Месяц
+      </Button>
+      <Button
+        size="small"
+        variant="contained"
+        color="secondary"
         onClick={save}
         style={{ marginLeft: '10px' }}
-        disabled={disable}
+        //disabled={disable}
       >
         Сохранить
       </Button>

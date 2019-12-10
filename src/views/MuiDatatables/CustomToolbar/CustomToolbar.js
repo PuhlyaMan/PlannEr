@@ -13,10 +13,20 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
   const [startDate, setStartDate] = useState(moment());
   const [endDate, setEndDate] = useState(moment());
   const [focusedInput, setFocus] = useState(null);
+  const [disable, setDisable] = useState({ day: false, week: true, month: false });
+
+  useEffect(() => {
+    const start = moment().startOf('isoweek');
+    const end = moment().endOf('isoweek');
+    createCanvasCalendar(start, end);
+    setStartDate(start);
+    setEndDate(end);
+    setDatePickers({ startDate: start, endDate: end });
+  }, []);
 
   useEffect(() => {
     setDatePickers({ startDate: startDate, endDate: endDate });
-  }, [startDate, endDate, setDatePickers]);
+  }, [startDate, endDate]);
 
   const customBodyRender = (value, tableMeta) => (
     <CustomCellBody tableMeta={tableMeta} changeTask={changeTask} handleTask={handleTask} />
@@ -49,6 +59,7 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
                 minWidth: '30px',
                 width: '30px',
                 borderLeft: '1px solid rgba(224, 224, 224, 1)',
+                backgroundColor: item.getDay() === 6 || item.getDay() === 0 ? '#f7685e' : 'white',
               },
             };
           },
@@ -57,7 +68,7 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
               style: {
                 minWidth: '30px',
                 borderLeft: '1px solid rgba(224, 224, 224, 1)',
-                backgroundColor: 'white',
+                backgroundColor: item.getDay() === 6 || item.getDay() === 0 ? '#f7685e' : 'white',
               },
             };
           },
@@ -81,10 +92,15 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
       case 'isoweek':
         start = moment().startOf(range);
         end = moment().endOf(range);
+        setDisable({ day: false, week: true, month: false });
         break;
       case 'month':
         start = moment().startOf(range);
         end = moment().endOf(range);
+        setDisable({ day: false, week: false, month: true });
+        break;
+      default:
+        setDisable({ day: true, week: false, month: false });
         break;
     }
     setStartDate(start);
@@ -120,7 +136,10 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
         size="small"
         variant="contained"
         color="primary"
-        onClick={() => createCanvasCalendar(startDate, endDate)}
+        onClick={() => {
+          createCanvasCalendar(startDate, endDate);
+          setDisable({ day: false, week: false, month: false });
+        }}
         style={{ marginLeft: '10px' }}
       >
         Отрезок
@@ -131,7 +150,7 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
         color="primary"
         onClick={create}
         style={{ marginLeft: '10px' }}
-        //disabled={disable}
+        disabled={disable.day}
       >
         День
       </Button>
@@ -141,7 +160,7 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
         color="primary"
         onClick={() => create('isoweek')}
         style={{ marginLeft: '10px' }}
-        //disabled={disable}
+        disabled={disable.week}
       >
         Неделя
       </Button>
@@ -151,7 +170,7 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
         color="primary"
         onClick={() => create('month')}
         style={{ marginLeft: '10px' }}
-        //disabled={disable}
+        disabled={disable.month}
       >
         Месяц
       </Button>

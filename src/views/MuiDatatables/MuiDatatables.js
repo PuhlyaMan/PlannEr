@@ -41,8 +41,36 @@ export default function MuiDatatables() {
       .catch(err => new Error(err));
   }, []);
 
+  const handleTask = newTask => {
+    let obj = changeTask;
+
+    Object.keys(newTask.tasks).forEach(key => {
+      if (obj[key] !== undefined) {
+        Object.keys(newTask.tasks[key]).forEach(k => {
+          obj[key][k] = newTask.tasks[key][k];
+        });
+      } else {
+        obj[key] = newTask.tasks[key];
+      }
+    });
+    setChangeTask(obj);
+  };
+
+  const setDatePickers = date => {
+    let obj = changeTask;
+    obj.startDate = date.startDate.format('YYYY.MM.DD');
+    obj.endDate = date.endDate.format('YYYY.MM.DD');
+    setChangeTask(obj);
+  };
+
   const customToolbar = () => (
-    <CustomToolbar columns={columns} setColumns={setColumns} changeTask={changeTask} setChangeTask={setChangeTask} />
+    <CustomToolbar
+      columns={columns}
+      setColumns={setColumns}
+      changeTask={changeTask}
+      handleTask={handleTask}
+      setDatePickers={setDatePickers}
+    />
   );
 
   const renderExpandableRow = rowData => <JobCard data={rowData} />;

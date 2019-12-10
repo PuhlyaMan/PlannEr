@@ -9,18 +9,17 @@ import { getDaysInMonth, eachDayOfInterval } from 'date-fns';
 import CustomCellBody from './CustomCellBody.js';
 import '../settings/style.css';
 
-export default function CustomToolbar({ columns, setColumns, changeTask, setChangeTask }) {
+export default function CustomToolbar({ columns, setColumns, changeTask, handleTask, setDatePickers }) {
   const [startDate, setStartDate] = useState(moment());
   const [endDate, setEndDate] = useState(moment());
   const [disable, setDisable] = useState(true);
   const [focusedInput, setFocus] = useState(null);
 
   const customBodyRender = (value, tableMeta) => (
-    <CustomCellBody tableMeta={tableMeta} changeTask={changeTask} setChangeTask={setChangeTask} />
+    <CustomCellBody tableMeta={tableMeta} changeTask={changeTask} handleTask={handleTask} />
   );
 
-  const createCanvasCalendar = (startDate, endDate, columnss) => {
-    console.log(columnss);
+  const createCanvasCalendar = (startDate, endDate) => {
     const fromDate = startDate._d;
     const toDate = endDate._d;
     const maxResultRangeLength = getDaysInMonth(fromDate);
@@ -63,7 +62,7 @@ export default function CustomToolbar({ columns, setColumns, changeTask, setChan
         },
       };
     });
-    setColumns([...columnss, ...calendar]);
+    setColumns([...defaultColumns, ...calendar]);
   };
 
   const save = () => {
@@ -87,6 +86,7 @@ export default function CustomToolbar({ columns, setColumns, changeTask, setChan
         onDatesChange={({ startDate, endDate }) => {
           setStartDate(startDate);
           setEndDate(endDate);
+          setDatePickers({ startDate: startDate, endDate: endDate });
         }}
         focusedInput={focusedInput}
         onFocusChange={focus => setFocus(focus)}
@@ -134,5 +134,6 @@ CustomToolbar.propTypes = {
   columns: PropTypes.array,
   setColumns: PropTypes.func,
   changeTask: PropTypes.object,
-  setChangeTask: PropTypes.func,
+  handleTask: PropTypes.func,
+  setDatePickers: PropTypes.func,
 };

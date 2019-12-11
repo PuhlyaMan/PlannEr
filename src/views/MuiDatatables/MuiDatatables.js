@@ -45,8 +45,10 @@ export default function MuiDatatables() {
     if (Object.keys(newTask).length === 0) {
       setChangeTask(newTask);
     } else {
-      let obj = changeTask;
-
+      const object = { ...changeTask, tasks: { ...newTask.tasks, ...changeTask.tasks } };
+      console.log(object);
+      setChangeTask(object);
+      /*let obj = changeTask;
       Object.keys(newTask.tasks).forEach(key => {
         if (obj.tasks[key] !== undefined) {
           Object.keys(newTask.tasks[key]).forEach(k => {
@@ -56,7 +58,9 @@ export default function MuiDatatables() {
           obj.tasks[key] = newTask.tasks[key];
         }
       });
-      setChangeTask(obj);
+      console.log(obj);
+      console.log(changeTask);
+      setChangeTask(obj);*/
     }
   };
 
@@ -82,8 +86,8 @@ export default function MuiDatatables() {
   const options = {
     filterType: 'textField',
     selectableRows: 'none',
-    rowsPerPageOptions: [15, 20, 100],
-    rowsPerPage: 15,
+    rowsPerPageOptions: [10, 20, 30],
+    rowsPerPage: 10,
     responsive: 'scrollMaxHeight',
     fixedHeaderOptions: {
       xAxis: true,

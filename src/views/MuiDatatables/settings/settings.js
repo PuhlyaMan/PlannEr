@@ -80,10 +80,11 @@ export const columns = [
       setCellHeaderProps: () => {
         return {
           style: {
-            minWidth: '150px',
+            minWidth: '120px',
           },
         };
       },
+      customBodyRender: value => (value ? value.slice(0, 10) : value),
     },
   },
   {
@@ -96,10 +97,11 @@ export const columns = [
       setCellHeaderProps: () => {
         return {
           style: {
-            minWidth: '150px',
+            minWidth: '120px',
           },
         };
       },
+      customBodyRender: value => (value ? value.slice(0, 10) : value),
     },
   },
   {
@@ -128,10 +130,11 @@ export const columns = [
       setCellHeaderProps: () => {
         return {
           style: {
-            minWidth: '150px',
+            minWidth: '120px',
           },
         };
       },
+      customBodyRender: value => (value ? value.slice(0, 10) : value),
     },
   },
   {
@@ -144,10 +147,11 @@ export const columns = [
       setCellHeaderProps: () => {
         return {
           style: {
-            minWidth: '150px',
+            minWidth: '120px',
           },
         };
       },
+      customBodyRender: value => (value ? value.slice(0, 10) : value),
     },
   },
   {
@@ -193,7 +197,7 @@ export const columns = [
       setCellHeaderProps: () => {
         return {
           style: {
-            minWidth: '150px',
+            minWidth: '170px',
           },
         };
       },
@@ -210,7 +214,7 @@ export const columns = [
       setCellHeaderProps: () => {
         return {
           style: {
-            minWidth: '150px',
+            minWidth: '170px',
           },
         };
       },

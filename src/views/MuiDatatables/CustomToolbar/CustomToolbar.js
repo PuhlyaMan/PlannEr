@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
 import 'react-dates/initialize';
 import { DateRangePicker } from 'react-dates';
 import moment from 'moment';
-import { columns as defaultColumns } from '../settings/settings.js';
+import Holidays from 'date-holidays';
 import { getDaysInMonth, eachDayOfInterval } from 'date-fns';
+import { columns as defaultColumns } from '../settings/settings.js';
 import CustomCellBody from './CustomCellBody.js';
+import ButtonToolbar from './ButtonToolbar.js';
 import '../settings/style.css';
 
 export default function CustomToolbar({ setColumns, changeTask, handleTask, setDatePickers }) {
@@ -26,13 +27,14 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
 
   useEffect(() => {
     setDatePickers({ startDate: startDate, endDate: endDate });
-  }, [startDate, endDate]);
+  }, [startDate, endDate, setDatePickers]);
 
   const customBodyRender = (value, tableMeta) => (
     <CustomCellBody tableMeta={tableMeta} changeTask={changeTask} handleTask={handleTask} />
   );
 
   const createCanvasCalendar = (start, end) => {
+    const hd = new Holidays('RU');
     const fromDate = start._d;
     const toDate = end._d;
     const maxResultRangeLength = getDaysInMonth(fromDate);
@@ -41,6 +43,12 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
       alert('Интервал даты не может превышать месяца');
       return;
     }
+
+    const isHoliday = date => {
+      const day = date.getDay();
+      const color = day === 6 || day === 0 || hd.isHoliday(date) ? '#f7685e' : 'white';
+      return color;
+    };
 
     const resultRange = eachDayOfInterval({ start: fromDate, end: toDate });
 
@@ -59,7 +67,7 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
                 minWidth: '30px',
                 width: '30px',
                 borderLeft: '1px solid rgba(224, 224, 224, 1)',
-                backgroundColor: item.getDay() === 6 || item.getDay() === 0 ? '#f7685e' : 'white',
+                backgroundColor: isHoliday(item),
               },
             };
           },
@@ -68,7 +76,7 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
               style: {
                 minWidth: '30px',
                 borderLeft: '1px solid rgba(224, 224, 224, 1)',
-                backgroundColor: item.getDay() === 6 || item.getDay() === 0 ? '#f7685e' : 'white',
+                backgroundColor: isHoliday(item),
               },
             };
           },
@@ -81,8 +89,9 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
 
   const save = () => {
     setColumns(defaultColumns);
-    handleTask({ tasks: {} });
     alert(`Сохранили! Ушло на серевер: ${JSON.stringify(changeTask)}`);
+    setDisable({ day: false, week: false, month: false });
+    handleTask({ tasks: {} });
   };
 
   const create = range => {
@@ -109,6 +118,11 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
     createCanvasCalendar(start, end);
   };
 
+  const createRange = () => {
+    createCanvasCalendar(startDate, endDate);
+    setDisable({ day: false, week: false, month: false });
+  };
+
   return (
     <div>
       <DateRangePicker
@@ -132,58 +146,19 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
         isOutsideRange={() => false}
         small
       />
-      <Button
-        size="small"
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          createCanvasCalendar(startDate, endDate);
-          setDisable({ day: false, week: false, month: false });
-        }}
-        style={{ marginLeft: '10px' }}
-      >
-        Отрезок
-      </Button>
-      <Button
-        size="small"
-        variant="contained"
-        color="primary"
-        onClick={create}
-        style={{ marginLeft: '10px' }}
-        disabled={disable.day}
-      >
+      <ButtonToolbar onClick={createRange}>Отрезок</ButtonToolbar>
+      <ButtonToolbar onClick={create} disabled={disable.day}>
         День
-      </Button>
-      <Button
-        size="small"
-        variant="contained"
-        color="primary"
-        onClick={() => create('isoweek')}
-        style={{ marginLeft: '10px' }}
-        disabled={disable.week}
-      >
+      </ButtonToolbar>
+      <ButtonToolbar onClick={() => create('isoweek')} disabled={disable.week}>
         Неделя
-      </Button>
-      <Button
-        size="small"
-        variant="contained"
-        color="primary"
-        onClick={() => create('month')}
-        style={{ marginLeft: '10px' }}
-        disabled={disable.month}
-      >
+      </ButtonToolbar>
+      <ButtonToolbar onClick={() => create('month')} disabled={disable.month}>
         Месяц
-      </Button>
-      <Button
-        size="small"
-        variant="contained"
-        color="secondary"
-        onClick={save}
-        style={{ marginLeft: '10px' }}
-        //disabled={disable}
-      >
+      </ButtonToolbar>
+      <ButtonToolbar color="secondary" onClick={save}>
         Сохранить
-      </Button>
+      </ButtonToolbar>
     </div>
   );
 }

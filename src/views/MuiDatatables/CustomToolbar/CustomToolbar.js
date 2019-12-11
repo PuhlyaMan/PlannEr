@@ -82,8 +82,8 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask }) {
 
   const save = () => {
     const sendObj = {
-      startDate: startDate,
-      endDate: endDate,
+      startDate: startDate.format('YYYY-MM-DD'),
+      endDate: endDate.format('YYYY-MM-DD'),
       tasks: {
         ...changeTask,
       },

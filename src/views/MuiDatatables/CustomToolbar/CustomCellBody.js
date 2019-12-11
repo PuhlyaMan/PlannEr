@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-export default function CustomCellBody({ tableMeta, changeTask, handleTask }) {
+export default function CustomCellBody({ tableMeta, handleTask }) {
   const [value, setValue] = useState('');
 
   const onBlur = () => {
     if (value.trim() === '') return;
     const taskLabor = {
-      tasks: {
-        [tableMeta.rowData[1]]: {
-          [tableMeta.columnData.name]: value,
-        },
+      [tableMeta.rowData[1]]: {
+        [tableMeta.columnData.name]: value,
       },
     };
-    handleTask({ ...changeTask, ...taskLabor });
+    handleTask(taskLabor);
   };
 
   const onChange = e => setValue(e.currentTarget.value);

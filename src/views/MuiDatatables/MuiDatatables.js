@@ -8,7 +8,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 export default function MuiDatatables() {
   const [columns, setColumns] = useState(settings.columns);
   const [data, setData] = useState([]);
-  const [changeTask, setChangeTask] = useState({ tasks: {} });
+  const [changeTask, setChangeTask] = useState({});
 
   useEffect(() => {
     import('assets/data/data.js')
@@ -45,40 +45,25 @@ export default function MuiDatatables() {
     if (Object.keys(newTask).length === 0) {
       setChangeTask(newTask);
     } else {
-      const object = { ...changeTask, tasks: { ...newTask.tasks, ...changeTask.tasks } };
-      console.log(object);
-      setChangeTask(object);
-      /*let obj = changeTask;
-      Object.keys(newTask.tasks).forEach(key => {
-        if (obj.tasks[key] !== undefined) {
-          Object.keys(newTask.tasks[key]).forEach(k => {
-            obj.tasks[key][k] = newTask.tasks[key][k];
+      //let obj = { ...changeTask };
+      let obj = changeTask;
+      Object.keys(newTask).forEach(key => {
+        if (obj[key] !== undefined) {
+          Object.keys(newTask[key]).forEach(k => {
+            obj[key][k] = newTask[key][k];
           });
         } else {
-          obj.tasks[key] = newTask.tasks[key];
+          obj[key] = newTask[key];
         }
       });
       console.log(obj);
       console.log(changeTask);
-      setChangeTask(obj);*/
+      setChangeTask(obj);
     }
   };
 
-  const setDatePickers = date => {
-    let obj = changeTask;
-    obj.startDate = date.startDate.format('YYYY-MM-DD');
-    obj.endDate = date.endDate.format('YYYY-MM-DD');
-    setChangeTask(obj);
-  };
-
   const customToolbar = () => (
-    <CustomToolbar
-      columns={columns}
-      setColumns={setColumns}
-      changeTask={changeTask}
-      handleTask={handleTask}
-      setDatePickers={setDatePickers}
-    />
+    <CustomToolbar columns={columns} setColumns={setColumns} changeTask={changeTask} handleTask={handleTask} />
   );
 
   const renderExpandableRow = rowData => <JobCard data={rowData} />;

@@ -10,7 +10,7 @@ import CustomCellBody from './CustomCellBody.js';
 import ButtonToolbar from './ButtonToolbar.js';
 import '../settings/style.css';
 
-export default function CustomToolbar({ setColumns, changeTask, handleTask, setDatePickers }) {
+export default function CustomToolbar({ setColumns, changeTask, handleTask }) {
   const [startDate, setStartDate] = useState(moment());
   const [endDate, setEndDate] = useState(moment());
   const [focusedInput, setFocus] = useState(null);
@@ -22,16 +22,9 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
     createCanvasCalendar(start, end);
     setStartDate(start);
     setEndDate(end);
-    setDatePickers({ startDate: start, endDate: end });
   }, []);
 
-  useEffect(() => {
-    setDatePickers({ startDate: startDate, endDate: endDate });
-  }, [startDate, endDate, setDatePickers]);
-
-  const customBodyRender = (value, tableMeta) => (
-    <CustomCellBody tableMeta={tableMeta} changeTask={changeTask} handleTask={handleTask} />
-  );
+  const customBodyRender = (value, tableMeta) => <CustomCellBody tableMeta={tableMeta} handleTask={handleTask} />;
 
   const createCanvasCalendar = (start, end) => {
     const hd = new Holidays('RU');
@@ -88,10 +81,17 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
   };
 
   const save = () => {
+    const sendObj = {
+      startDate: startDate,
+      endDate: endDate,
+      tasks: {
+        ...changeTask,
+      },
+    };
     setColumns(defaultColumns);
-    alert(`Сохранили! Ушло на серевер: ${JSON.stringify(changeTask)}`);
+    alert(`Сохранили! Ушло на серевер: ${JSON.stringify(sendObj)}`);
     setDisable({ day: false, week: false, month: false });
-    handleTask({ tasks: {} });
+    handleTask({});
   };
 
   const create = range => {
@@ -114,7 +114,6 @@ export default function CustomToolbar({ setColumns, changeTask, handleTask, setD
     }
     setStartDate(start);
     setEndDate(end);
-    handleTask({ tasks: {} });
     createCanvasCalendar(start, end);
   };
 

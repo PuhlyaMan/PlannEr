@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
+import 'react-dates/initialize';
+import moment from 'moment';
+import Holidays from 'date-holidays';
+import { getDaysInMonth, eachDayOfInterval } from 'date-fns';
 import * as settings from './settings/settings.js';
 import CustomToolbar from './CustomToolbar/CustomToolbar.js';
+import CustomCellBody from './CustomToolbar/CustomCellBody.js';
 import JobCard from './JobCard/JobCard.js';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
@@ -9,6 +14,8 @@ export default function MuiDatatables() {
   const [columns, setColumns] = useState(settings.columns);
   const [data, setData] = useState([]);
   const [changeTask, setChangeTask] = useState({});
+  const [startDate, setStartDate] = useState(moment().startOf('isoweek'));
+  const [endDate, setEndDate] = useState(moment().endOf('isoweek'));
 
   useEffect(() => {
     import('assets/data/data.js')
@@ -36,34 +43,115 @@ export default function MuiDatatables() {
               .map(task => ({ ...job, ...task }))
           )
           .reduce((previousValue, item) => [...previousValue, ...item]);
+        //setData(jobsWithTasks.filter(item => item.task_state === 'В работе'));
         setData(jobsWithTasks);
       })
       .catch(err => new Error(err));
   }, []);
 
-  const handleTask = newTask => {
-    if (Object.keys(newTask).length === 0) {
-      setChangeTask(newTask);
-    } else {
-      //let obj = { ...changeTask };
-      let obj = changeTask;
+  useEffect(() => {
+    const handleTask = newTask => {
       Object.keys(newTask).forEach(key => {
-        if (obj[key] !== undefined) {
-          Object.keys(newTask[key]).forEach(k => {
-            obj[key][k] = newTask[key][k];
-          });
-        } else {
-          obj[key] = newTask[key];
-        }
+        const obj = changeTask[key]
+          ? { [key]: { ...changeTask[key], ...newTask[key] } }
+          : { ...changeTask, ...newTask };
+        setChangeTask(obj);
       });
-      console.log(obj);
-      console.log(changeTask);
-      setChangeTask(obj);
+    };
+
+    const customBodyRender = (value, tableMeta) => <CustomCellBody tableMeta={tableMeta} handleTask={handleTask} />;
+
+    const hd = new Holidays('RU');
+    const fromDate = startDate._d;
+    const toDate = endDate._d;
+    const maxResultRangeLength = getDaysInMonth(fromDate);
+    const curentResultRangeLength = Math.trunc((toDate - fromDate) / 86400000);
+    if (maxResultRangeLength <= curentResultRangeLength) {
+      alert('Интервал даты не может превышать месяца');
+      return;
+    }
+
+    const isHoliday = date => {
+      const day = date.getDay();
+      const color = day === 6 || day === 0 || hd.isHoliday(date) ? '#f7685e' : 'white';
+      return color;
+    };
+
+    const resultRange = eachDayOfInterval({ start: fromDate, end: toDate });
+
+    const calendar = resultRange.map(item => {
+      return {
+        name: `day_${item.getDate()}`,
+        label: `${item.getDate()}`,
+        options: {
+          filter: false,
+          sort: false,
+          searchable: false,
+          viewColumns: false,
+          setCellHeaderProps: () => {
+            return {
+              style: {
+                minWidth: '30px',
+                width: '30px',
+                borderLeft: '1px solid rgba(224, 224, 224, 1)',
+                backgroundColor: isHoliday(item),
+              },
+            };
+          },
+          setCellProps: () => {
+            return {
+              style: {
+                minWidth: '30px',
+                borderLeft: '1px solid rgba(224, 224, 224, 1)',
+                backgroundColor: isHoliday(item),
+              },
+            };
+          },
+          customBodyRender: customBodyRender,
+        },
+      };
+    });
+    setColumns([...settings.columns, ...calendar]);
+  }, [startDate, endDate, changeTask]);
+
+  const save = () => {
+    const sendObj = {
+      startDate: startDate.format('YYYY-MM-DD'),
+      endDate: endDate.format('YYYY-MM-DD'),
+      tasks: {
+        ...changeTask,
+      },
+    };
+    alert(`Сохранили! Ушло на серевер: ${JSON.stringify(sendObj)}`);
+    setChangeTask({});
+  };
+
+  const create = range => {
+    switch (range) {
+      case 'isoweek':
+        setStartDate(moment().startOf(range));
+        setEndDate(moment().endOf(range));
+        break;
+      case 'month':
+        setStartDate(moment().startOf(range));
+        setEndDate(moment().endOf(range));
+        break;
+      default:
+        setStartDate(moment());
+        setEndDate(moment());
+        break;
     }
   };
 
   const customToolbar = () => (
-    <CustomToolbar columns={columns} setColumns={setColumns} changeTask={changeTask} handleTask={handleTask} />
+    <CustomToolbar
+      startDate={startDate}
+      endDate={endDate}
+      setStartDate={setStartDate}
+      setEndDate={setEndDate}
+      create={create}
+      save={save}
+    />
   );
 
   const renderExpandableRow = rowData => <JobCard data={rowData} />;

@@ -6,14 +6,14 @@ import Holidays from 'date-holidays';
 import { getDaysInMonth, eachDayOfInterval } from 'date-fns';
 import * as settings from './settings/settings.js';
 import CustomToolbar from './CustomToolbar/CustomToolbar.js';
-import CustomCellBody from './CustomToolbar/CustomCellBody.js';
+import CustomCellBody from './CustomToolbar/CustomCellBody/CustomCellBody.js';
 import JobCard from './JobCard/JobCard.js';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
 export default function MuiDatatables() {
   const [columns, setColumns] = useState(settings.columns);
   const [data, setData] = useState([]);
-  const [changeTask, setChangeTask] = useState({});
+  //const [changeTask, setChangeTask] = useState({});
   const [startDate, setStartDate] = useState(moment().startOf('isoweek'));
   const [endDate, setEndDate] = useState(moment().endOf('isoweek'));
 
@@ -50,16 +50,18 @@ export default function MuiDatatables() {
   }, []);
 
   useEffect(() => {
-    const handleTask = newTask => {
+    /*const handleTask = newTask => {
       Object.keys(newTask).forEach(key => {
         const obj = changeTask[key]
           ? { [key]: { ...changeTask[key], ...newTask[key] } }
           : { ...changeTask, ...newTask };
         setChangeTask(obj);
       });
-    };
+    };*/
 
-    const customBodyRender = (value, tableMeta) => <CustomCellBody tableMeta={tableMeta} handleTask={handleTask} />;
+    const customBodyRender = (value, tableMeta) => (
+      <CustomCellBody tableMeta={tableMeta} startDate={startDate} endDate={endDate} />
+    );
 
     const hd = new Holidays('RU');
     const fromDate = startDate._d;
@@ -112,9 +114,9 @@ export default function MuiDatatables() {
       };
     });
     setColumns([...settings.columns, ...calendar]);
-  }, [startDate, endDate, changeTask]);
+  }, [startDate, endDate]);
 
-  const save = () => {
+  /*const save = () => {
     const sendObj = {
       startDate: startDate.format('YYYY-MM-DD'),
       endDate: endDate.format('YYYY-MM-DD'),
@@ -124,7 +126,7 @@ export default function MuiDatatables() {
     };
     alert(`Сохранили! Ушло на серевер: ${JSON.stringify(sendObj)}`);
     setChangeTask({});
-  };
+  };*/
 
   const create = range => {
     switch (range) {
@@ -150,7 +152,7 @@ export default function MuiDatatables() {
       setStartDate={setStartDate}
       setEndDate={setEndDate}
       create={create}
-      save={save}
+      //save={save}
     />
   );
 

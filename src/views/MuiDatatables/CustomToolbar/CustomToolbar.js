@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { DateRangePicker } from 'react-dates';
-import ButtonToolbar from './ButtonToolbar.js';
+import ButtonToolbar from './ButtonToolbar/ButtonToolbar.js';
 import '../settings/style.css';
 
-export default function CustomToolbar({ startDate, endDate, setStartDate, setEndDate, create, save }) {
+export default function CustomToolbar({ startDate, endDate, setStartDate, setEndDate, create /*save*/ }) {
   const [focusedInput, setFocus] = useState(null);
   const [disable, setDisable] = useState({ day: false, week: true, month: false });
 
@@ -59,14 +59,14 @@ export default function CustomToolbar({ startDate, endDate, setStartDate, setEnd
       >
         Месяц
       </ButtonToolbar>
-      <ButtonToolbar
+      {/*<ButtonToolbar
         color="secondary"
         onClick={() => {
           save();
         }}
       >
         Сохранить
-      </ButtonToolbar>
+      </ButtonToolbar>*/}
     </div>
   );
 }

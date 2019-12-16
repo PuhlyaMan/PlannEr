@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import Paper from '@material-ui/core/Paper';
 import BootstrapTable from 'react-bootstrap-table-next';
-//import filterFactory from 'react-bootstrap-table2-filter';
-//import cellEditFactory from 'react-bootstrap-table2-editor';
-//import 'bootstrap/dist/css/bootstrap.min.css'; //"bootstrap": "3.3.7",
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import ToolkitProvider from 'react-bootstrap-table2-toolkit';
+import filterFactory from 'react-bootstrap-table2-filter';
+import CustomToggleList from './CustomToggleList/CustomToggleList.js';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.css';
-import './settings/style.css';
+import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
 import * as settings from './settings/settings.js';
+import './style/bootstrap.css';
+import './style/style.css';
 
 export default function ModuleFact() {
   const [data, setData] = useState([]);
@@ -43,17 +48,36 @@ export default function ModuleFact() {
       .catch(err => new Error(err));
   }, []);
 
+  //const CaptionElement = () => <h3 className="table-title">Модуль фактов</h3>;
+
+  const rowStyle = row => settings.font(row.task_state);
+
   return (
-    <BootstrapTable
-      keyField="task_id"
-      data={data}
-      columns={columns}
-      noDataIndication="Нет данных"
-      selectRow={{ mode: 'checkbox' }}
-      tabIndexCell
-      //selectRow={{ mode: 'checkbox' }}
-      //filter={filterFactory()}
-      //cellEdit={cellEditFactory({ mode: 'click' })}
-    />
+    <ToolkitProvider bootstrap4 keyField="task_id" data={data} columns={columns} columnToggle>
+      {props => (
+        <Paper className="papper">
+          <div className="toolbar">
+            <h3 className="table-title">Модуль фактов</h3>
+            <CustomToggleList {...props.columnToggleProps} className="list-custom-class" />
+          </div>
+          <BootstrapTable
+            {...props.baseProps}
+            rowStyle={rowStyle}
+            //caption={<CaptionElement />}
+            noDataIndication="Нет данных"
+            //selectRow={{ mode: 'checkbox' }}
+            filter={filterFactory()}
+            pagination={paginationFactory()}
+            condensed
+            tabIndexCell
+          />
+        </Paper>
+      )}
+    </ToolkitProvider>
   );
 }
+
+ModuleFact.propTypes = {
+  columnToggleProps: PropTypes.object,
+  baseProps: PropTypes.object,
+};

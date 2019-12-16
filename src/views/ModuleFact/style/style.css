@@ -1,0 +1,114 @@
+.task-name {
+  width: 100px;
+}
+
+.react-bootstrap-table-page-btns-ul {
+  float: right;
+  margin-top: 0px !important; 
+}
+
+.react-bootstrap-table-pagination {
+  padding-top: 15px;
+}
+
+.papper {
+  padding: 10px;
+}
+
+.react-bootstrap-table {
+  overflow: auto;
+  min-height: 300px;
+  max-height: calc(100vh - 300px);
+  font-size: 12px;
+}
+
+.toolbar {
+  margin-bottom: 15px;
+}
+
+.table-title {
+  display: inline-block;
+  border-radius: 0.25em;
+  text-align: center;
+  color: purple;
+  border: 1px solid purple;
+  padding: 0.2em;
+  margin: 0;
+  width: 400px;
+  position: sticky;
+  left: 0px;
+}
+
+.list-custom-class {
+  display: inline-block;
+  width: calc(100% - 430px);
+}
+
+.dropdown-group-hidden {
+  display: block;
+  float: right;
+  right: 20px;
+}
+
+.dropdown-item-hidden {
+  background-color: #b9b9b9;
+}
+
+.dropdown-item-hidden:hover, .dropdown-item-hidden:focus {
+  color: #fff;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn {
+  font-size: 12px;
+  margin: 2px 2px;
+}
+
+.form-control {
+  font-size: 12px;
+}
+
+.filter-label {
+  display: block;
+  margin-top: 5px;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.fixed-task-name-column-header, .fixed-task-name-column {
+  width: 450px;
+  background-color: aliceblue;
+  left: 0px;
+  position: sticky;
+}
+
+.task-id-column-header {
+  width: 90px;
+}
+
+.task-state-column-header {
+  width: 130px;
+}
+
+.task-date-column-header {
+  width: 120px;
+}
+
+.task-labor-column-header {
+  width: 110px;
+}
+
+.point-column-header {
+  width: 100px;
+}
+
+.contract-name-column-header, .project-name-column-header {
+  width: 170px;
+}
+
+.task-coment-column-header {
+  width: 300px;
+}

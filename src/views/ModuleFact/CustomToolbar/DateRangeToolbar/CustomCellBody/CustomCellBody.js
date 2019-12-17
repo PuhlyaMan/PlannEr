@@ -1,9 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useCallback, memo } from 'react';
+import React, { useState, useCallback, useRef, memo } from 'react';
 import PropTypes from 'prop-types';
 import InputCell from './InputCell/InputCell';
 
 const CustomCellBody = ({ tableMeta, startDate, endDate /*handleTask*/ }) => {
+  const renders = useRef(0);
+  console.log(renders.current++);
   const [value, setValue] = useState('');
 
   const onBlur = e => {

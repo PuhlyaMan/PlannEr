@@ -5,16 +5,17 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider from 'react-bootstrap-table2-toolkit';
 import filterFactory from 'react-bootstrap-table2-filter';
-import CustomToggleList from './CustomToggleList/CustomToggleList.js';
+import cellEditFactory from 'react-bootstrap-table2-editor';
+import CustomToolbar from './CustomToolbar/CustomToolbar.js';
+import * as settings from './settings/settings.js';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.css';
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
-import * as settings from './settings/settings.js';
 import './style/bootstrap.css';
 import './style/style.css';
 
 export default function ModuleFact() {
   const [data, setData] = useState([]);
-  const [columns] = useState(settings.columns);
+  const [columns, setColumns] = useState(settings.columns);
 
   useEffect(() => {
     import('assets/data/data.js')
@@ -48,26 +49,25 @@ export default function ModuleFact() {
       .catch(err => new Error(err));
   }, []);
 
-  //const CaptionElement = () => <h3 className="table-title">Модуль фактов</h3>;
-
   const rowStyle = row => settings.font(row.task_state);
 
   return (
-    <ToolkitProvider bootstrap4 keyField="task_id" data={data} columns={columns} columnToggle>
+    <ToolkitProvider bootstrap4 keyField="task_id" data={data} columns={columns} columnToggle search>
       {props => (
         <Paper className="papper">
-          <div className="toolbar">
-            <h3 className="table-title">Модуль фактов</h3>
-            <CustomToggleList {...props.columnToggleProps} className="list-custom-class" />
-          </div>
+          <CustomToolbar
+            columnToggleProps={props.columnToggleProps}
+            searchProps={props.searchProps}
+            setColumns={setColumns}
+          />
           <BootstrapTable
             {...props.baseProps}
             rowStyle={rowStyle}
-            //caption={<CaptionElement />}
             noDataIndication="Нет данных"
             //selectRow={{ mode: 'checkbox' }}
             filter={filterFactory()}
             pagination={paginationFactory()}
+            cellEdit={cellEditFactory({ mode: 'click', blurToSave: true })}
             condensed
             tabIndexCell
           />
@@ -80,4 +80,5 @@ export default function ModuleFact() {
 ModuleFact.propTypes = {
   columnToggleProps: PropTypes.object,
   baseProps: PropTypes.object,
+  searchProps: PropTypes.object,
 };

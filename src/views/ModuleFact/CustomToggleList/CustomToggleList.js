@@ -6,19 +6,19 @@ const CustomToggleList = ({ columns, onColumnToggle, toggles }) => {
   const handleClick = () => setShow(!show);
   //const handleBlur = () => setShow(false);
   return (
-    <div className={`dropdown-group-hidden btn-group ${show ? 'show' : ''}`} role="group">
+    <div className={`dropdown dropdown-show-columns ${show ? 'show' : ''}`} role="group">
       <button
-        id="btnGroupDrop1"
+        id="showColumns"
         type="button"
         className="btn btn-secondary dropdown-toggle"
         data-toggle="dropdown"
         aria-haspopup="true"
-        aria-expanded={show}
+        aria-expanded="false"
         onClick={handleClick}
       >
         Показать/скрыть стобцы
       </button>
-      <div className={`dropdown-menu ${show ? 'show' : ''}`} aria-labelledby="btnGroupDrop1">
+      <div className={`dropdown-menu dropdown-menu-columns ${show ? 'show' : ''}`} aria-labelledby="showColumns">
         {columns
           .filter(item => item.visibleToggle)
           .map(column => ({

@@ -23,6 +23,9 @@
 }
 
 .toolbar {
+  display: flex;
+  position: relative;
+  align-items: center;
   margin-bottom: 15px;
 }
 
@@ -37,6 +40,7 @@
   width: 400px;
   position: sticky;
   left: 0px;
+  flex: 1 1 auto;
 }
 
 .list-custom-class {
@@ -44,10 +48,13 @@
   width: calc(100% - 430px);
 }
 
-.dropdown-group-hidden {
+.dropdown-show-columns {
   display: block;
   float: right;
-  right: 20px;
+}
+
+.dropdown-menu-columns {
+  left: -55px !important;
 }
 
 .dropdown-item-hidden {
@@ -65,6 +72,10 @@
   margin: 2px 2px;
 }
 
+.show > .btn-secondary.dropdown-toggle {
+  border-color: none;
+}
+
 .form-control {
   font-size: 12px;
 }
@@ -72,6 +83,13 @@
 .filter-label {
   display: block;
   margin-top: 5px;
+}
+
+.search-label {
+  float: right;
+  width: 500px;
+  margin-top: 2px;
+  margin-right: 10px;
 }
 
 .align-center {
@@ -111,4 +129,8 @@
 
 .task-coment-column-header {
   width: 300px;
+}
+
+.task-day-column-header {
+  width: 35px;
 }

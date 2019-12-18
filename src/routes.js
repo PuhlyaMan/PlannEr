@@ -39,6 +39,13 @@ import MuiDatatables from 'views/MuiDatatables/MuiDatatables.js';
 
 const dashboardRoutes = [
   {
+    path: '/user',
+    name: 'Мой профиль',
+    icon: Person,
+    component: UserProfile,
+    layout: '/admin',
+  },
+  {
     path: '/dashboard',
     name: 'Главная страница',
     icon: Dashboard,
@@ -99,13 +106,6 @@ const dashboardRoutes = [
     name: 'IssueTable',
     icon: 'content_paste',
     component: IssueTable,
-    layout: '/admin',
-  },
-  {
-    path: '/user',
-    name: 'Мой профиль',
-    icon: Person,
-    component: UserProfile,
     layout: '/admin',
   },
 ];

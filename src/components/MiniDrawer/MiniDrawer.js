@@ -190,7 +190,7 @@ export default function MiniDrawer(props) {
         <Divider />
         <Card className={user.cardUser}>
           <CardHeader icon>
-            <NavLink to={routes[2].layout + routes[2].path} className={routes[2].item} activeClassName="active">
+            <NavLink to={routes[0].layout + routes[0].path} className={routes[0].item} activeClassName="active">
               <Avatar
                 className={classNames({
                   [user.cardUserAvatarOpen]: open,

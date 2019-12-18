@@ -1,9 +1,7 @@
-import React, { useRef, memo } from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
 const InputCell = memo(({ onChange, onBlur }) => {
-  const renders = useRef(0);
-  console.log(renders.current++);
   return (
     <input
       onChange={onChange}

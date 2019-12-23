@@ -25,9 +25,11 @@ import AccessibilityIcon from '@material-ui/icons/Accessibility';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
+import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
 // core components/views for Admin layout
 import DashboardPage from 'views/Dashboard/Dashboard.js';
 import UserProfile from 'views/UserProfile/UserProfile.js';
+import FactDataTable from 'views/FactDataTable/FactDataTable.js';
 import TableList from 'views/TableList/TableList.js';
 import JobTables from 'views/JobTables/JobTables.js';
 import Issues from 'views/Issues/Issues.js';
@@ -50,6 +52,13 @@ const dashboardRoutes = [
     name: 'Главная страница',
     icon: Dashboard,
     component: DashboardPage,
+    layout: '/admin',
+  },
+  {
+    path: '/newfact',
+    name: 'Модуль фактов New',
+    icon: AccessibleForwardIcon,
+    component: FactDataTable,
     layout: '/admin',
   },
   {

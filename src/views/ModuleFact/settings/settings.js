@@ -36,6 +36,7 @@ export const columns = [
     filter: textFilter({
       placeholder: ' ',
     }),
+    editable: false,
     classes: 'fixed-task-name-column',
     headerClasses: 'fixed-task-name-column-header align-center',
   },
@@ -45,11 +46,12 @@ export const columns = [
     sort: true,
     align: 'center',
     visibleToggle: true,
-    classes: 'task-id-column',
-    headerClasses: 'task-id-column-header align-center',
+    editable: false,
     filter: textFilter({
       placeholder: ' ',
     }),
+    classes: 'task-id-column',
+    headerClasses: 'task-id-column-header align-center',
   },
   {
     dataField: 'task_state',
@@ -57,14 +59,15 @@ export const columns = [
     sort: true,
     align: 'center',
     visibleToggle: true,
-    classes: 'task-state-column',
-    headerClasses: 'task-state-column-header align-center',
+    editable: false,
     formatter: cell => selectOptionsTaskState.filter(opt => opt.value === cell)[0].label || '',
     filter: selectFilter({
       placeholder: 'Все',
       options: selectOptionsTaskState,
       defaultValue: 'В работе',
     }),
+    classes: 'task-state-column',
+    headerClasses: 'task-state-column-header align-center',
   },
   {
     dataField: 'task_plan_start_date',
@@ -72,6 +75,7 @@ export const columns = [
     sort: true,
     align: 'center',
     visibleToggle: true,
+    editable: false,
     classes: 'task-date-column',
     headerClasses: 'task-date-column-header align-center',
     formatter: dateFormatter,
@@ -85,6 +89,7 @@ export const columns = [
     sort: true,
     align: 'center',
     visibleToggle: true,
+    editable: false,
     classes: 'task-date-column',
     headerClasses: 'task-date-column-header align-center',
     formatter: dateFormatter,
@@ -98,6 +103,7 @@ export const columns = [
     sort: true,
     align: 'center',
     visibleToggle: true,
+    editable: false,
     classes: 'task-labor-column',
     headerClasses: 'task-labor-column-header align-center',
     filter: textFilter({
@@ -110,6 +116,7 @@ export const columns = [
     sort: true,
     align: 'center',
     visibleToggle: true,
+    editable: false,
     classes: 'task-date-column',
     headerClasses: 'task-date-column-header align-center',
     formatter: dateFormatter,
@@ -123,6 +130,7 @@ export const columns = [
     sort: true,
     align: 'center',
     visibleToggle: true,
+    editable: false,
     classes: 'task-date-column',
     headerClasses: 'task-date-column-header align-center',
     formatter: dateFormatter,
@@ -136,6 +144,7 @@ export const columns = [
     sort: true,
     align: 'center',
     visibleToggle: true,
+    editable: false,
     classes: 'task-labor-column',
     headerClasses: 'task-labor-column-header align-center',
     filter: textFilter({
@@ -148,6 +157,7 @@ export const columns = [
     sort: true,
     align: 'center',
     visibleToggle: true,
+    editable: false,
     classes: 'point-column',
     headerClasses: 'point-column-header align-center',
     filter: textFilter({
@@ -160,6 +170,7 @@ export const columns = [
     sort: true,
     align: 'center',
     visibleToggle: true,
+    editable: false,
     classes: 'contract-name-column',
     headerClasses: 'contract-name-column-header align-center',
     filter: textFilter({
@@ -172,6 +183,7 @@ export const columns = [
     sort: true,
     align: 'center',
     visibleToggle: true,
+    editable: false,
     classes: 'project-name-column',
     headerClasses: 'project-name-column-header align-center',
     filter: textFilter({
@@ -185,6 +197,7 @@ export const columns = [
     hidden: true,
     visibleToggle: true,
     searchable: false,
+    editable: false,
     classes: 'task-coment-column',
     headerClasses: 'task-coment-column-header align-center',
     filter: textFilter({

@@ -129,6 +129,8 @@
     "typescript": "3.5.3"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.7.6",
+    "@babel/preset-react": "^7.7.4",
     "classnames": "^2.2.6",
     "eslint-config-prettier": "6.0.0",
     "eslint-plugin-prettier": "3.1.0",
@@ -140,6 +142,7 @@
     "production": [
       ">0.2%",
       "not dead",
+      "Chrome 51",
       "not op_mini all"
     ],
     "development": []
@@ -205,7 +208,9 @@
   },
   "babel": {
     "presets": [
-      "react-app"
+      "react-app",
+      "@babel/preset-env",
+      "@babel/preset-react"
     ],
     "plugins": [
       "emotion",

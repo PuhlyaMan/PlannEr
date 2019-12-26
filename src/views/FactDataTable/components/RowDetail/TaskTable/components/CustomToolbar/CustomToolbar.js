@@ -6,8 +6,8 @@ import 'react-dates/initialize';
 import moment from 'moment';
 import { getDaysInMonth, eachDayOfInterval } from 'date-fns';
 import Holidays from 'date-holidays';
-import '../../settings/style.css';
 import { columns as defColumns, tableColumnExtensions as defColumnExtensions } from '../../settings/settings.js';
+import '../../settings/style.css';
 
 export default function CustomToolbar({ setColumns, setTableColumnExtensions, setColorCalenadr }) {
   const [focusedInput, setFocus] = useState(null);
@@ -16,17 +16,14 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
   const [endDate, setEndDate] = useState(moment().endOf('isoweek'));
 
   useEffect(() => {
-    const hd = new Holidays('RU');
-    const fromDate = startDate._d;
-    const toDate = endDate._d;
-    const maxResultRangeLength = getDaysInMonth(fromDate);
-    const curentResultRangeLength = Math.trunc((toDate - fromDate) / 86400000);
+    const maxResultRangeLength = getDaysInMonth(startDate._d);
+    const curentResultRangeLength = Math.trunc((endDate._d - startDate._d) / 86400000);
     if (maxResultRangeLength <= curentResultRangeLength) {
       alert('Интервал даты не может превышать месяца');
       return;
     }
-
-    const resultRange = eachDayOfInterval({ start: fromDate, end: toDate });
+    const hd = new Holidays('RU');
+    const resultRange = eachDayOfInterval({ start: startDate._d, end: endDate._d });
 
     let colorCalenadrObj = {};
     resultRange.forEach(item => {
@@ -67,24 +64,32 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
     }
   };
 
+  const handleDatesChange = ({ startDate, endDate }) => {
+    const maxResultRangeLength = getDaysInMonth(startDate._d);
+    const curentResultRangeLength = Math.trunc((endDate._d - startDate._d) / 86400000);
+    if (maxResultRangeLength <= curentResultRangeLength) {
+      alert('Интервал даты не может превышать месяца');
+      return;
+    } else {
+      setStartDate(startDate);
+      setEndDate(endDate);
+      setDisable({ day: false, week: false, month: false });
+    }
+  };
+
   return (
-    <div>
+    <div style={{ position: 'absolute', right: '300px' }}>
       <DateRangePicker
         startDate={startDate}
         startDateId="start"
         endDate={endDate}
         endDateId="end"
-        onDatesChange={({ startDate, endDate }) => {
-          setStartDate(startDate);
-          setEndDate(endDate);
-          setDisable({ day: false, week: false, month: false });
-        }}
+        onDatesChange={handleDatesChange}
         focusedInput={focusedInput}
         onFocusChange={focus => setFocus(focus)}
         anchorDirection="right"
         firstDayOfWeek={1}
         showDefaultInputIcon
-        showClearDates
         displayFormat="YYYY-MM-DD"
         hideKeyboardShortcutsPanel
         isOutsideRange={() => false}

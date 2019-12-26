@@ -19,10 +19,6 @@
 import Dashboard from '@material-ui/icons/Dashboard';
 import Person from '@material-ui/icons/Person';
 import AssignmentIcon from '@material-ui/icons/Assignment';
-import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
-import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import AccessibilityIcon from '@material-ui/icons/Accessibility';
-import AnnouncementIcon from '@material-ui/icons/Announcement';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
 import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
@@ -30,11 +26,6 @@ import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
 import DashboardPage from 'views/Dashboard/Dashboard.js';
 import UserProfile from 'views/UserProfile/UserProfile.js';
 import FactDataTable from 'views/FactDataTable/FactDataTable.js';
-import TableList from 'views/TableList/TableList.js';
-import JobTables from 'views/JobTables/JobTables.js';
-import Issues from 'views/Issues/Issues.js';
-import TaskTable from 'views/TaskTable/TaskTable.js';
-import IssueTable from 'views/IssueTable/IssueTable.js';
 import ModuleFact from 'views/ModuleFact/ModuleFact.js';
 import Labor from 'views/Labor/Labor.js';
 import MuiDatatables from 'views/MuiDatatables/MuiDatatables.js';
@@ -69,34 +60,6 @@ const dashboardRoutes = [
     layout: '/admin',
   },
   {
-    path: '/fact',
-    name: 'TaskTable',
-    icon: AssignmentTurnedInIcon,
-    component: TaskTable,
-    layout: '/admin',
-  },
-  {
-    path: '/issues',
-    name: 'Issues',
-    icon: AccessTimeIcon,
-    component: Issues,
-    layout: '/admin',
-  },
-  {
-    path: '/jobtable',
-    name: 'JobTables',
-    icon: AccessibilityIcon,
-    component: JobTables,
-    layout: '/admin',
-  },
-  {
-    path: '/tablelist',
-    name: 'TableList',
-    icon: AnnouncementIcon,
-    component: TableList,
-    layout: '/admin',
-  },
-  {
     path: '/labor',
     name: 'Labor',
     icon: AssessmentIcon,
@@ -108,13 +71,6 @@ const dashboardRoutes = [
     name: 'MuiDatatables',
     icon: AvTimerIcon,
     component: MuiDatatables,
-    layout: '/admin',
-  },
-  {
-    path: '/issuetable',
-    name: 'IssueTable',
-    icon: 'content_paste',
-    component: IssueTable,
     layout: '/admin',
   },
 ];

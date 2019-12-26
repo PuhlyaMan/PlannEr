@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { DateRangePicker } from 'react-dates';
 import ButtonToolbar from './ButtonToolbar/ButtonToolbar.js';
-import '../settings/style.css';
 
 export default function CustomToolbar({ startDate, endDate, setStartDate, setEndDate, create /*save*/ }) {
   const [focusedInput, setFocus] = useState(null);

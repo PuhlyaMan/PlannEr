@@ -43,6 +43,7 @@ const TaskTable = ({ row }) => {
   const [startDate, setStartDate] = useState(moment().startOf('isoweek'));
   const [endDate, setEndDate] = useState(moment().endOf('isoweek'));
   const [colorCalenadr, setColorCalenadr] = useState({});
+  const [disable, setDisable] = useState({ day: false, week: true, month: false });
 
   useEffect(() => {
     setRows(row.tasks);
@@ -96,6 +97,8 @@ const TaskTable = ({ row }) => {
       setStartDate={setStartDate}
       setEndDate={setEndDate}
       create={create}
+      disable={disable}
+      setDisable={setDisable}
     />
   );
 

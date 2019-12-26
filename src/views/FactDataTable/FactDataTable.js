@@ -27,6 +27,7 @@ import TableRow from './components/TableRow/TableRow.js';
 import TableCell from './components/TableCell/TableCell.js';
 import TableCellHeader from './components/TableCellHeader/TableCellHeader.js';
 import RowDetail from './components/RowDetail/RowDetail.js';
+import ContentComponent from './components/ContentComponent/ContentComponent.js';
 import * as settings from './settings/settings.js';
 import * as localisation from 'assets/data/ru.js';
 
@@ -56,7 +57,8 @@ const FactDataTable = () => {
   const cellComponent = restProps => <TableCell {...restProps} />;
   const cellHeaderComponent = restProps => <TableCellHeader {...restProps} />;
   const rowComponent = restProps => <TableRow {...restProps} />;
-  const contentComponent = restProps => <RowDetail setSelectedRow={setSelectedRow} {...restProps} />;
+  const rowDetailComponent = restProps => <RowDetail setSelectedRow={setSelectedRow} {...restProps} />;
+  const contentComponent = restProps => <ContentComponent {...restProps} />;
 
   return (
     <Paper>
@@ -82,8 +84,9 @@ const FactDataTable = () => {
           showSortingControls
           cellComponent={cellHeaderComponent}
           messages={localisation.tableHeaderRow}
+          contentComponent={contentComponent}
         />
-        <TableRowDetail contentComponent={contentComponent} />
+        <TableRowDetail contentComponent={rowDetailComponent} />
         <TableGroupRow />
         <Toolbar />
         <GroupingPanel showGroupingControls messages={localisation.groupingPanel} />

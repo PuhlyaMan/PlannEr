@@ -3,7 +3,17 @@ import PropTypes from 'prop-types';
 import { Toolbar } from '@devexpress/dx-react-grid-material-ui';
 import CustomToolbar from '../CustomToolbar/CustomToolbar.js';
 
-const ToolbarRoot = ({ startDate, endDate, setStartDate, setEndDate, create, children, ...restProps }) => {
+const ToolbarRoot = ({
+  startDate,
+  endDate,
+  setStartDate,
+  setEndDate,
+  create,
+  disable,
+  setDisable,
+  children,
+  ...restProps
+}) => {
   return (
     <Toolbar.Root {...restProps}>
       <CustomToolbar
@@ -12,6 +22,8 @@ const ToolbarRoot = ({ startDate, endDate, setStartDate, setEndDate, create, chi
         setStartDate={setStartDate}
         setEndDate={setEndDate}
         create={create}
+        disable={disable}
+        setDisable={setDisable}
       />
       {children}
     </Toolbar.Root>
@@ -25,6 +37,8 @@ ToolbarRoot.propTypes = {
   setStartDate: PropTypes.func,
   setEndDate: PropTypes.func,
   create: PropTypes.func,
+  disable: PropTypes.object,
+  setDisable: PropTypes.func,
 };
 
 export default ToolbarRoot;

@@ -4,9 +4,8 @@ import { DateRangePicker } from 'react-dates';
 import ButtonToolbar from './ButtonToolbar/ButtonToolbar.js';
 import '../../settings/style.css';
 
-export default function CustomToolbar({ startDate, endDate, setStartDate, setEndDate, create /*save*/ }) {
+export default function CustomToolbar({ startDate, endDate, setStartDate, setEndDate, create, disable, setDisable }) {
   const [focusedInput, setFocus] = useState(null);
-  const [disable, setDisable] = useState({ day: false, week: true, month: false });
 
   return (
     <div>
@@ -78,4 +77,6 @@ CustomToolbar.propTypes = {
   setEndDate: PropTypes.func,
   create: PropTypes.func,
   save: PropTypes.func,
+  disable: PropTypes.object,
+  setDisable: PropTypes.func,
 };

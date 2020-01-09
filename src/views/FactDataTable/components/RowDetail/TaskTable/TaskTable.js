@@ -26,6 +26,7 @@ import ContentComponent from './components/ContentComponent/ContentComponent.js'
 import SortLabel from './components/SortLabel/SortLabel.js';
 import FixedColumns from './components/FixedColumns/FixedColumns.js';
 import ToolbarRoot from './components/ToolbarRoot/ToolbarRoot.js';
+//import TableBandHeaderCell from './components/TableBandHeaderCell/TableBandHeaderCell.js';
 import * as settings from './settings/settings.js';
 import * as localisation from 'assets/data/ru.js';
 

@@ -18,7 +18,7 @@ export const font = state => {
     case 'Ожидание':
       return 'rgba(250, 250, 185, 0.8)';
     case 'Выполнено':
-      return 'rgba(237, 237, 237)';
+      return 'rgba(237, 237, 237, 1)';
     case 'Запланировано':
       return 'rgba(146, 189, 232, 0.5)';
     case 'Новая':

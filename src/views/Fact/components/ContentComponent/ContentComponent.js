@@ -1,21 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { TableHeaderRow } from '@devexpress/dx-react-grid-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
   content: {
-    display: 'contents',
-    textAlign: 'center',
     fontSize: '13px',
     fontWeight: 'bold',
   },
 };
 
-const ContentComponent = ({ children, classes, className, ...restProps }) => (
-  <div className={classNames(classes.content, className)} {...restProps}>
-    {children}
-  </div>
+const ContentComponent = ({ classes, className, ...restProps }) => (
+  <TableHeaderRow.Content className={classNames(classes.content, className)} {...restProps} />
 );
 
 ContentComponent.propTypes = {

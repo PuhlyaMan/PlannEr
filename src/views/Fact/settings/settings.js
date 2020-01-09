@@ -1,5 +1,3 @@
-import { TableRowDetail } from '@devexpress/dx-react-grid';
-
 export const columns = [
   /*{
     name: 'work',
@@ -78,7 +76,7 @@ export const tableColumnExtensions = [
   { columnName: 'point', width: 100, align: 'center', wordWrapEnabled: true },
   { columnName: 'contract_name', width: 230, align: 'center' },
   { columnName: 'project_name', width: 230, align: 'center', wordWrapEnabled: true },
-  { columnName: 'task_name', width: 800 },
+  { columnName: 'task_name', width: 800, align: 'center' },
   { columnName: 'task_id', width: 150, align: 'center' },
   { columnName: 'task_state', width: 150, align: 'center' },
   { columnName: 'plan_start_date', width: 150, align: 'center', wordWrapEnabled: true },
@@ -96,4 +94,3 @@ export const pageSizes = [15, 20, 30, 0];
 export const grouping = [{ columnName: 'default' }];
 export const defaultHiddenColumnNames = ['state', 'point', 'project_name'];
 export const visibilityColumnExtensions = [{ columnName: 'default', togglingEnabled: false }];
-export const fixedLeftColumns = [TableRowDetail.COLUMN_TYPE, 'task_name'];

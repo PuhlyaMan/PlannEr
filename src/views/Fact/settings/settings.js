@@ -76,7 +76,7 @@ export const tableColumnExtensions = [
   { columnName: 'point', width: 100, align: 'center', wordWrapEnabled: true },
   { columnName: 'contract_name', width: 230, align: 'center' },
   { columnName: 'project_name', width: 230, align: 'center', wordWrapEnabled: true },
-  { columnName: 'task_name', width: 800, align: 'center' },
+  { columnName: 'task_name', width: 800 },
   { columnName: 'task_id', width: 150, align: 'center' },
   { columnName: 'task_state', width: 150, align: 'center' },
   { columnName: 'plan_start_date', width: 150, align: 'center', wordWrapEnabled: true },

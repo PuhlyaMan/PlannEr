@@ -22,12 +22,14 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import AvTimerIcon from '@material-ui/icons/AvTimer';
 import AccessibleForwardIcon from '@material-ui/icons/AccessibleForward';
+import AndroidIcon from '@material-ui/icons/Android';
 // core components/views for Admin layout
 import DashboardPage from 'views/Dashboard/Dashboard.js';
 import UserProfile from 'views/UserProfile/UserProfile.js';
 import FactDataTable from 'views/FactDataTable/FactDataTable.js';
 import ModuleFact from 'views/ModuleFact/ModuleFact.js';
 import Labor from 'views/Labor/Labor.js';
+import Fact from 'views/Fact/Fact.js';
 import MuiDatatables from 'views/MuiDatatables/MuiDatatables.js';
 
 const dashboardRoutes = [
@@ -50,6 +52,13 @@ const dashboardRoutes = [
     name: 'Модуль фактов New',
     icon: AccessibleForwardIcon,
     component: FactDataTable,
+    layout: '/admin',
+  },
+  {
+    path: '/fact',
+    name: 'Факт',
+    icon: AndroidIcon,
+    component: Fact,
     layout: '/admin',
   },
   {

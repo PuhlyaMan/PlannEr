@@ -20,6 +20,8 @@ const StateTypeComponent = ({ value }) => {
   return formatterComponent;
 };
 
-const StateTypeProvider = props => <DataTypeProvider {...props} formatterComponent={StateTypeComponent} />;
+const StateTypeProvider = props => (
+  <DataTypeProvider {...props} formatterComponent={StateTypeComponent} editorComponent={StateTypeComponent} />
+);
 
 export default StateTypeProvider;

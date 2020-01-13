@@ -16,6 +16,10 @@ const useStyles = makeStyles({
       return props.backgroundColor;
     },
   },
+  buttonCell: {
+    borderBottom: '1px solid rgba(224, 224, 224, 1)',
+    borderLeft: '1px solid rgba(224, 224, 224, 1)',
+  },
 });
 
 const font = state => {
@@ -50,7 +54,7 @@ const TableCell = ({ onClick, colorCalendar, className, ...restProps }) => {
   const classes = useStyles(props);
   if (column.name === 'calc')
     return (
-      <td>
+      <td className={classes.buttonCell}>
         <Button variant="contained" fullWidth={true} color="primary" size="small" onClick={onChangeClick}>
           Рассчитать
         </Button>

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 const useStyle = makeStyles({
   row: {
     cursor: 'pointer',
-    backgroundColor: props => font(props.state),
+    //backgroundColor: props => font(props.state),
   },
 });
 

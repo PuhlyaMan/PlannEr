@@ -835,7 +835,7 @@
   display: block
 }
 .DateRangePicker_picker {
-  z-index: 350;
+  z-index: 600;
   background-color: #fff;
   position: absolute
 }

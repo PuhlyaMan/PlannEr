@@ -33,7 +33,7 @@ export const columns = [
   },
   {
     name: 'task_state',
-    title: 'Статус задачи',
+    title: 'Статус',
     getCellValue: row => (row.task_state ? row.task_state : undefined),
   },
   {
@@ -66,6 +66,7 @@ export const columns = [
     title: 'Трудозатраты (факт)',
     getCellValue: row => (row.task_actual_labor ? row.task_actual_labor : undefined),
   },
+  { name: 'calc', title: 'Рассчитать' },
   { name: 'default', title: 'default' },
 ];
 
@@ -77,20 +78,55 @@ export const tableColumnExtensions = [
   { columnName: 'contract_name', width: 230, align: 'center' },
   { columnName: 'project_name', width: 230, align: 'center', wordWrapEnabled: true },
   { columnName: 'task_name', width: 800 },
-  { columnName: 'task_id', width: 150, align: 'center' },
-  { columnName: 'task_state', width: 150, align: 'center' },
+  { columnName: 'task_id', width: 110, align: 'center' },
+  { columnName: 'task_state', width: 110, align: 'center' },
   { columnName: 'plan_start_date', width: 150, align: 'center', wordWrapEnabled: true },
   { columnName: 'plan_finish_date', width: 150, align: 'center', wordWrapEnabled: true },
   { columnName: 'plan_labor', width: 150, align: 'center', wordWrapEnabled: true },
   { columnName: 'actual_start_date', width: 150, align: 'center', wordWrapEnabled: true },
   { columnName: 'actual_finish_date', width: 150, align: 'center', wordWrapEnabled: true },
   { columnName: 'actual_labor', width: 150, align: 'center', wordWrapEnabled: true },
+  { columnName: 'calc', width: 100, align: 'center', sortingEnabled: false, filteringEnabled: false },
   { columnName: 'default', width: 800, wordWrapEnabled: true },
 ];
 
-export const groupColumnExtensions = [{ columnName: 'default', groupingEnabled: false }];
+export const editingColumnExtensions = [
+  { columnName: 'state', editingEnabled: false },
+  { columnName: 'point', editingEnabled: false },
+  { columnName: 'project_name', editingEnabled: false },
+  { columnName: 'task_name', editingEnabled: false },
+  { columnName: 'task_id', editingEnabled: false },
+  { columnName: 'task_state', editingEnabled: false },
+  { columnName: 'plan_start_date', editingEnabled: false },
+  { columnName: 'plan_finish_date', editingEnabled: false },
+  { columnName: 'plan_labor', editingEnabled: false },
+  { columnName: 'actual_start_date', editingEnabled: false },
+  { columnName: 'actual_finish_date', editingEnabled: false },
+  { columnName: 'actual_labor', editingEnabled: false },
+  { columnName: 'calc', editingEnabled: false },
+  { columnName: 'default', editingEnabled: false },
+];
+
+export const groupColumnExtensions = [
+  { columnName: 'default', groupingEnabled: false },
+  { columnName: 'calc', groupingEnabled: false },
+];
 
 export const pageSizes = [15, 20, 30, 0];
 export const grouping = [{ columnName: 'default' }];
-export const defaultHiddenColumnNames = ['state', 'point', 'project_name'];
-export const visibilityColumnExtensions = [{ columnName: 'default', togglingEnabled: false }];
+export const defaultHiddenColumnNames = [
+  'state',
+  'point',
+  'project_name',
+  'plan_start_date',
+  'plan_labor',
+  'actual_start_date',
+  'actual_finish_date',
+  'actual_labor',
+];
+export const visibilityColumnExtensions = [
+  { columnName: 'default', togglingEnabled: false },
+  { columnName: 'calc', togglingEnabled: false },
+];
+
+export const stateColumns = ['task_state'];

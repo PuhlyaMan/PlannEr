@@ -9,7 +9,7 @@ import Holidays from 'date-holidays';
 import { columns as defColumns, tableColumnExtensions as defColumnExtensions } from '../../settings/settings.js';
 import '../../settings/style.css';
 
-export default function CustomToolbar({ setColumns, setTableColumnExtensions, setColorCalenadr }) {
+export default function CustomToolbar({ setColumns, setTableColumnExtensions, setColorCalendar }) {
   const [focusedInput, setFocus] = useState(null);
   const [disable, setDisable] = useState({ day: false, week: true, month: false });
   const [startDate, setStartDate] = useState(moment().startOf('isoweek'));
@@ -25,13 +25,13 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
     const hd = new Holidays('RU');
     const resultRange = eachDayOfInterval({ start: startDate._d, end: endDate._d });
 
-    let colorCalenadrObj = {};
+    let colorCalendarObj = {};
     resultRange.forEach(item => {
       const day = item.getDay();
-      const color = day === 6 || day === 0 || hd.isHoliday(item) ? '#f7685e' : '#ffffff';
-      colorCalenadrObj = { ...colorCalenadrObj, [`day_${item.getDate()}`]: color };
+      const color = day === 6 || day === 0 || hd.isHoliday(item) ? 'rgba(245, 153, 147, 0.8)' : '#ffffff';
+      colorCalendarObj = { ...colorCalendarObj, [`day_${item.getDate()}`]: color };
     });
-    setColorCalenadr(colorCalenadrObj);
+    setColorCalendar(colorCalendarObj);
 
     const calendar = resultRange.map(item => {
       return { name: `day_${item.getDate()}`, title: `${item.getDate()}` };
@@ -45,7 +45,7 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
     }));
     setTableColumnExtensions([...defColumnExtensions, ...columnExtensions]);
     setColumns([...defColumns, ...calendar]);
-  }, [startDate, endDate, setColumns, setTableColumnExtensions, setColorCalenadr]);
+  }, [startDate, endDate, setColumns, setTableColumnExtensions, setColorCalendar]);
 
   const create = range => {
     switch (range) {
@@ -78,7 +78,7 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
   };
 
   return (
-    <div style={{ position: 'absolute', right: '300px' }}>
+    <div style={{ position: 'absolute', right: '300px', top: '15px' }}>
       <DateRangePicker
         startDate={startDate}
         startDateId="start"
@@ -138,5 +138,5 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
 CustomToolbar.propTypes = {
   setColumns: PropTypes.func,
   setTableColumnExtensions: PropTypes.func,
-  setColorCalenadr: PropTypes.func,
+  setColorCalendar: PropTypes.func,
 };

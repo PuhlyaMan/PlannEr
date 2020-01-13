@@ -8,6 +8,7 @@ import {
   IntegratedFiltering,
   GroupingState,
   IntegratedGrouping,
+  EditingState,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -21,15 +22,18 @@ import {
   DragDropProvider,
   ColumnChooser,
   TableColumnVisibility,
+  TableInlineCellEditing,
 } from '@devexpress/dx-react-grid-material-ui';
 import Paper from '@material-ui/core/Paper';
 import TableRow from './components/TableRow/TableRow.js';
 import TableCell from './components/TableCell/TableCell.js';
+import TableEditCell from './components/TableEditCell/TableEditCell.js';
 import TableCellHeader from './components/TableCellHeader/TableCellHeader.js';
 import ContentComponent from './components/ContentComponent/ContentComponent.js';
 import GroupCellContent from './components/GroupCellContent/GroupCellContent.js';
 import ToolbarRoot from './components/ToolbarRoot/ToolbarRoot.js';
 import SortLabel from './components/SortLabel/SortLabel.js';
+import StateTypeProvider from './providers/StateTypeProvider/StateTypeProvider.js';
 import * as settings from './settings/settings.js';
 import * as localisation from 'assets/data/ru.js';
 
@@ -39,8 +43,9 @@ const Fact = () => {
   const [columns, setColumns] = useState(settings.columns);
   const [data, setData] = useState([]);
   const [tableColumnExtensions, setTableColumnExtensions] = useState(settings.tableColumnExtensions);
-  const [colorCalenadr, setColorCalenadr] = useState({});
+  const [colorCalendar, setColorCalendar] = useState({});
   const [grouping, setGrouping] = useState(settings.grouping);
+  const [editingRowIds, getEditingRowIds] = useState([]);
 
   useEffect(() => {
     import('assets/data/data.js')
@@ -78,10 +83,12 @@ const Fact = () => {
       .catch(err => new Error(err));
   }, []);
 
-  const cellComponent = restProps => <TableCell {...restProps} colorCalenadr={colorCalenadr} />;
-  const cellHeaderComponent = restProps => <TableCellHeader {...restProps} colorCalenadr={colorCalenadr} />;
+  // eslint-disable-next-line no-unused-vars
+  const cellComponent = restProps => <TableCell {...restProps} colorCalendar={colorCalendar} />;
+  const editCellComponent = restProps => <TableEditCell {...restProps} colorCalendar={colorCalendar} />;
+  const cellHeaderComponent = restProps => <TableCellHeader {...restProps} />;
   const rowComponent = restProps => <TableRow {...restProps} />;
-  const sortLabelComponent = restProps => <SortLabel {...restProps} colorCalenadr={colorCalenadr} />;
+  const sortLabelComponent = restProps => <SortLabel {...restProps} colorCalendar={colorCalendar} />;
   const contentComponent = restProps => <ContentComponent {...restProps} />;
   const groupCellContent = restProps => <GroupCellContent {...restProps} />;
   const rootToolbarComponent = useCallback(
@@ -90,16 +97,34 @@ const Fact = () => {
         {...restProps}
         setColumns={setColumns}
         setTableColumnExtensions={setTableColumnExtensions}
-        setColorCalenadr={setColorCalenadr}
+        setColorCalendar={setColorCalendar}
       />
     ),
     []
   );
 
+  /*const onCommitChanges = ({ changed }) => {
+    if (changed) {
+      const changedRows = data.map(row => (changed[row.task_id] ? { ...row, ...changed[row.task_id] } : row));
+      setData(changedRows);
+    }
+  };*/
+
+  const onCommitChanges = () => console.log('hehe');
+
   return (
     <Paper>
       <Grid getRowId={getRowId} rows={data} columns={columns}>
+        <StateTypeProvider for={settings.stateColumns} />
         <DragDropProvider />
+        <EditingState
+          onCommitChanges={onCommitChanges}
+          columnExtensions={settings.editingColumnExtensions}
+          editingRowIds={editingRowIds}
+          onEditingRowIdsChange={getEditingRowIds}
+          /*rowChanges={rowChanges}
+          onRowChangesChange={setRowChanges}*/
+        />
         <SearchState />
         <SortingState columnExtensions={tableColumnExtensions} />
         <PagingState defaultCurrentPage={0} defaultPageSize={0} />
@@ -113,7 +138,7 @@ const Fact = () => {
         <IntegratedPaging />
         <IntegratedGrouping />
         <VirtualTable
-          cellComponent={cellComponent}
+          cellComponent={editCellComponent}
           rowComponent={rowComponent}
           messages={localisation.table}
           columnExtensions={tableColumnExtensions}
@@ -133,6 +158,11 @@ const Fact = () => {
         />
         <Toolbar rootComponent={rootToolbarComponent} />
         <ColumnChooser />
+        <TableInlineCellEditing
+          startEditAction="click"
+          selectTextOnEditStart={true}
+          cellComponent={editCellComponent}
+        />
         <GroupingPanel showGroupingControls messages={localisation.groupingPanel} />
         <SearchPanel messages={localisation.searchPanel} />
         <PagingPanel messages={localisation.pagingPanel} pageSizes={settings.pageSizes} />

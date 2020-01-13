@@ -1,28 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TableHeaderRow } from '@devexpress/dx-react-grid-material-ui';
+import { TableHeaderRow, Table } from '@devexpress/dx-react-grid-material-ui';
 import classNames from 'classnames';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 
-const useStyle = makeStyles({
+const style = {
   cellHeader: {
-    borderLeft: props => (props.bordrer ? '1px solid rgba(224, 224, 224, 1)' : 'none'),
+    borderLeft: '1px solid rgba(224, 224, 224, 1)',
     padding: '5px 7px',
     lineHeight: '1.1rem',
+    backgroundColor: 'rgba(156, 169, 247, 0.7)',
   },
-});
+};
 
-const TableCellHeader = ({ colorCalenadr, className, ...restProps }) => {
+const TableCellHeader = ({ classes, className, ...restProps }) => {
   const { column } = restProps;
-  const classes = useStyle({ bordrer: colorCalenadr[column.name] });
-  return (
-    <TableHeaderRow.Cell {...restProps} className={classNames(classes.cellHeader, className, classes.cellCalendar)} />
+  return column.name === 'calc' ? (
+    <Table.Cell className={classNames(classes.cellHeader, className)} />
+  ) : (
+    <TableHeaderRow.Cell {...restProps} className={classNames(classes.cellHeader, className)} />
   );
 };
 
 TableCellHeader.propTypes = {
-  colorCalenadr: PropTypes.object,
+  classes: PropTypes.object,
   className: PropTypes.string,
 };
 
-export default TableCellHeader;
+export default withStyles(style)(TableCellHeader);

@@ -126,7 +126,7 @@ const Fact = () => {
         <DragDropProvider />
         <EditingState
           onCommitChanges={onCommitChanges}
-          columnExtensions={settings.editingColumnExtensions}
+          columnExtensions={tableColumnExtensions}
           editingRowIds={editingRowIds}
           onEditingRowIdsChange={getEditingRowIds}
           /*rowChanges={rowChanges}
@@ -135,11 +135,7 @@ const Fact = () => {
         <SearchState />
         <SortingState columnExtensions={tableColumnExtensions} />
         <PagingState defaultCurrentPage={0} defaultPageSize={0} />
-        <GroupingState
-          columnExtensions={settings.groupColumnExtensions}
-          grouping={grouping}
-          onGroupingChange={setGrouping}
-        />
+        <GroupingState columnExtensions={tableColumnExtensions} grouping={grouping} onGroupingChange={setGrouping} />
         <IntegratedFiltering />
         <IntegratedSorting />
         <IntegratedPaging />
@@ -161,7 +157,7 @@ const Fact = () => {
         <TableGroupRow contentComponent={groupCellContent} />
         <TableColumnVisibility
           defaultHiddenColumnNames={settings.defaultHiddenColumnNames}
-          columnExtensions={settings.visibilityColumnExtensions}
+          columnExtensions={tableColumnExtensions}
           messages={localisation.tableColumnVisibility}
         />
         <Toolbar rootComponent={rootToolbarComponent} />

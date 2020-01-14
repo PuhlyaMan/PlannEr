@@ -42,6 +42,8 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
       align: 'center',
       sortingEnabled: false,
       filteringEnabled: false,
+      togglingEnabled: false,
+      groupingEnabled: false,
     }));
     setTableColumnExtensions([...defColumnExtensions, ...columnExtensions]);
     setColumns([...defColumns, ...calendar]);
@@ -78,7 +80,7 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
   };
 
   return (
-    <div style={{ position: 'absolute', right: '300px', top: '15px' }}>
+    <div style={{ position: 'absolute', right: '350px', top: '15px' }}>
       <DateRangePicker
         startDate={startDate}
         startDateId="start"

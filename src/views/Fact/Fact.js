@@ -34,6 +34,8 @@ import GroupCellContent from './components/GroupCellContent/GroupCellContent.js'
 import ToolbarRoot from './components/ToolbarRoot/ToolbarRoot.js';
 import SortLabel from './components/SortLabel/SortLabel.js';
 import ColumnChooserItem from './components/ColumnChooserItem/ColumnChooserItem.js';
+import ColumnChoiserGroup from './components/ColumnChoiserGroup/ColumnChoiserGroup.js';
+import ColumnChooserOverlay from './components/ColumnChooserOverlay/ColumnChooserOverlay.js';
 import StateTypeProvider from './providers/StateTypeProvider/StateTypeProvider.js';
 import * as settings from './settings/settings.js';
 import * as localisation from 'assets/data/ru.js';
@@ -46,6 +48,8 @@ const cellHeaderComponent = restProps => <TableCellHeader {...restProps} />;
 const rowComponent = restProps => <TableRow {...restProps} />;
 const sortLabelComponent = restProps => <SortLabel {...restProps} />;
 const columnChooserItem = restProps => <ColumnChooserItem {...restProps} />;
+const columnChoiserGroup = restProps => <ColumnChoiserGroup {...restProps} />;
+const columnChooserOverlay = restProps => <ColumnChooserOverlay {...restProps} />;
 
 const Fact = () => {
   const [columns, setColumns] = useState(settings.columns);
@@ -161,6 +165,11 @@ const Fact = () => {
           messages={localisation.tableColumnVisibility}
         />
         <Toolbar rootComponent={rootToolbarComponent} />
+        <ColumnChooser
+          messages={localisation.columnChooser}
+          itemComponent={columnChoiserGroup}
+          overlayComponent={columnChooserOverlay}
+        />
         <ColumnChooser messages={localisation.columnChooser} itemComponent={columnChooserItem} />
         <TableInlineCellEditing selectTextOnEditStart cellComponent={editCellComponent} />
         <GroupingPanel showGroupingControls messages={localisation.groupingPanel} />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from '@devexpress/dx-react-grid-material-ui';
 import Button from '@material-ui/core/Button';
@@ -77,4 +77,4 @@ TableCell.propTypes = {
   onClick: PropTypes.func,
 };
 
-export default TableCell;
+export default memo(TableCell);

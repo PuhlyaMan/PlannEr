@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { TableEditRow } from '@devexpress/dx-react-grid-material-ui';
 import TableCell from '../TableCell/TableCell.js';
@@ -33,4 +33,4 @@ TableEditCell.propTypes = {
   classes: PropTypes.object,
 };
 
-export default withStyles(style)(TableEditCell);
+export default memo(withStyles(style)(TableEditCell));

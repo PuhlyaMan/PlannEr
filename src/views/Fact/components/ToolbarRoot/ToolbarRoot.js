@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Toolbar } from '@devexpress/dx-react-grid-material-ui';
 import CustomToolbar from '../CustomToolbar/CustomToolbar.js';
@@ -25,4 +25,4 @@ ToolbarRoot.propTypes = {
   setColorCalendar: PropTypes.func,
 };
 
-export default ToolbarRoot;
+export default memo(ToolbarRoot);

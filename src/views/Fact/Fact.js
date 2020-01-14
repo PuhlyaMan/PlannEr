@@ -33,11 +33,19 @@ import ContentComponent from './components/ContentComponent/ContentComponent.js'
 import GroupCellContent from './components/GroupCellContent/GroupCellContent.js';
 import ToolbarRoot from './components/ToolbarRoot/ToolbarRoot.js';
 import SortLabel from './components/SortLabel/SortLabel.js';
+import ColumnChooserItem from './components/ColumnChooserItem/ColumnChooserItem.js';
 import StateTypeProvider from './providers/StateTypeProvider/StateTypeProvider.js';
 import * as settings from './settings/settings.js';
 import * as localisation from 'assets/data/ru.js';
 
 const getRowId = row => row.task_id;
+
+const contentComponent = restProps => <ContentComponent {...restProps} />;
+const groupCellContent = restProps => <GroupCellContent {...restProps} />;
+const cellHeaderComponent = restProps => <TableCellHeader {...restProps} />;
+const rowComponent = restProps => <TableRow {...restProps} />;
+const sortLabelComponent = restProps => <SortLabel {...restProps} />;
+const columnChooserItem = restProps => <ColumnChooserItem {...restProps} />;
 
 const Fact = () => {
   const [columns, setColumns] = useState(settings.columns);
@@ -83,14 +91,22 @@ const Fact = () => {
       .catch(err => new Error(err));
   }, []);
 
-  // eslint-disable-next-line no-unused-vars
-  const cellComponent = restProps => <TableCell {...restProps} colorCalendar={colorCalendar} />;
-  const editCellComponent = restProps => <TableEditCell {...restProps} colorCalendar={colorCalendar} />;
-  const cellHeaderComponent = restProps => <TableCellHeader {...restProps} />;
-  const rowComponent = restProps => <TableRow {...restProps} />;
-  const sortLabelComponent = restProps => <SortLabel {...restProps} colorCalendar={colorCalendar} />;
-  const contentComponent = restProps => <ContentComponent {...restProps} />;
-  const groupCellContent = restProps => <GroupCellContent {...restProps} />;
+  const onCommitChanges = ({ changed }) => {
+    // eslint-disable-next-line no-unused-vars
+    let changedRows;
+    if (changed) {
+      changedRows = data.map(row => (changed[row.task_id] ? { ...row, ...changed[row.task_id] } : row));
+    }
+    setData(changedRows);
+  };
+
+  //cellComponent необходим для наглядности, его можно удалить, а вместо использовать editCellComponent
+  const cellComponent = useCallback(restProps => <TableCell {...restProps} colorCalendar={colorCalendar} />, [
+    colorCalendar,
+  ]);
+  const editCellComponent = useCallback(restProps => <TableEditCell {...restProps} colorCalendar={colorCalendar} />, [
+    colorCalendar,
+  ]);
   const rootToolbarComponent = useCallback(
     restProps => (
       <ToolbarRoot
@@ -102,15 +118,6 @@ const Fact = () => {
     ),
     []
   );
-
-  /*const onCommitChanges = ({ changed }) => {
-    if (changed) {
-      const changedRows = data.map(row => (changed[row.task_id] ? { ...row, ...changed[row.task_id] } : row));
-      setData(changedRows);
-    }
-  };*/
-
-  const onCommitChanges = () => console.log('hehe');
 
   return (
     <Paper>
@@ -138,7 +145,7 @@ const Fact = () => {
         <IntegratedPaging />
         <IntegratedGrouping />
         <VirtualTable
-          cellComponent={editCellComponent}
+          cellComponent={cellComponent}
           rowComponent={rowComponent}
           messages={localisation.table}
           columnExtensions={tableColumnExtensions}
@@ -155,14 +162,11 @@ const Fact = () => {
         <TableColumnVisibility
           defaultHiddenColumnNames={settings.defaultHiddenColumnNames}
           columnExtensions={settings.visibilityColumnExtensions}
+          messages={localisation.tableColumnVisibility}
         />
         <Toolbar rootComponent={rootToolbarComponent} />
-        <ColumnChooser />
-        <TableInlineCellEditing
-          startEditAction="click"
-          selectTextOnEditStart={true}
-          cellComponent={editCellComponent}
-        />
+        <ColumnChooser messages={localisation.columnChooser} itemComponent={columnChooserItem} />
+        <TableInlineCellEditing selectTextOnEditStart cellComponent={editCellComponent} />
         <GroupingPanel showGroupingControls messages={localisation.groupingPanel} />
         <SearchPanel messages={localisation.searchPanel} />
         <PagingPanel messages={localisation.pagingPanel} pageSizes={settings.pageSizes} />

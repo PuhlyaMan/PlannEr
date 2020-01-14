@@ -9,8 +9,9 @@ const styles = {
   },
 };
 
-const SortLabel = ({ colorCalendar, column, classes, ...restProps }) => {
-  return colorCalendar[column.name] ? (
+const SortLabel = ({ classes, ...restProps }) => {
+  const { disabled, column } = restProps;
+  return disabled ? (
     <div className={classes.calendarCellColumn}>{column.title}</div>
   ) : (
     <TableHeaderRow.SortLabel {...restProps} />
@@ -18,9 +19,7 @@ const SortLabel = ({ colorCalendar, column, classes, ...restProps }) => {
 };
 
 SortLabel.propTypes = {
-  column: PropTypes.object,
   classes: PropTypes.object,
-  colorCalendar: PropTypes.object,
 };
 
 export default withStyles(styles)(SortLabel);

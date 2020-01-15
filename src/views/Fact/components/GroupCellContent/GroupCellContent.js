@@ -2,22 +2,33 @@ import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { TableGroupRow } from '@devexpress/dx-react-grid-material-ui';
 
-// eslint-disable-next-line no-unused-vars
-const columnWork = ['Наименование работы', 'Статус работы', 'Пункт графика', 'Договор', 'Проект'];
+const columnWork = {
+  id: 'ID работы',
+  name: 'Работа',
+  state: 'Статус',
+  point: 'Пункт графика',
+  contract_name: 'Договор',
+  project_name: 'Проект',
+};
 
-// eslint-disable-next-line no-unused-vars
-const GroupCellContent = ({ groupingValue, row, ...restProps }) => {
+const GroupCellContent = ({ groupingKeys, row, ...restProps }) => {
   if (row.groupedBy !== 'default') return <TableGroupRow.Content row={row} {...restProps} />;
-  const arrValue = row.value.split(';');
+  const values = row.value.split(';');
   return (
     <span>
-      <strong>ID работы: </strong> {arrValue[0]};
+      {groupingKeys.map((key, index) => {
+        return (
+          <span key={key}>
+            <strong>{columnWork[key]}: </strong> {`${values[index]}; `}
+          </span>
+        );
+      })}
     </span>
   );
 };
 
 GroupCellContent.propTypes = {
-  groupingValue: PropTypes.object,
+  groupingKeys: PropTypes.array,
   row: PropTypes.object,
 };
 

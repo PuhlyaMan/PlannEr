@@ -52,22 +52,13 @@ const Fact = () => {
   const [tableColumnExtensions, setTableColumnExtensions] = useState(settings.tableColumnExtensions);
   const [colorCalendar, setColorCalendar] = useState({});
   const [grouping, setGrouping] = useState(settings.grouping);
-  // eslint-disable-next-line no-unused-vars
-  const [groupingValue, setGroupingValue] = useState(new Set(['id']));
+  const [groupingKeys, setGroupingKeys] = useState(['id']);
   const [editingRowIds, getEditingRowIds] = useState([]);
 
   useEffect(() => {
-    const createDefault = job => {
+    const createDefault = item => {
       let value = '';
-      // eslint-disable-next-line no-unused-vars
-      for (let key of groupingValue) {
-        value = value + `${job[key]};`;
-      }
-      /*let value = '';
-      // eslint-disable-next-line no-unused-vars
-      for (let prop in groupingValue) {
-        value = value + `${job[groupingValue[prop]]};`;
-      }*/
+      groupingKeys.forEach(key => (value = value + `${item[key]};`));
       return value;
     };
 
@@ -77,7 +68,6 @@ const Fact = () => {
           .map(job => {
             const newJob = job.tasks
               .map(task => ({
-                default: createDefault(job),
                 task_id: task.id,
                 task_state: task.state,
                 task_name: task.name,
@@ -110,12 +100,13 @@ const Fact = () => {
             delete newItem.contract;
             delete newItem.project;
             return newItem;
-          });
+          })
+          .map(item => ({ ...item, default: createDefault(item) }));
         //setData(jobsWithTasks.filter(item => item.task_state === 'В работе'));
         setData(correctData);
       })
       .catch(err => new Error(err));
-  }, [groupingValue]);
+  }, [groupingKeys]);
 
   const onCommitChanges = ({ changed }) => {
     let changedRows;
@@ -132,8 +123,8 @@ const Fact = () => {
   const editCellComponent = useCallback(restProps => <TableEditCell {...restProps} colorCalendar={colorCalendar} />, [
     colorCalendar,
   ]);
-  const groupCellContent = useCallback(restProps => <GroupCellContent {...restProps} groupingValue={groupingValue} />, [
-    groupingValue,
+  const groupCellContent = useCallback(restProps => <GroupCellContent {...restProps} groupingKeys={groupingKeys} />, [
+    groupingKeys,
   ]);
   const rootToolbarComponent = useCallback(
     restProps => (
@@ -142,6 +133,7 @@ const Fact = () => {
         setColumns={setColumns}
         setTableColumnExtensions={setTableColumnExtensions}
         setColorCalendar={setColorCalendar}
+        setGroupingKeys={setGroupingKeys}
       />
     ),
     []
@@ -157,8 +149,6 @@ const Fact = () => {
           columnExtensions={tableColumnExtensions}
           editingRowIds={editingRowIds}
           onEditingRowIdsChange={getEditingRowIds}
-          /*rowChanges={rowChanges}
-          onRowChangesChange={setRowChanges}*/
         />
         <SearchState />
         <SortingState columnExtensions={tableColumnExtensions} />

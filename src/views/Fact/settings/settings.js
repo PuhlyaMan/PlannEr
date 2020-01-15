@@ -1,26 +1,10 @@
 export const columns = [
-  {
-    name: 'work',
-    title: 'Работа',
-    getCellValue: row => (row.name ? row.name : undefined),
-  },
-  {
-    name: 'work_id',
-    title: 'ИД',
-    getCellValue: row => (row.id ? row.id : undefined),
-  },
+  { name: 'name', title: 'Работа' },
+  { name: 'id', title: 'ИД' },
   { name: 'state', title: 'Статус работы' },
   { name: 'point', title: 'Пункт графика' },
-  {
-    name: 'contract_name',
-    title: 'Договор',
-    getCellValue: row => (row.contract ? row.contract.name : undefined),
-  },
-  {
-    name: 'project_name',
-    title: 'Проект',
-    getCellValue: row => (row.project ? row.project.name : undefined),
-  },
+  { name: 'contract_name', title: 'Договор' },
+  { name: 'project_name', title: 'Проект' },
   { name: 'task_name', title: 'Задача' },
   { name: 'task_id', title: 'ИД' },
   { name: 'task_state', title: 'Статус' },
@@ -51,8 +35,8 @@ export const columns = [
 ];
 
 export const tableColumnExtensions = [
-  { columnName: 'work', width: 800, togglingEnabled: false },
-  { columnName: 'work_id', width: 150, align: 'center', togglingEnabled: false },
+  { columnName: 'name', width: 800, togglingEnabled: false },
+  { columnName: 'id', width: 150, align: 'center', togglingEnabled: false },
   { columnName: 'state', width: 150, align: 'center', togglingEnabled: false, editingEnabled: false },
   {
     columnName: 'point',
@@ -103,8 +87,8 @@ export const tableColumnExtensions = [
 export const pageSizes = [15, 20, 30, 0];
 export const grouping = [{ columnName: 'default' }];
 export const defaultHiddenColumnNames = [
-  'work',
-  'work_id',
+  'name',
+  'id',
   'state',
   'point',
   'contract_name',

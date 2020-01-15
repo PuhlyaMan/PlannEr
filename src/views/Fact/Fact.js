@@ -34,8 +34,6 @@ import GroupCellContent from './components/GroupCellContent/GroupCellContent.js'
 import ToolbarRoot from './components/ToolbarRoot/ToolbarRoot.js';
 import SortLabel from './components/SortLabel/SortLabel.js';
 import ColumnChooserItem from './components/ColumnChooserItem/ColumnChooserItem.js';
-import ColumnChoiserGroup from './components/ColumnChoiserGroup/ColumnChoiserGroup.js';
-import ColumnChooserOverlay from './components/ColumnChooserOverlay/ColumnChooserOverlay.js';
 import StateTypeProvider from './providers/StateTypeProvider/StateTypeProvider.js';
 import * as settings from './settings/settings.js';
 import * as localisation from 'assets/data/ru.js';
@@ -43,13 +41,10 @@ import * as localisation from 'assets/data/ru.js';
 const getRowId = row => row.task_id;
 
 const contentComponent = restProps => <ContentComponent {...restProps} />;
-const groupCellContent = restProps => <GroupCellContent {...restProps} />;
 const cellHeaderComponent = restProps => <TableCellHeader {...restProps} />;
 const rowComponent = restProps => <TableRow {...restProps} />;
 const sortLabelComponent = restProps => <SortLabel {...restProps} />;
 const columnChooserItem = restProps => <ColumnChooserItem {...restProps} />;
-const columnChoiserGroup = restProps => <ColumnChoiserGroup {...restProps} />;
-const columnChooserOverlay = restProps => <ColumnChooserOverlay {...restProps} />;
 
 const Fact = () => {
   const [columns, setColumns] = useState(settings.columns);
@@ -57,15 +52,32 @@ const Fact = () => {
   const [tableColumnExtensions, setTableColumnExtensions] = useState(settings.tableColumnExtensions);
   const [colorCalendar, setColorCalendar] = useState({});
   const [grouping, setGrouping] = useState(settings.grouping);
+  // eslint-disable-next-line no-unused-vars
+  const [groupingValue, setGroupingValue] = useState(new Set(['id']));
   const [editingRowIds, getEditingRowIds] = useState([]);
 
   useEffect(() => {
+    const createDefault = job => {
+      let value = '';
+      // eslint-disable-next-line no-unused-vars
+      for (let key of groupingValue) {
+        value = value + `${job[key]};`;
+      }
+      /*let value = '';
+      // eslint-disable-next-line no-unused-vars
+      for (let prop in groupingValue) {
+        value = value + `${job[groupingValue[prop]]};`;
+      }*/
+      return value;
+    };
+
     import('assets/data/data.js')
       .then(dataRow => {
-        const jobsWithTasks = dataRow.default
-          .map(job =>
-            job.tasks
+        const correctData = dataRow.default
+          .map(job => {
+            const newJob = job.tasks
               .map(task => ({
+                default: createDefault(job),
                 task_id: task.id,
                 task_state: task.state,
                 task_name: task.name,
@@ -82,21 +94,30 @@ const Fact = () => {
                 task_coment: task.comment,
                 taskt_timestamp: task['@timestamp'],
               }))
-              .map(task => ({ ...job, ...task }))
-          )
-          .reduce((previousValue, item) => [...previousValue, ...item]);
+              .map(task => ({ ...job, ...task }));
+            delete newJob[0].tasks;
+            return newJob;
+          })
+          .reduce((previousValue, item) => [...previousValue, ...item])
+          .map(item => {
+            const newItem = {
+              ...item,
+              contract_id: item.contract.id,
+              contract_name: item.contract.name,
+              project_id: item.project.id,
+              project_name: item.project.name,
+            };
+            delete newItem.contract;
+            delete newItem.project;
+            return newItem;
+          });
         //setData(jobsWithTasks.filter(item => item.task_state === 'В работе'));
-        const jobsWithTasksGroup = jobsWithTasks.map(item => ({
-          ...item,
-          default: `${item.id};${item.name};${item.contract.name}`,
-        }));
-        setData(jobsWithTasksGroup);
+        setData(correctData);
       })
       .catch(err => new Error(err));
-  }, []);
+  }, [groupingValue]);
 
   const onCommitChanges = ({ changed }) => {
-    // eslint-disable-next-line no-unused-vars
     let changedRows;
     if (changed) {
       changedRows = data.map(row => (changed[row.task_id] ? { ...row, ...changed[row.task_id] } : row));
@@ -110,6 +131,9 @@ const Fact = () => {
   ]);
   const editCellComponent = useCallback(restProps => <TableEditCell {...restProps} colorCalendar={colorCalendar} />, [
     colorCalendar,
+  ]);
+  const groupCellContent = useCallback(restProps => <GroupCellContent {...restProps} groupingValue={groupingValue} />, [
+    groupingValue,
   ]);
   const rootToolbarComponent = useCallback(
     restProps => (
@@ -165,11 +189,6 @@ const Fact = () => {
           messages={localisation.tableColumnVisibility}
         />
         <Toolbar rootComponent={rootToolbarComponent} />
-        <ColumnChooser
-          messages={localisation.columnChooser}
-          itemComponent={columnChoiserGroup}
-          overlayComponent={columnChooserOverlay}
-        />
         <ColumnChooser messages={localisation.columnChooser} itemComponent={columnChooserItem} />
         <TableInlineCellEditing selectTextOnEditStart cellComponent={editCellComponent} />
         <GroupingPanel showGroupingControls messages={localisation.groupingPanel} />

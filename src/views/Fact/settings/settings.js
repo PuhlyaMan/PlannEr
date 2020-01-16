@@ -34,6 +34,8 @@ export const columns = [
   { name: 'default', title: 'default' },
 ];
 
+const statePredicate = (value, filter) => value !== filter.value;
+
 export const tableColumnExtensions = [
   { columnName: 'name', width: 800, togglingEnabled: false },
   { columnName: 'id', width: 150, align: 'center', togglingEnabled: false },
@@ -57,7 +59,7 @@ export const tableColumnExtensions = [
   },
   { columnName: 'task_name', width: 800, editingEnabled: false },
   { columnName: 'task_id', width: 110, align: 'center', editingEnabled: false },
-  { columnName: 'task_state', width: 110, align: 'center', editingEnabled: false },
+  { columnName: 'task_state', width: 110, align: 'center', editingEnabled: false, predicate: statePredicate },
   { columnName: 'task_plan_start_date', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
   { columnName: 'task_plan_finish_date', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
   { columnName: 'task_plan_labor', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
@@ -103,11 +105,15 @@ export const defaultHiddenColumnNames = [
 
 export const stateColumns = ['task_state'];
 
-export const columnWork = {
+export const groupColumn = {
   id: 'ID работы',
   name: 'Наименование работы',
   state: 'Статус работы',
   point: 'Пункт графика',
   contract_name: 'Договор',
   project_name: 'Проект',
+};
+
+export const filterColumn = {
+  all: 'Все задачи',
 };

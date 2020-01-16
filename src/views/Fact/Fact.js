@@ -9,6 +9,7 @@ import {
   GroupingState,
   IntegratedGrouping,
   EditingState,
+  FilteringState,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -54,6 +55,8 @@ const Fact = () => {
   const [grouping, setGrouping] = useState(settings.grouping);
   const [groupingKeys, setGroupingKeys] = useState(['project_name']);
   const [editingRowIds, getEditingRowIds] = useState([]);
+  const [filtersKey, setFilterKey] = useState([]);
+  const [filters, setFilter] = useState([]);
 
   useEffect(() => {
     const createDefault = item => {
@@ -108,6 +111,12 @@ const Fact = () => {
       .catch(err => new Error(err));
   }, [groupingKeys]);
 
+  useEffect(() => {
+    filtersKey.indexOf('all') !== -1
+      ? setFilter([{ columnName: 'task_state', value: '' }])
+      : setFilter([{ columnName: 'task_state', value: 'Выполнено' }]);
+  }, [filtersKey]);
+
   const onCommitChanges = ({ changed }) => {
     let changedRows;
     if (changed) {
@@ -134,6 +143,7 @@ const Fact = () => {
         setTableColumnExtensions={setTableColumnExtensions}
         setColorCalendar={setColorCalendar}
         setGroupingKeys={setGroupingKeys}
+        setFilterKey={setFilterKey}
       />
     ),
     []
@@ -150,11 +160,12 @@ const Fact = () => {
           editingRowIds={editingRowIds}
           onEditingRowIdsChange={getEditingRowIds}
         />
+        <FilteringState filters={filters} />
         <SearchState />
         <SortingState columnExtensions={tableColumnExtensions} defaultSorting={settings.defaultSorting} />
         <PagingState defaultCurrentPage={0} defaultPageSize={0} />
         <GroupingState columnExtensions={tableColumnExtensions} grouping={grouping} onGroupingChange={setGrouping} />
-        <IntegratedFiltering />
+        <IntegratedFiltering columnExtensions={tableColumnExtensions} />
         <IntegratedSorting />
         <IntegratedPaging />
         <IntegratedGrouping />

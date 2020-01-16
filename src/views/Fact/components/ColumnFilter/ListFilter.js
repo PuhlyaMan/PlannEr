@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import { groupColumn } from '../../settings/settings.js';
+import { filterColumn } from '../../settings/settings.js';
 import { withStyles } from '@material-ui/core/styles';
 
 const style = theme => ({
@@ -32,7 +32,7 @@ const ListGroup = ({ checked, handleToggle, classes }) => {
   return (
     <Paper>
       <List dense className={classes.root}>
-        {Object.keys(groupColumn).map(key => {
+        {Object.keys(filterColumn).map(key => {
           return (
             <ListItem key={key} role={undefined} button onClick={handleToggle(key)}>
               <ListItemIcon className={classes.itemIcon}>
@@ -44,7 +44,7 @@ const ListGroup = ({ checked, handleToggle, classes }) => {
                   disableRipple
                 />
               </ListItemIcon>
-              <ListItemText className={classes.itemText} primary={groupColumn[key]} />
+              <ListItemText className={classes.itemText} primary={filterColumn[key]} />
             </ListItem>
           );
         })}

@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Tooltip from '@material-ui/core/Tooltip';
 import Popover from '@material-ui/core/Popover';
-import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
-import ListGroup from './ListGroup.js';
+import FilterListIcon from '@material-ui/icons/FilterList';
+import ListFilter from './ListFilter.js';
 import { withStyles } from '@material-ui/core/styles';
 
 const style = {
   iconButton: {
     position: 'absolute',
-    right: '260px',
+    right: '310px',
     cursor: 'pointer',
     border: 'none',
     bottom: '3px',
@@ -23,16 +23,16 @@ const style = {
   },
 };
 
-const GroupBase = ({ setGroupingKeys, classes }) => {
+const GroupBase = ({ setFilterKey, classes }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [checked, setChecked] = useState(['project_name']);
+  const [checked, setChecked] = useState(['']);
 
   const handleToggle = value => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
     currentIndex === -1 ? newChecked.push(value) : newChecked.splice(currentIndex, 1);
     setChecked(newChecked);
-    setGroupingKeys(newChecked);
+    setFilterKey(newChecked);
   };
 
   const handleClick = event => setAnchorEl(event.currentTarget);
@@ -42,9 +42,9 @@ const GroupBase = ({ setGroupingKeys, classes }) => {
 
   return (
     <div>
-      <Tooltip title="Сгруппировать" enterDelay={300} placement="bottom">
+      <Tooltip title="Фильтровать" enterDelay={300} placement="bottom">
         <button className={classes.iconButton} onClick={handleClick}>
-          <AddToPhotosIcon color="action" />
+          <FilterListIcon color="action" />
         </button>
       </Tooltip>
       <Popover
@@ -60,7 +60,7 @@ const GroupBase = ({ setGroupingKeys, classes }) => {
           horizontal: 'right',
         }}
       >
-        <ListGroup checked={checked} handleToggle={handleToggle} />
+        <ListFilter checked={checked} handleToggle={handleToggle} />
       </Popover>
     </div>
   );
@@ -68,7 +68,7 @@ const GroupBase = ({ setGroupingKeys, classes }) => {
 
 GroupBase.propTypes = {
   classes: PropTypes.object,
-  setGroupingKeys: PropTypes.func,
+  setFilterKey: PropTypes.func,
 };
 
 export default withStyles(style)(GroupBase);

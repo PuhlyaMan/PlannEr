@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { columnWork } from '../../settings/settings.js';
+import { groupColumn } from '../../settings/settings.js';
 import { TableGroupRow } from '@devexpress/dx-react-grid-material-ui';
 
 const GroupCellContent = ({ groupingKeys, row, ...restProps }) => {
@@ -17,7 +17,7 @@ const GroupCellContent = ({ groupingKeys, row, ...restProps }) => {
       {groupingKeys.map((key, index) => {
         return (
           <span key={key}>
-            <strong>{columnWork[key]}: </strong> {`${values[index]}; `}
+            <strong>{groupColumn[key]}: </strong> {`${values[index]}; `}
           </span>
         );
       })}

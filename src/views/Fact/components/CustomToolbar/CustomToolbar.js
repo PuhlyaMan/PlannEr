@@ -80,7 +80,7 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
   };
 
   return (
-    <div style={{ position: 'absolute', right: '350px', top: '15px' }}>
+    <div style={{ position: 'absolute', right: '400px', top: '15px' }}>
       <DateRangePicker
         startDate={startDate}
         startDateId="start"

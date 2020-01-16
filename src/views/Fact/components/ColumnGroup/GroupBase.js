@@ -28,7 +28,7 @@ const style = theme => ({
 
 const GroupBase = ({ setGroupingKeys, classes }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [checked, setChecked] = useState(['id']);
+  const [checked, setChecked] = useState(['project_name']);
 
   const handleToggle = value => () => {
     const currentIndex = checked.indexOf(value);

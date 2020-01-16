@@ -7,6 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
+import { columnWork } from '../../settings/settings.js';
 import { withStyles } from '@material-ui/core/styles';
 
 const style = theme => ({
@@ -26,14 +27,6 @@ const style = theme => ({
     paddingLeft: '4px',
   },
 });
-
-const columnWork = {
-  name: 'Наименование работы',
-  state: 'Статус работы',
-  point: 'Пункт графика',
-  contract_name: 'Договор',
-  project_name: 'Проект',
-};
 
 const ListGroup = ({ checked, handleToggle, classes }) => {
   return (

@@ -1,14 +1,15 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from '@devexpress/dx-react-grid-material-ui';
-import Button from '@material-ui/core/Button';
+import CalcTableCell from './CalcTableCell.js';
+import StateTableCell from './StateTableCell.js';
+import TaskPlanFinishDateTableCell from './TaskPlanFinishDateTableCell.js';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   cell: {
     padding: '5px 7px',
-    //paddingRight: '32px',
   },
   cellCalendar: {
     borderLeft: props => (props.border ? '1px solid rgba(224, 224, 224, 1)' : 'none'),
@@ -16,58 +17,34 @@ const useStyles = makeStyles({
       return props.backgroundColor;
     },
   },
-  buttonCell: {
-    borderBottom: '1px solid rgba(224, 224, 224, 1)',
-    borderLeft: '1px solid rgba(224, 224, 224, 1)',
-  },
 });
 
-const font = state => {
-  switch (state) {
-    case 'В работе':
-      return 'rgba(200, 235, 195, 0.8)';
-    case 'Ожидание':
-      return 'rgba(250, 250, 185, 0.8)';
-    case 'Выполнено':
-      return 'rgba(237, 237, 237, 1)';
-    case 'Запланировано':
-      return 'rgba(146, 189, 232, 0.5)';
-    case 'Новая':
-      return 'rgba(255, 255, 255)';
-    default:
-      return '';
-  }
-};
-
 const TableCell = ({ onClick, colorCalendar, className, ...restProps }) => {
-  const onChangeClick = () => alert('Что-то заполняем!');
-
-  const { column, row } = restProps;
+  const { column } = restProps;
   const props = {
-    backgroundColor: colorCalendar[column.name]
-      ? colorCalendar[column.name]
-      : column.name === 'task_state'
-      ? font(row.task_state)
-      : '',
+    backgroundColor: colorCalendar[column.name] ? colorCalendar[column.name] : '',
     border: colorCalendar[column.name],
   };
   const classes = useStyles(props);
-  if (column.name === 'calc')
-    return (
-      <td className={classes.buttonCell}>
-        <Button variant="contained" fullWidth={true} color="primary" size="small" onClick={onChangeClick}>
-          Рассчитать
-        </Button>
-      </td>
-    );
-  return (
-    <Table.Cell
-      {...restProps}
-      tabIndex={0}
-      onFocus={onClick}
-      className={classNames(classes.cell, className, classes.cellCalendar)}
-    />
-  );
+  switch (column.name) {
+    case 'calc':
+      return <CalcTableCell />;
+    case 'task_plan_finish_date':
+      return (
+        <TaskPlanFinishDateTableCell {...restProps} onFocus={onClick} className={classNames(classes.cell, className)} />
+      );
+    case 'task_state':
+      return <StateTableCell {...restProps} onFocus={onClick} className={classNames(classes.cell, className)} />;
+    default:
+      return (
+        <Table.Cell
+          {...restProps}
+          tabIndex={0}
+          onFocus={onClick}
+          className={classNames(classes.cell, className, classes.cellCalendar)}
+        />
+      );
+  }
 };
 
 TableCell.propTypes = {

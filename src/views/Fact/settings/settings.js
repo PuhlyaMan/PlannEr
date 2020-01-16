@@ -85,6 +85,7 @@ export const tableColumnExtensions = [
 ];
 
 export const pageSizes = [15, 20, 30, 0];
+export const defaultSorting = [{ columnName: 'task_plan_finish_date', direction: 'asc' }];
 export const grouping = [{ columnName: 'default' }];
 export const defaultHiddenColumnNames = [
   'name',
@@ -101,3 +102,12 @@ export const defaultHiddenColumnNames = [
 ];
 
 export const stateColumns = ['task_state'];
+
+export const columnWork = {
+  id: 'ID работы',
+  name: 'Наименование работы',
+  state: 'Статус работы',
+  point: 'Пункт графика',
+  contract_name: 'Договор',
+  project_name: 'Проект',
+};

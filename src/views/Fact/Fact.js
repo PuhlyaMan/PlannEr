@@ -52,7 +52,7 @@ const Fact = () => {
   const [tableColumnExtensions, setTableColumnExtensions] = useState(settings.tableColumnExtensions);
   const [colorCalendar, setColorCalendar] = useState({});
   const [grouping, setGrouping] = useState(settings.grouping);
-  const [groupingKeys, setGroupingKeys] = useState(['id']);
+  const [groupingKeys, setGroupingKeys] = useState(['project_name']);
   const [editingRowIds, getEditingRowIds] = useState([]);
 
   useEffect(() => {
@@ -151,7 +151,7 @@ const Fact = () => {
           onEditingRowIdsChange={getEditingRowIds}
         />
         <SearchState />
-        <SortingState columnExtensions={tableColumnExtensions} />
+        <SortingState columnExtensions={tableColumnExtensions} defaultSorting={settings.d} />
         <PagingState defaultCurrentPage={0} defaultPageSize={0} />
         <GroupingState columnExtensions={tableColumnExtensions} grouping={grouping} onGroupingChange={setGrouping} />
         <IntegratedFiltering />

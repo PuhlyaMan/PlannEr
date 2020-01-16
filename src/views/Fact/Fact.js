@@ -151,7 +151,7 @@ const Fact = () => {
           onEditingRowIdsChange={getEditingRowIds}
         />
         <SearchState />
-        <SortingState columnExtensions={tableColumnExtensions} defaultSorting={settings.d} />
+        <SortingState columnExtensions={tableColumnExtensions} defaultSorting={settings.defaultSorting} />
         <PagingState defaultCurrentPage={0} defaultPageSize={0} />
         <GroupingState columnExtensions={tableColumnExtensions} grouping={grouping} onGroupingChange={setGrouping} />
         <IntegratedFiltering />

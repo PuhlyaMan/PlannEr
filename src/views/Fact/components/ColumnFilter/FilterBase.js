@@ -28,8 +28,8 @@ const GroupBase = ({ setFilterKey, classes }) => {
   const [checked, setChecked] = useState(['']);
 
   const handleToggle = value => () => {
-    const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
+    const currentIndex = checked.indexOf(value);
     currentIndex === -1 ? newChecked.push(value) : newChecked.splice(currentIndex, 1);
     setChecked(newChecked);
     setFilterKey(newChecked);

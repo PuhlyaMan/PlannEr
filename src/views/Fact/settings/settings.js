@@ -35,6 +35,8 @@ export const columns = [
 ];
 
 const statePredicate = (value, filter) => value !== filter.value;
+// eslint-disable-next-line no-unused-vars
+const taskPlanFinishDatePredicate = (value, filter) => true;
 
 export const tableColumnExtensions = [
   { columnName: 'name', width: 800, togglingEnabled: false },
@@ -61,7 +63,14 @@ export const tableColumnExtensions = [
   { columnName: 'task_id', width: 110, align: 'center', editingEnabled: false },
   { columnName: 'task_state', width: 110, align: 'center', editingEnabled: false, predicate: statePredicate },
   { columnName: 'task_plan_start_date', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
-  { columnName: 'task_plan_finish_date', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
+  {
+    columnName: 'task_plan_finish_date',
+    width: 150,
+    align: 'center',
+    wordWrapEnabled: true,
+    editingEnabled: false,
+    predicate: taskPlanFinishDatePredicate,
+  },
   { columnName: 'task_plan_labor', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
   { columnName: 'task_actual_start_date', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
   { columnName: 'task_actual_finish_date', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
@@ -116,4 +125,5 @@ export const groupColumn = {
 
 export const filterColumn = {
   all: 'Все задачи',
+  failure: 'Срыв',
 };

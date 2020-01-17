@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { Toolbar } from '@devexpress/dx-react-grid-material-ui';
-import CustomToolbar from '../CustomToolbar/CustomToolbar.js';
-import GroupBase from '../ColumnGroup/GroupBase.js';
-import FilterBase from '../ColumnFilter/FilterBase.js';
+import CustomToolbar from './CustomToolbar/CustomToolbar.js';
+import GroupBase from './ColumnGroup/GroupBase.js';
+import FilterBase from './ColumnFilter/FilterBase.js';
 
 const ToolbarRoot = ({
   setFilterKey,

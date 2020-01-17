@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import { filterColumn } from '../../settings/settings.js';
+import { filterColumn } from '../../../settings/settings.js';
 import { withStyles } from '@material-ui/core/styles';
 
 const style = theme => ({

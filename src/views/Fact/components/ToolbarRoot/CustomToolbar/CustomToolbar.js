@@ -6,8 +6,8 @@ import 'react-dates/initialize';
 import moment from 'moment';
 import { getDaysInMonth, eachDayOfInterval } from 'date-fns';
 import Holidays from 'date-holidays';
-import { columns as defColumns, tableColumnExtensions as defColumnExtensions } from '../../settings/settings.js';
-import '../../settings/style.css';
+import { columns as defColumns, tableColumnExtensions as defColumnExtensions } from '../../../settings/settings.js';
+import '../../../settings/style.css';
 
 export default function CustomToolbar({ setColumns, setTableColumnExtensions, setColorCalendar }) {
   const [focusedInput, setFocus] = useState(null);

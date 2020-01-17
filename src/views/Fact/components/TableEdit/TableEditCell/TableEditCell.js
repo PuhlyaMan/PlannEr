@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { TableEditRow } from '@devexpress/dx-react-grid-material-ui';
-import TableCell from '../TableCell/TableCell.js';
+import TableCell from '../../Table/TableCell/TableCell.js';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 

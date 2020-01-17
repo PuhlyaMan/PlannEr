@@ -26,16 +26,17 @@ import {
   TableInlineCellEditing,
 } from '@devexpress/dx-react-grid-material-ui';
 import Paper from '@material-ui/core/Paper';
-import TableRow from './components/TableRow/TableRow.js';
-import TableCell from './components/TableCell/TableCell.js';
-import TableEditCell from './components/TableEditCell/TableEditCell.js';
-import TableCellHeader from './components/TableCellHeader/TableCellHeader.js';
-import ContentComponent from './components/ContentComponent/ContentComponent.js';
+import TableRow from './components/Table/TableRow/TableRow.js';
+import TableCell from './components/Table/TableCell/TableCell.js';
+import TableEditCell from './components/TableEdit/TableEditCell/TableEditCell.js';
+import TableCellHeader from './components/TableHeader/TableCellHeader/TableCellHeader.js';
+import ContentComponent from './components/TableHeader/ContentComponent/ContentComponent.js';
 import GroupCellContent from './components/GroupCellContent/GroupCellContent.js';
 import ToolbarRoot from './components/ToolbarRoot/ToolbarRoot.js';
-import SortLabel from './components/SortLabel/SortLabel.js';
-import ColumnChooserItem from './components/ColumnChooserItem/ColumnChooserItem.js';
-import StateTypeProvider from './providers/StateTypeProvider/StateTypeProvider.js';
+import SortLabel from './components/TableHeader/SortLabel/SortLabel.js';
+import ColumnChooserItem from './components/ColumnChooser/ColumnChooserItem/ColumnChooserItem.js';
+import PagingPanelContainer from './components/PagingPanel/PagingPanelContainer/PagingPanelContainer.js';
+//import StateTypeProvider from './providers/StateTypeProvider/StateTypeProvider.js';
 import * as settings from './settings/settings.js';
 import * as localisation from 'assets/data/ru.js';
 
@@ -46,6 +47,7 @@ const cellHeaderComponent = restProps => <TableCellHeader {...restProps} />;
 const rowComponent = restProps => <TableRow {...restProps} />;
 const sortLabelComponent = restProps => <SortLabel {...restProps} />;
 const columnChooserItem = restProps => <ColumnChooserItem {...restProps} />;
+const pagingPanelContainer = restProps => <PagingPanelContainer {...restProps} />;
 
 const Fact = () => {
   const [columns, setColumns] = useState(settings.columns);
@@ -150,7 +152,7 @@ const Fact = () => {
   return (
     <Paper>
       <Grid getRowId={getRowId} rows={data} columns={columns}>
-        <StateTypeProvider for={settings.stateColumns} />
+        {/*<StateTypeProvider for={settings.stateColumns} />*/}
         <DragDropProvider />
         <EditingState
           onCommitChanges={onCommitChanges}
@@ -172,7 +174,7 @@ const Fact = () => {
           rowComponent={rowComponent}
           messages={localisation.table}
           columnExtensions={tableColumnExtensions}
-          height={document.body.clientHeight - 270}
+          height={document.body.clientHeight - 210}
         />
         <TableHeaderRow
           showSortingControls
@@ -192,7 +194,11 @@ const Fact = () => {
         <TableInlineCellEditing selectTextOnEditStart cellComponent={editCellComponent} />
         <GroupingPanel showGroupingControls messages={localisation.groupingPanel} />
         <SearchPanel messages={localisation.searchPanel} />
-        <PagingPanel messages={localisation.pagingPanel} pageSizes={settings.pageSizes} />
+        <PagingPanel
+          containerComponent={pagingPanelContainer}
+          messages={localisation.pagingPanel}
+          pageSizes={settings.pageSizes}
+        />
       </Grid>
     </Paper>
   );

@@ -30,7 +30,7 @@ export const columns = [
     getCellValue: row => (row.task_actual_finish_date ? row.task_actual_finish_date.slice(0, 10) : undefined),
   },
   { name: 'task_actual_labor', title: 'Трудозатраты (факт)' },
-  { name: 'calc', title: 'Рассчитать' },
+  /*{ name: 'calc', title: 'Рассчитать' },*/
   { name: 'default', title: 'default' },
 ];
 
@@ -125,5 +125,5 @@ export const groupColumn = {
 
 export const filterColumn = {
   all: 'Все задачи',
-  failure: 'Срыв',
+  //failure: 'Срыв',
 };

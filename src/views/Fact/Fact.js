@@ -90,8 +90,10 @@ const Fact = () => {
                 taskt_timestamp: task['@timestamp'],
               }))
               .map(task => ({ ...job, ...task }));
-            delete newJob[0].tasks;
-            return newJob;
+            return newJob.map(item => {
+              delete item.tasks;
+              return item;
+            });
           })
           .reduce((previousValue, item) => [...previousValue, ...item])
           .map(item => {

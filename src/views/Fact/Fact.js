@@ -114,7 +114,9 @@ const Fact = () => {
   }, [groupingKeys]);
 
   useEffect(() => {
-    filtersKey.indexOf('all') !== -1 ? setFilter([]) : setFilter([{ columnName: 'task_state', value: 'Выполнено' }]);
+    filtersKey.indexOf('all') !== -1
+      ? setFilter([])
+      : setFilter([{ columnName: 'task_state', operation: 'notEqual', value: 'Выполнено' }]);
   }, [filtersKey]);
 
   const onCommitChanges = ({ changed }) => {

@@ -34,10 +34,6 @@ export const columns = [
   { name: 'default', title: 'default' },
 ];
 
-const statePredicate = (value, filter) => value !== filter.value;
-// eslint-disable-next-line no-unused-vars
-const taskPlanFinishDatePredicate = (value, filter) => true;
-
 export const tableColumnExtensions = [
   { columnName: 'name', width: 800, togglingEnabled: false },
   { columnName: 'id', width: 150, align: 'center', togglingEnabled: false },
@@ -61,7 +57,7 @@ export const tableColumnExtensions = [
   },
   { columnName: 'task_name', width: 800, editingEnabled: false },
   { columnName: 'task_id', width: 110, align: 'center', editingEnabled: false },
-  { columnName: 'task_state', width: 110, align: 'center', editingEnabled: false, predicate: statePredicate },
+  { columnName: 'task_state', width: 110, align: 'center', editingEnabled: false },
   { columnName: 'task_plan_start_date', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
   {
     columnName: 'task_plan_finish_date',
@@ -69,7 +65,6 @@ export const tableColumnExtensions = [
     align: 'center',
     wordWrapEnabled: true,
     editingEnabled: false,
-    predicate: taskPlanFinishDatePredicate,
   },
   { columnName: 'task_plan_labor', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
   { columnName: 'task_actual_start_date', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },

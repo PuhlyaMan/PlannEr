@@ -19,11 +19,9 @@
 import Dashboard from '@material-ui/icons/Dashboard';
 import Person from '@material-ui/icons/Person';
 import AssessmentIcon from '@material-ui/icons/Assessment';
-import AndroidIcon from '@material-ui/icons/Android';
 // core components/views for Admin layout
 import DashboardPage from 'views/Dashboard/Dashboard.js';
 import UserProfile from 'views/UserProfile/UserProfile.js';
-import Labor from 'views/Labor/Labor.js';
 import Fact from 'views/Fact/Fact.js';
 
 const dashboardRoutes = [
@@ -44,15 +42,8 @@ const dashboardRoutes = [
   {
     path: '/fact',
     name: 'Факт',
-    icon: AndroidIcon,
-    component: Fact,
-    layout: '/admin',
-  },
-  {
-    path: '/labor',
-    name: 'Labor',
     icon: AssessmentIcon,
-    component: Labor,
+    component: Fact,
     layout: '/admin',
   },
 ];

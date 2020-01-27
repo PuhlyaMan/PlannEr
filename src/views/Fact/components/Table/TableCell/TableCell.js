@@ -9,10 +9,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   cell: {
-    padding: '5px 7px',
+    padding: '2px 7px',
   },
   cellCalendar: {
-    borderLeft: props => (props.border ? '1px solid rgba(224, 224, 224, 1)' : 'none'),
+    borderRight: props => (props.border ? '1px solid rgba(224, 224, 224, 1)' : 'none'),
     backgroundColor: props => {
       return props.backgroundColor;
     },

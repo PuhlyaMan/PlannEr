@@ -12,7 +12,7 @@ const style = {
 
 const TaskPlanFinishDateTableCell = ({ classes, className, onClick, ...restProps }) => {
   const { row, value } = restProps;
-  const background = row.state === 'Выполнено' ? '' : new Date(value) > new Date() ? '' : classes.alarmCell;
+  const background = row.task_state === 'Выполнено' ? '' : new Date(value) > new Date() ? '' : classes.alarmCell;
   return (
     <Table.Cell
       {...restProps}

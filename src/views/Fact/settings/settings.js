@@ -57,7 +57,7 @@ export const tableColumnExtensions = [
   },
   { columnName: 'task_name', width: 800, editingEnabled: false },
   { columnName: 'task_id', width: 110, align: 'center', editingEnabled: false },
-  { columnName: 'task_state', width: 110, align: 'center', editingEnabled: false },
+  { columnName: 'task_state', width: 120, editingEnabled: false },
   { columnName: 'task_plan_start_date', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
   {
     columnName: 'task_plan_finish_date',

@@ -120,5 +120,5 @@ export const groupColumn = {
 
 export const filterColumn = {
   all: 'Все задачи',
-  //failure: 'Срыв',
+  failure: 'Срыв',
 };

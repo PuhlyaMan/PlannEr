@@ -37,6 +37,7 @@ import SortLabel from './components/TableHeader/SortLabel/SortLabel.js';
 import ColumnChooserItem from './components/ColumnChooser/ColumnChooserItem/ColumnChooserItem.js';
 import PagingPanelContainer from './components/PagingPanel/PagingPanelContainer/PagingPanelContainer.js';
 //import StateTypeProvider from './providers/StateTypeProvider/StateTypeProvider.js';
+import { format } from 'date-fns';
 import * as settings from './settings/settings.js';
 import * as localisation from 'assets/data/ru.js';
 
@@ -115,10 +116,19 @@ const Fact = () => {
       .catch(err => new Error(err));
   }, [groupingKeys]);
 
+  //TODO: Пока так, надо подумать, как сделать красиво!
   useEffect(() => {
-    filtersKey.indexOf('all') !== -1
-      ? setFilter([])
-      : setFilter([{ columnName: 'task_state', operation: 'notEqual', value: 'Выполнено' }]);
+    const filter = [];
+    if (filtersKey.indexOf('all') === -1)
+      filter.push({ columnName: 'task_state', operation: 'notEqual', value: 'Выполнено' });
+    if (filtersKey.indexOf('failure') !== -1) {
+      const curentDate = format(new Date(), 'yyyy-MM-dd');
+      filter.push(
+        { columnName: 'task_state', operation: 'notEqual', value: 'Выполнено' },
+        { columnName: 'task_plan_finish_date', operation: 'lessThan', value: curentDate }
+      );
+    }
+    setFilter(filter);
   }, [filtersKey]);
 
   const onCommitChanges = ({ changed }) => {

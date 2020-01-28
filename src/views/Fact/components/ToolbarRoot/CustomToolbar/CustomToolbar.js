@@ -4,16 +4,26 @@ import { DateRangePicker } from 'react-dates';
 import ButtonToolbar from './ButtonToolbar/ButtonToolbar.js';
 import 'react-dates/initialize';
 import moment from 'moment';
-import { getDaysInMonth, eachDayOfInterval } from 'date-fns';
+import { getDaysInMonth, eachDayOfInterval, format } from 'date-fns';
 import Holidays from 'date-holidays';
 import { columns as defColumns, tableColumnExtensions as defColumnExtensions } from '../../../settings/settings.js';
 import '../../../settings/style.css';
+
+const hd = new Holidays('RU');
+const getColor = (date, editDay) => {
+  return date.getDay() === 6 || date.getDay() === 0 || hd.isHoliday(date)
+    ? 'rgba(245, 153, 147, 0.8)'
+    : editDay.indexOf(date.getDate()) === -1
+    ? 'rgba(224, 224, 224, 0.5)'
+    : '#ffffff';
+};
 
 export default function CustomToolbar({ setColumns, setTableColumnExtensions, setColorCalendar }) {
   const [focusedInput, setFocus] = useState(null);
   const [disable, setDisable] = useState({ day: false, week: true, month: false });
   const [startDate, setStartDate] = useState(moment().startOf('isoweek'));
   const [endDate, setEndDate] = useState(moment().endOf('isoweek'));
+  const [currentDate] = useState(new Date());
 
   useEffect(() => {
     const maxResultRangeLength = getDaysInMonth(startDate._d);
@@ -22,20 +32,18 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
       alert('Интервал даты не может превышать месяца');
       return;
     }
-    const hd = new Holidays('RU');
     const resultRange = eachDayOfInterval({ start: startDate._d, end: endDate._d });
 
     let colorCalendarObj = {};
-    resultRange.forEach(item => {
-      const day = item.getDay();
-      const color = day === 6 || day === 0 || hd.isHoliday(item) ? 'rgba(245, 153, 147, 0.8)' : '#ffffff';
-      colorCalendarObj = { ...colorCalendarObj, [`day_${item.getDate()}`]: color };
-    });
-    setColorCalendar(colorCalendarObj);
-
+    const editDay = resultRange
+      .filter(item => format(item, 'yyyy-MM-dd') >= format(currentDate, 'yyyy-MM-dd'))
+      .map(item => item.getDate());
     const calendar = resultRange.map(item => {
+      colorCalendarObj = { ...colorCalendarObj, [`day_${item.getDate()}`]: getColor(item, editDay) };
       return { name: `day_${item.getDate()}`, title: `${item.getDate()}` };
     });
+
+    setColorCalendar(colorCalendarObj);
     const columnExtensions = calendar.map(item => ({
       columnName: item.name,
       width: 40,
@@ -44,10 +52,11 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
       filteringEnabled: false,
       togglingEnabled: false,
       groupingEnabled: false,
+      editingEnabled: editDay.indexOf(+item.title) !== -1,
     }));
     setTableColumnExtensions([...defColumnExtensions, ...columnExtensions]);
     setColumns([...defColumns, ...calendar]);
-  }, [startDate, endDate, setColumns, setTableColumnExtensions, setColorCalendar]);
+  }, [startDate, endDate, setColumns, setTableColumnExtensions, setColorCalendar, currentDate]);
 
   const create = range => {
     switch (range) {
@@ -125,14 +134,6 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
       >
         Месяц
       </ButtonToolbar>
-      {/*<ButtonToolbar
-        color="secondary"
-        onClick={() => {
-          save();
-        }}
-      >
-        Сохранить
-      </ButtonToolbar>*/}
     </div>
   );
 }

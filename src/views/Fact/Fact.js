@@ -122,10 +122,10 @@ const Fact = () => {
     if (filtersKey.indexOf('all') === -1)
       filter.push({ columnName: 'task_state', operation: 'notEqual', value: 'Выполнено' });
     if (filtersKey.indexOf('failure') !== -1) {
-      const curentDate = format(new Date(), 'yyyy-MM-dd');
+      const currentDate = format(new Date(), 'yyyy-MM-dd');
       filter.push(
         { columnName: 'task_state', operation: 'notEqual', value: 'Выполнено' },
-        { columnName: 'task_plan_finish_date', operation: 'lessThan', value: curentDate }
+        { columnName: 'task_plan_finish_date', operation: 'lessThan', value: currentDate }
       );
     }
     setFilter(filter);

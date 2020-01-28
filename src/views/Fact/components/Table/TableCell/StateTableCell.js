@@ -26,20 +26,13 @@ const useStyles = makeStyles({
 });
 
 const font = state => {
-  switch (state) {
-    case 'В работе':
-      return 'rgba(200, 235, 195, 0.8)';
-    case 'Ожидание':
-      return 'rgba(250, 250, 185, 0.8)';
-    case 'Выполнено':
-      return 'rgba(237, 237, 237, 1)';
-    case 'Запланировано':
-      return 'rgba(146, 189, 232, 0.5)';
-    case 'Новая':
-      return 'rgba(255, 255, 255)';
-    default:
-      return '';
-  }
+  return {
+    'В работе': 'rgba(200, 235, 195, 0.8)',
+    Ожидание: 'rgba(250, 250, 185, 0.8)',
+    Выполнено: 'rgba(237, 237, 237, 1)',
+    Запланировано: 'rgba(146, 189, 232, 0.5)',
+    Новая: 'rgba(255, 255, 255)',
+  }[state];
 };
 
 const StateTableCell = ({ className, onClick, ...restProps }) => {

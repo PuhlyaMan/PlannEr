@@ -27,8 +27,6 @@ const ToolbarRoot = ({
   );
 };
 
-ToolbarRoot.displayName = 'ToolbarRoot';
-
 ToolbarRoot.propTypes = {
   setFilterKey: PropTypes.func,
   children: PropTypes.element,

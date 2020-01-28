@@ -22,29 +22,31 @@ const useStyles = makeStyles({
 const TableCell = ({ onClick, colorCalendar, className, ...restProps }) => {
   const { column } = restProps;
   const props = {
-    backgroundColor: colorCalendar[column.name] ? colorCalendar[column.name] : '',
+    backgroundColor: colorCalendar[column.name] || '',
     border: colorCalendar[column.name],
   };
   const classes = useStyles(props);
-  switch (column.name) {
-    case 'calc':
-      return <CalcTableCell />;
-    case 'task_plan_finish_date':
-      return (
+
+  const getStatusColor = column => {
+    return {
+      calc: <CalcTableCell />,
+      task_plan_finish_date: (
         <TaskPlanFinishDateTableCell {...restProps} onFocus={onClick} className={classNames(classes.cell, className)} />
-      );
-    case 'task_state':
-      return <StateTableCell {...restProps} onFocus={onClick} className={classNames(classes.cell, className)} />;
-    default:
-      return (
-        <Table.Cell
-          {...restProps}
-          tabIndex={0}
-          onFocus={onClick}
-          className={classNames(classes.cell, className, classes.cellCalendar)}
-        />
-      );
-  }
+      ),
+      task_state: <StateTableCell {...restProps} onFocus={onClick} className={classNames(classes.cell, className)} />,
+    }[column];
+  };
+
+  return (
+    getStatusColor(column.name) || (
+      <Table.Cell
+        {...restProps}
+        tabIndex={0}
+        onFocus={onClick}
+        className={classNames(classes.cell, className, classes.cellCalendar)}
+      />
+    )
+  );
 };
 
 TableCell.propTypes = {

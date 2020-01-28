@@ -5,6 +5,10 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 
 const style = {
+  dateCell: {
+    borderLeft: '1px solid rgba(224, 224, 224, 1)',
+    borderRight: '1px solid rgba(224, 224, 224, 1)',
+  },
   alarmCell: {
     backgroundColor: 'rgba(250, 100, 100, 1)',
   },
@@ -12,13 +16,13 @@ const style = {
 
 const TaskPlanFinishDateTableCell = ({ classes, className, onClick, ...restProps }) => {
   const { row, value } = restProps;
-  const background = row.task_state === 'Выполнено' ? '' : new Date(value) > new Date() ? '' : classes.alarmCell;
+  const alarm = row.task_state === 'Выполнено' ? '' : new Date(value) > new Date() ? '' : classes.alarmCell;
   return (
     <Table.Cell
       {...restProps}
       tabIndex={0}
       onFocus={onClick}
-      className={classNames(classes.cell, className, background)}
+      className={classNames(classes.cell, classes.dateCell, className, alarm)}
     />
   );
 };

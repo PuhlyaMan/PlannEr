@@ -15,10 +15,15 @@ const style = {
 
 const TableCellHeader = ({ classes, className, ...restProps }) => {
   const { column } = restProps;
-  return column.name === 'calc' ? (
-    <Table.Cell className={classNames(classes.cellHeader, className)} />
-  ) : (
-    <TableHeaderRow.Cell {...restProps} className={classNames(classes.cellHeader, className)} />
+
+  const cell = column => {
+    return {
+      calc: <Table.Cell className={classNames(classes.cellHeader, className)} />,
+    }[column];
+  };
+
+  return (
+    cell(column.name) || <TableHeaderRow.Cell {...restProps} className={classNames(classes.cellHeader, className)} />
   );
 };
 

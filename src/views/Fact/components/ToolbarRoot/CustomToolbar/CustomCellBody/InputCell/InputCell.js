@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 
-const InputCell = memo(({ onChange, onBlur }) => {
+const InputCell = ({ onChange, onBlur }) => {
   return (
     <input
       onChange={onChange}
@@ -19,13 +19,11 @@ const InputCell = memo(({ onChange, onBlur }) => {
       }}
     />
   );
-});
-
-InputCell.displayName = 'InputCell';
+};
 
 InputCell.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
 };
 
-export default InputCell;
+export default memo(InputCell);

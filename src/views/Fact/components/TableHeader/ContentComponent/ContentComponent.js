@@ -22,9 +22,4 @@ ContentComponent.propTypes = {
   className: PropTypes.string,
 };
 
-ContentComponent.defaultProps = {
-  className: null,
-  children: undefined,
-};
-
 export default withStyles(styles)(ContentComponent);

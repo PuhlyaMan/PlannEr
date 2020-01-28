@@ -13,16 +13,16 @@ const style = {
 };
 
 const TableEditCell = ({ classes, colorCalendar, editingEnabled, onValueChange, className, ...restProps }) => {
-  if (editingEnabled)
-    return (
-      <TableEditRow.Cell
-        {...restProps}
-        editingEnabled={editingEnabled}
-        onValueChange={onValueChange}
-        className={classNames(className, classes.editCell)}
-      />
-    );
-  return <TableCell className={className} colorCalendar={colorCalendar} {...restProps} />;
+  return editingEnabled ? (
+    <TableEditRow.Cell
+      {...restProps}
+      editingEnabled={editingEnabled}
+      onValueChange={onValueChange}
+      className={classNames(className, classes.editCell)}
+    />
+  ) : (
+    <TableCell className={className} colorCalendar={colorCalendar} {...restProps} />
+  );
 };
 
 TableEditCell.propTypes = {

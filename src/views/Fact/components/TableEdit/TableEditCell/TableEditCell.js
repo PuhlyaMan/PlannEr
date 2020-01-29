@@ -13,7 +13,8 @@ const style = {
 };
 
 const TableEditCell = ({ classes, colorCalendar, editingEnabled, onValueChange, className, ...restProps }) => {
-  return editingEnabled ? (
+  const { row } = restProps;
+  return editingEnabled && row.task_state !== 'Выполнено' ? (
     <TableEditRow.Cell
       {...restProps}
       editingEnabled={editingEnabled}

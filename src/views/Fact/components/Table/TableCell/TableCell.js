@@ -20,9 +20,12 @@ const useStyles = makeStyles({
 });
 
 const TableCell = ({ onClick, colorCalendar, className, ...restProps }) => {
-  const { column } = restProps;
+  const { column, row } = restProps;
   const props = {
-    backgroundColor: colorCalendar[column.name] || '',
+    backgroundColor:
+      row.task_state === 'Выполнено' && colorCalendar[column.name]
+        ? 'rgba(224, 224, 224, 0.5)'
+        : colorCalendar[column.name] || '',
     border: colorCalendar[column.name],
   };
   const classes = useStyles(props);

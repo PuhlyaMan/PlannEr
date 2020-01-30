@@ -32,6 +32,15 @@ const userProfileStyle = {
   logoImage: {
     display: 'inline-flex',
   },
+  '@keyframes rotate-logo': {
+    from: { transform: 'rotate(0deg)' },
+    to: { transform: 'rotate(360deg)' },
+  },
+  '@media (prefers-reduced-motion: no-preference)': {
+    image: {
+      animation: '$rotate-logo infinite 20s linear',
+    },
+  },
   image: {
     maxWidth: '80px',
     maxHeight: '60px',

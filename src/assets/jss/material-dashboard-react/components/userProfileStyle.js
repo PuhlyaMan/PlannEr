@@ -34,6 +34,7 @@ const userProfileStyle = {
   },
   image: {
     maxWidth: '80px',
+    maxHeight: '60px',
   },
   logoText: {
     color: whiteColor,

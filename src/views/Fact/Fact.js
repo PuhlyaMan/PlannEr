@@ -10,9 +10,14 @@ import {
   IntegratedGrouping,
   EditingState,
   FilteringState,
+  // eslint-disable-next-line no-unused-vars
+  VirtualTableState,
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
+  // eslint-disable-next-line no-unused-vars
+  Table,
+  // eslint-disable-next-line no-unused-vars
   VirtualTable,
   TableHeaderRow,
   PagingPanel,
@@ -42,13 +47,14 @@ import * as settings from './settings/settings.js';
 import * as localisation from 'assets/data/ru.js';
 
 const getRowId = row => row.task_id;
-
 const contentComponent = restProps => <ContentComponent {...restProps} />;
 const cellHeaderComponent = restProps => <TableCellHeader {...restProps} />;
 const rowComponent = restProps => <TableRow {...restProps} />;
 const sortLabelComponent = restProps => <SortLabel {...restProps} />;
 const columnChooserItem = restProps => <ColumnChooserItem {...restProps} />;
 const pagingPanelContainer = restProps => <PagingPanelContainer {...restProps} />;
+const editCellComponent = restProps => <TableEditCell {...restProps} />;
+const Root = restProps => <Grid.Root {...restProps} style={{ height: '100%' }} />;
 
 const Fact = () => {
   const [columns, setColumns] = useState(settings.columns);
@@ -57,7 +63,10 @@ const Fact = () => {
   const [colorCalendar, setColorCalendar] = useState({});
   const [grouping, setGrouping] = useState(settings.grouping);
   const [groupingKeys, setGroupingKeys] = useState(['project_name']);
+  // eslint-disable-next-line no-unused-vars
   const [editingRowIds, getEditingRowIds] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [editingCells, getEditingCells] = useState([]);
   const [filtersKey, setFilterKey] = useState([]);
   const [filters, setFilter] = useState([]);
 
@@ -134,16 +143,13 @@ const Fact = () => {
   const onCommitChanges = ({ changed }) => {
     let changedRows;
     if (changed) {
+      if (!Object.values(changed)[0]) return;
       changedRows = data.map(row => (changed[row.task_id] ? { ...row, ...changed[row.task_id] } : row));
+      setData(changedRows);
     }
-    setData(changedRows);
   };
 
-  //cellComponent необходим для наглядности, его можно удалить, а вместо использовать editCellComponent
   const cellComponent = useCallback(restProps => <TableCell {...restProps} colorCalendar={colorCalendar} />, [
-    colorCalendar,
-  ]);
-  const editCellComponent = useCallback(restProps => <TableEditCell {...restProps} colorCalendar={colorCalendar} />, [
     colorCalendar,
   ]);
   const groupCellContent = useCallback(restProps => <GroupCellContent {...restProps} groupingKeys={groupingKeys} />, [
@@ -164,16 +170,11 @@ const Fact = () => {
   );
 
   return (
-    <Paper>
-      <Grid getRowId={getRowId} rows={data} columns={columns}>
+    <Paper style={{ height: document.body.clientHeight - 95 }}>
+      <Grid getRowId={getRowId} rows={data} columns={columns} rootComponent={Root}>
         {/*<StateTypeProvider for={settings.stateColumns} />*/}
         <DragDropProvider />
-        <EditingState
-          onCommitChanges={onCommitChanges}
-          columnExtensions={tableColumnExtensions}
-          editingRowIds={editingRowIds}
-          onEditingRowIdsChange={getEditingRowIds}
-        />
+        <EditingState onCommitChanges={onCommitChanges} columnExtensions={tableColumnExtensions} />
         <FilteringState filters={filters} />
         <SearchState />
         <SortingState columnExtensions={tableColumnExtensions} defaultSorting={settings.defaultSorting} />
@@ -188,7 +189,7 @@ const Fact = () => {
           rowComponent={rowComponent}
           messages={localisation.table}
           columnExtensions={tableColumnExtensions}
-          height={document.body.clientHeight - 210}
+          height="auto"
         />
         <TableHeaderRow
           showSortingControls

@@ -10,13 +10,13 @@ const style = {
   },
 };
 
-const TableRow = ({ classes, className, ...restProps }) => {
+const TableRowBase = ({ classes, className, ...restProps }) => {
   return <Table.Row {...restProps} className={classNames(className, classes.row)} />;
 };
 
-TableRow.propTypes = {
+TableRowBase.propTypes = {
   classes: PropTypes.object,
   className: PropTypes.string,
 };
 
-export default memo(withStyles(style)(TableRow));
+export default memo(withStyles(style)(TableRowBase));

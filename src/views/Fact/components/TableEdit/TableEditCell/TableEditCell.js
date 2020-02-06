@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { TableEditRow } from '@devexpress/dx-react-grid-material-ui';
-import TableCell from '../../Table/TableCell/TableCell.js';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
+//import useCountRender from '../../../useCountRender.js';
 
 const style = {
   editCell: {
@@ -12,26 +12,28 @@ const style = {
   },
 };
 
-const TableEditCell = ({ classes, colorCalendar, editingEnabled, onValueChange, className, ...restProps }) => {
-  const { row } = restProps;
-  return editingEnabled && row.task_state !== 'Выполнено' ? (
+const TableEditCell = ({ classes, editingEnabled, onValueChange, className, ...restProps }) => {
+  //useCountRender('TableEditCell');
+  return (
     <TableEditRow.Cell
       {...restProps}
       editingEnabled={editingEnabled}
       onValueChange={onValueChange}
       className={classNames(className, classes.editCell)}
     />
-  ) : (
-    <TableCell className={className} colorCalendar={colorCalendar} {...restProps} />
   );
+};
+
+// eslint-disable-next-line no-unused-vars
+const compare = (prevProps, newProps) => {
+  return prevProps.value === newProps.value;
 };
 
 TableEditCell.propTypes = {
   className: PropTypes.string,
   editingEnabled: PropTypes.bool,
   onValueChange: PropTypes.func,
-  colorCalendar: PropTypes.object,
   classes: PropTypes.object,
 };
 
-export default memo(withStyles(style)(TableEditCell));
+export default memo(withStyles(style)(TableEditCell), compare);

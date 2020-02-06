@@ -10,12 +10,30 @@ import { columns as defColumns, tableColumnExtensions as defColumnExtensions } f
 import '../../../settings/style.css';
 
 const hd = new Holidays('RU');
-const getColor = (date, editDay) => {
-  return date.getDay() === 6 || date.getDay() === 0 || hd.isHoliday(date)
-    ? 'rgba(245, 153, 147, 0.8)'
-    : editDay.indexOf(date.getDate()) === -1
-    ? 'rgba(224, 224, 224, 0.5)'
-    : '#ffffff';
+const getSettings = (date, editDay) => {
+  const columnName = `day_${date.getDate()}`;
+  if (date.getDay() === 6 || date.getDay() === 0 || hd.isHoliday(date)) {
+    return {
+      [columnName]: {
+        color: 'rgba(245, 153, 147, 0.8)',
+        edit: true,
+      },
+    };
+  } else if (editDay.indexOf(date.getDate()) === -1) {
+    return {
+      [columnName]: {
+        color: 'rgba(224, 224, 224, 0.5)',
+        edit: false,
+      },
+    };
+  } else {
+    return {
+      [columnName]: {
+        color: '#ffffff',
+        edit: true,
+      },
+    };
+  }
 };
 
 export default function CustomToolbar({ setColumns, setTableColumnExtensions, setColorCalendar }) {
@@ -39,7 +57,9 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
       .filter(item => format(item, 'yyyy-MM-dd') >= format(currentDate, 'yyyy-MM-dd'))
       .map(item => item.getDate());
     const calendar = resultRange.map(item => {
-      colorCalendarObj = { ...colorCalendarObj, [`day_${item.getDate()}`]: getColor(item, editDay) };
+      const settings = getSettings(item, editDay);
+      //colorCalendarObj = { ...colorCalendarObj, [`day_${item.getDate()}`]: settings.color, edit: settings.edit };
+      colorCalendarObj = { ...colorCalendarObj, ...settings };
       return { name: `day_${item.getDate()}`, title: `${item.getDate()}` };
     });
 

@@ -23,7 +23,7 @@ const style = {
   },
 };
 
-const GroupBase = ({ setFilterKey, classes }) => {
+const FilterBase = ({ setFilterKey, classes }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [checked, setChecked] = useState(['']);
 
@@ -66,9 +66,9 @@ const GroupBase = ({ setFilterKey, classes }) => {
   );
 };
 
-GroupBase.propTypes = {
+FilterBase.propTypes = {
   classes: PropTypes.object,
   setFilterKey: PropTypes.func,
 };
 
-export default withStyles(style)(GroupBase);
+export default withStyles(style)(FilterBase);

@@ -1,7 +1,9 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
+import useCountRender from 'utils/useCountRender';
 
 const InputCell = ({ onChange, onBlur }) => {
+  useCountRender('InputCell');
   return (
     <input
       onChange={onChange}

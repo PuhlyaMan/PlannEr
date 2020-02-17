@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
+import useCountRender from 'utils/useCountRender';
 
 export default function ButtonToolbar({ color = 'primary', disabled = false, onClick, children }) {
+  useCountRender('ButtonToolbar');
   return (
     <Button
       size="small"

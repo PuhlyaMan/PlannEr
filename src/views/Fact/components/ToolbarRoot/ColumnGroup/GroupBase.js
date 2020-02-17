@@ -5,6 +5,7 @@ import Popover from '@material-ui/core/Popover';
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import ListGroup from './ListGroup.js';
 import { withStyles } from '@material-ui/core/styles';
+import useCountRender from 'utils/useCountRender.js';
 
 const style = {
   iconButton: {
@@ -24,6 +25,7 @@ const style = {
 };
 
 const GroupBase = ({ setGroupingKeys, classes }) => {
+  useCountRender('GroupBase');
   const [anchorEl, setAnchorEl] = useState(null);
   const [checked, setChecked] = useState(['project_name']);
 

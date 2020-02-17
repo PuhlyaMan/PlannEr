@@ -10,6 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Checkbox from '@material-ui/core/Checkbox';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
+import useCountRender from 'utils/useCountRender';
 
 const useStyles = makeStyles({
   stateCell: {
@@ -36,6 +37,7 @@ const font = state => {
 };
 
 const StateTableCell = ({ className, onClick, ...restProps }) => {
+  useCountRender('StateTableCell');
   const [checked, setChecked] = useState(false);
   const [open, setOpen] = useState(false);
 

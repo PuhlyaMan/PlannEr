@@ -6,7 +6,7 @@ import StateTableCell from './StateTableCell.js';
 import TaskPlanFinishDateTableCell from './TaskPlanFinishDateTableCell.js';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/core/styles';
-//import useCountRender from '../../../useCountRender.js';
+import useCountRender from 'utils/useCountRender.js';
 
 const useStyles = makeStyles({
   cell: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 });
 
 const TableCell = ({ onClick, colorCalendar, className, ...restProps }) => {
-  //useCountRender('TableCell');
+  useCountRender('TableCell');
   const { column, row } = restProps;
   const calendarColumn = colorCalendar[column.name];
   const props = {

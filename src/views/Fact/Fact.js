@@ -45,6 +45,7 @@ import PagingPanelContainer from './components/PagingPanel/PagingPanelContainer/
 import { format } from 'date-fns';
 import * as settings from './settings/settings.js';
 import * as localisation from 'assets/data/ru.js';
+import useCountRender from 'utils/useCountRender.js';
 
 const getRowId = row => row.task_id;
 const contentComponent = restProps => <ContentComponent {...restProps} />;
@@ -57,6 +58,7 @@ const editCellComponent = restProps => <TableEditCell {...restProps} />;
 const Root = restProps => <Grid.Root {...restProps} style={{ height: '100%' }} />;
 
 const Fact = () => {
+  useCountRender('Fact');
   const [columns, setColumns] = useState(settings.columns);
   const [data, setData] = useState([]);
   const [tableColumnExtensions, setTableColumnExtensions] = useState(settings.tableColumnExtensions);
@@ -184,7 +186,7 @@ const Fact = () => {
         <IntegratedSorting />
         <IntegratedPaging />
         <IntegratedGrouping />
-        <VirtualTable
+        <Table
           cellComponent={cellComponent}
           rowComponent={rowComponent}
           messages={localisation.table}

@@ -1,8 +1,10 @@
 import React, { useState, useCallback, memo } from 'react';
 import PropTypes from 'prop-types';
 import InputCell from './InputCell/InputCell';
+import useCountRender from 'utils/useCountRender';
 
 const CustomCellBody = ({ tableMeta, startDate, endDate /*handleTask*/ }) => {
+  useCountRender('CustomCellBody');
   const [value, setValue] = useState('');
 
   const onBlur = () => {

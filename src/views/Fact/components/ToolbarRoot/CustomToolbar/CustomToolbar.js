@@ -8,6 +8,7 @@ import { getDaysInMonth, eachDayOfInterval, format } from 'date-fns';
 import Holidays from 'date-holidays';
 import { columns as defColumns, tableColumnExtensions as defColumnExtensions } from '../../../settings/settings.js';
 import '../../../settings/style.css';
+import useCountRender from 'utils/useCountRender.js';
 
 const hd = new Holidays('RU');
 const getSettings = (date, editDay) => {
@@ -37,6 +38,7 @@ const getSettings = (date, editDay) => {
 };
 
 export default function CustomToolbar({ setColumns, setTableColumnExtensions, setColorCalendar }) {
+  useCountRender('CustomToolbar');
   const [focusedInput, setFocus] = useState(null);
   const [disable, setDisable] = useState({ day: false, week: true, month: false });
   const [startDate, setStartDate] = useState(moment().startOf('isoweek'));

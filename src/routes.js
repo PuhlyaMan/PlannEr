@@ -19,10 +19,13 @@
 import Dashboard from '@material-ui/icons/Dashboard';
 import Person from '@material-ui/icons/Person';
 import AssessmentIcon from '@material-ui/icons/Assessment';
+import AccessibilityIcon from '@material-ui/icons/Accessibility';
 // core components/views for Admin layout
 import DashboardPage from 'views/Dashboard/Dashboard.js';
 import UserProfile from 'views/UserProfile/UserProfile.js';
 import Fact from 'views/Fact/Fact.js';
+import EasyTable from 'views/EasyTable/EasyTable.js';
+import Temp from 'views/EasyTable/Temp.js';
 
 const dashboardRoutes = [
   {
@@ -44,6 +47,20 @@ const dashboardRoutes = [
     name: 'Факт',
     icon: AssessmentIcon,
     component: Fact,
+    layout: '/admin',
+  },
+  {
+    path: '/easy',
+    name: 'EasyTable',
+    icon: AccessibilityIcon,
+    component: EasyTable,
+    layout: '/admin',
+  },
+  {
+    path: '/tmp',
+    name: 'EasyTable',
+    icon: AccessibilityIcon,
+    component: Temp,
     layout: '/admin',
   },
 ];

@@ -46,8 +46,8 @@ import PagingPanelContainer from './components/PagingPanel/PagingPanelContainer/
 import GroupingPanelContainer from './components/ToolbarRoot/GroupingPanel/GroupingPanelContainer.js';
 //import StateTypeProvider from './providers/StateTypeProvider/StateTypeProvider.js';
 import { format } from 'date-fns';
-import saveAs from 'file-saver';
 import * as settingsGrid from './settings/settingsGrid.js';
+import { onSave, customizeCell } from './settings/settingsExporter.js';
 import * as localisation from 'assets/data/ru.js';
 
 const getRowId = row => row.task_id;
@@ -61,12 +61,6 @@ const editCellComponent = restProps => <TableEditCell {...restProps} />;
 const groupingPanelContainer = restProps => <GroupingPanelContainer {...restProps} />;
 const Root = restProps => <Grid.Root {...restProps} style={{ height: '100%' }} />;
 
-const onSave = workbook => {
-  workbook.xlsx.writeBuffer().then(buffer => {
-    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Fact.xlsx');
-  });
-};
-
 const Fact = () => {
   const exporterRef = useRef(null);
 
@@ -77,13 +71,10 @@ const Fact = () => {
   const [columns, setColumns] = useState(settingsGrid.columns);
   const [data, setData] = useState([]);
   const [tableColumnExtensions, setTableColumnExtensions] = useState(settingsGrid.tableColumnExtensions);
+  const [hiddenColumnNames, setHiddenColumnNames] = useState(settingsGrid.defaultHiddenColumnNames);
   const [calendar, setCalendar] = useState([]);
   const [grouping, setGrouping] = useState(settingsGrid.grouping);
   const [groupingKeys, setGroupingKeys] = useState(['project_name']);
-  // eslint-disable-next-line no-unused-vars
-  const [editingRowIds, getEditingRowIds] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const [editingCells, getEditingCells] = useState([]);
   const [filtersKey, setFilterKey] = useState([]);
   const [filters, setFilter] = useState([]);
 
@@ -215,7 +206,9 @@ const Fact = () => {
         />
         <TableGroupRow contentComponent={groupCellContent} />
         <TableColumnVisibility
-          defaultHiddenColumnNames={settingsGrid.defaultHiddenColumnNames}
+          defaultHiddenColumnNames={hiddenColumnNames}
+          hiddenColumnNames={hiddenColumnNames}
+          onHiddenColumnNamesChange={setHiddenColumnNames}
           columnExtensions={tableColumnExtensions}
           messages={localisation.tableColumnVisibility}
         />
@@ -239,9 +232,12 @@ const Fact = () => {
         ref={exporterRef}
         rows={data}
         columns={columns}
-        onSave={onSave}
         grouping={grouping}
         filters={filters}
+        hiddenColumnNames={hiddenColumnNames}
+        columnExtensions={tableColumnExtensions}
+        onSave={onSave}
+        customizeCell={customizeCell}
       />
     </Paper>
   );

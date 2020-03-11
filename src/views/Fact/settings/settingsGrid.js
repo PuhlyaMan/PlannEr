@@ -11,23 +11,23 @@ export const columns = [
   {
     name: 'task_plan_start_date',
     title: 'Дата начала (план)',
-    getCellValue: row => (row.task_plan_start_date ? row.task_plan_start_date.slice(0, 10) : undefined),
+    getCellValue: row => (row.task_plan_start_date ? row.task_plan_start_date.slice(0, 10) : '-'),
   },
   {
     name: 'task_plan_finish_date',
     title: 'Дата окончания (план)',
-    getCellValue: row => (row.task_plan_finish_date ? row.task_plan_finish_date.slice(0, 10) : undefined),
+    getCellValue: row => (row.task_plan_finish_date ? row.task_plan_finish_date.slice(0, 10) : '-'),
   },
   { name: 'task_plan_labor', title: 'Трудозатраты (план)' },
   {
     name: 'task_actual_start_date',
     title: 'Дата начала (факт)',
-    getCellValue: row => (row.task_actual_start_date ? row.task_actual_start_date.slice(0, 10) : undefined),
+    getCellValue: row => (row.task_actual_start_date ? row.task_actual_start_date.slice(0, 10) : '-'),
   },
   {
     name: 'task_actual_finish_date',
     title: 'Дата окончания (факт)',
-    getCellValue: row => (row.task_actual_finish_date ? row.task_actual_finish_date.slice(0, 10) : undefined),
+    getCellValue: row => (row.task_actual_finish_date ? row.task_actual_finish_date.slice(0, 10) : '-'),
   },
   { name: 'task_actual_labor', title: 'Трудозатраты (факт)' },
   /*{ name: 'calc', title: 'Рассчитать' },*/
@@ -70,16 +70,6 @@ export const tableColumnExtensions = [
   { columnName: 'task_actual_start_date', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
   { columnName: 'task_actual_finish_date', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
   { columnName: 'task_actual_labor', width: 150, align: 'center', wordWrapEnabled: true, editingEnabled: false },
-  {
-    columnName: 'calc',
-    width: 100,
-    align: 'center',
-    sortingEnabled: false,
-    filteringEnabled: false,
-    togglingEnabled: false,
-    groupingEnabled: false,
-    editingEnabled: false,
-  },
   {
     columnName: 'default',
     width: 800,

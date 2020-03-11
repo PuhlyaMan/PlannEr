@@ -4,26 +4,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Popover from '@material-ui/core/Popover';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import ListFilter from './ListFilter.js';
-import { withStyles } from '@material-ui/core/styles';
 
-const style = {
-  iconButton: {
-    position: 'absolute',
-    right: '310px',
-    cursor: 'pointer',
-    border: 'none',
-    bottom: '3px',
-    padding: '12px',
-    borderRadius: '50%',
-    backgroundColor: 'transparent',
-    transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-    '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.08)',
-    },
-  },
-};
-
-const FilterBase = ({ setFilterKey, classes }) => {
+const FilterBase = ({ setFilterKey }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [checked, setChecked] = useState(['']);
 
@@ -41,9 +23,9 @@ const FilterBase = ({ setFilterKey, classes }) => {
   const open = Boolean(anchorEl);
 
   return (
-    <div>
+    <>
       <Tooltip title="Фильтровать" enterDelay={300} placement="bottom">
-        <button className={classes.iconButton} onClick={handleClick}>
+        <button className="MuiButtonBase-root MuiIconButton-root" onClick={handleClick}>
           <FilterListIcon color="action" />
         </button>
       </Tooltip>
@@ -62,13 +44,12 @@ const FilterBase = ({ setFilterKey, classes }) => {
       >
         <ListFilter checked={checked} handleToggle={handleToggle} />
       </Popover>
-    </div>
+    </>
   );
 };
 
 FilterBase.propTypes = {
-  classes: PropTypes.object,
   setFilterKey: PropTypes.func,
 };
 
-export default withStyles(style)(FilterBase);
+export default FilterBase;

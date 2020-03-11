@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import {
   SortingState,
   IntegratedSorting,
@@ -13,6 +13,7 @@ import {
   // eslint-disable-next-line no-unused-vars
   VirtualTableState,
 } from '@devexpress/dx-react-grid';
+import { GridExporter } from '@devexpress/dx-react-grid-export';
 import {
   Grid,
   // eslint-disable-next-line no-unused-vars
@@ -29,6 +30,7 @@ import {
   ColumnChooser,
   TableColumnVisibility,
   TableInlineCellEditing,
+  ExportPanel,
 } from '@devexpress/dx-react-grid-material-ui';
 import Paper from '@material-ui/core/Paper';
 import TableRow from './components/Table/TableRow/TableRow.js';
@@ -41,11 +43,12 @@ import ToolbarRoot from './components/ToolbarRoot/ToolbarRoot.js';
 import SortLabel from './components/TableHeader/SortLabel/SortLabel.js';
 import ColumnChooserItem from './components/ColumnChooser/ColumnChooserItem/ColumnChooserItem.js';
 import PagingPanelContainer from './components/PagingPanel/PagingPanelContainer/PagingPanelContainer.js';
+import GroupingPanelContainer from './components/ToolbarRoot/GroupingPanel/GroupingPanelContainer.js';
 //import StateTypeProvider from './providers/StateTypeProvider/StateTypeProvider.js';
 import { format } from 'date-fns';
-import * as settings from './settings/settings.js';
+import saveAs from 'file-saver';
+import * as settingsGrid from './settings/settingsGrid.js';
 import * as localisation from 'assets/data/ru.js';
-import useCountRender from 'utils/useCountRender.js';
 
 const getRowId = row => row.task_id;
 const contentComponent = restProps => <ContentComponent {...restProps} />;
@@ -55,15 +58,27 @@ const sortLabelComponent = restProps => <SortLabel {...restProps} />;
 const columnChooserItem = restProps => <ColumnChooserItem {...restProps} />;
 const pagingPanelContainer = restProps => <PagingPanelContainer {...restProps} />;
 const editCellComponent = restProps => <TableEditCell {...restProps} />;
+const groupingPanelContainer = restProps => <GroupingPanelContainer {...restProps} />;
 const Root = restProps => <Grid.Root {...restProps} style={{ height: '100%' }} />;
 
+const onSave = workbook => {
+  workbook.xlsx.writeBuffer().then(buffer => {
+    saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Fact.xlsx');
+  });
+};
+
 const Fact = () => {
-  useCountRender('Fact');
-  const [columns, setColumns] = useState(settings.columns);
+  const exporterRef = useRef(null);
+
+  const startExport = useCallback(() => {
+    exporterRef.current.exportGrid();
+  }, [exporterRef]);
+
+  const [columns, setColumns] = useState(settingsGrid.columns);
   const [data, setData] = useState([]);
-  const [tableColumnExtensions, setTableColumnExtensions] = useState(settings.tableColumnExtensions);
-  const [colorCalendar, setColorCalendar] = useState({});
-  const [grouping, setGrouping] = useState(settings.grouping);
+  const [tableColumnExtensions, setTableColumnExtensions] = useState(settingsGrid.tableColumnExtensions);
+  const [calendar, setCalendar] = useState([]);
+  const [grouping, setGrouping] = useState(settingsGrid.grouping);
   const [groupingKeys, setGroupingKeys] = useState(['project_name']);
   // eslint-disable-next-line no-unused-vars
   const [editingRowIds, getEditingRowIds] = useState([]);
@@ -151,9 +166,7 @@ const Fact = () => {
     }
   };
 
-  const cellComponent = useCallback(restProps => <TableCell {...restProps} colorCalendar={colorCalendar} />, [
-    colorCalendar,
-  ]);
+  const cellComponent = useCallback(restProps => <TableCell {...restProps} calendar={calendar} />, [calendar]);
   const groupCellContent = useCallback(restProps => <GroupCellContent {...restProps} groupingKeys={groupingKeys} />, [
     groupingKeys,
   ]);
@@ -163,7 +176,7 @@ const Fact = () => {
         {...restProps}
         setColumns={setColumns}
         setTableColumnExtensions={setTableColumnExtensions}
-        setColorCalendar={setColorCalendar}
+        setCalendar={setCalendar}
         setGroupingKeys={setGroupingKeys}
         setFilterKey={setFilterKey}
       />
@@ -174,13 +187,13 @@ const Fact = () => {
   return (
     <Paper style={{ height: document.body.clientHeight - 95 }}>
       <Grid getRowId={getRowId} rows={data} columns={columns} rootComponent={Root}>
-        {/*<StateTypeProvider for={settings.stateColumns} />*/}
+        {/*<StateTypeProvider for={settingsGrid.stateColumns} />*/}
         <DragDropProvider />
         <EditingState onCommitChanges={onCommitChanges} columnExtensions={tableColumnExtensions} />
         <FilteringState filters={filters} />
         <SearchState />
-        <SortingState columnExtensions={tableColumnExtensions} defaultSorting={settings.defaultSorting} />
-        <PagingState defaultCurrentPage={0} defaultPageSize={0} />
+        <SortingState columnExtensions={tableColumnExtensions} defaultSorting={settingsGrid.defaultSorting} />
+        <PagingState defaultCurrentPage={0} defaultPageSize={5} />
         <GroupingState columnExtensions={tableColumnExtensions} grouping={grouping} onGroupingChange={setGrouping} />
         <IntegratedFiltering columnExtensions={tableColumnExtensions} />
         <IntegratedSorting />
@@ -202,21 +215,34 @@ const Fact = () => {
         />
         <TableGroupRow contentComponent={groupCellContent} />
         <TableColumnVisibility
-          defaultHiddenColumnNames={settings.defaultHiddenColumnNames}
+          defaultHiddenColumnNames={settingsGrid.defaultHiddenColumnNames}
           columnExtensions={tableColumnExtensions}
           messages={localisation.tableColumnVisibility}
         />
         <Toolbar rootComponent={rootToolbarComponent} />
-        <ColumnChooser messages={localisation.columnChooser} itemComponent={columnChooserItem} />
         <TableInlineCellEditing selectTextOnEditStart cellComponent={editCellComponent} />
-        <GroupingPanel showGroupingControls messages={localisation.groupingPanel} />
+        <ExportPanel startExport={startExport} messages={localisation.exportPanel} />
+        <ColumnChooser messages={localisation.columnChooser} itemComponent={columnChooserItem} />
+        <GroupingPanel
+          showGroupingControls
+          messages={localisation.groupingPanel}
+          containerComponent={groupingPanelContainer}
+        />
         <SearchPanel messages={localisation.searchPanel} />
         <PagingPanel
           containerComponent={pagingPanelContainer}
           messages={localisation.pagingPanel}
-          pageSizes={settings.pageSizes}
+          pageSizes={settingsGrid.pageSizes}
         />
       </Grid>
+      <GridExporter
+        ref={exporterRef}
+        rows={data}
+        columns={columns}
+        onSave={onSave}
+        grouping={grouping}
+        filters={filters}
+      />
     </Paper>
   );
 };

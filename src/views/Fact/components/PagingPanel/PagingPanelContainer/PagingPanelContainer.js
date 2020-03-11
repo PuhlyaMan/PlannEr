@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { PagingPanel } from '@devexpress/dx-react-grid-material-ui';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import useCountRender from 'utils/useCountRender';
 
 const style = {
   container: {
@@ -12,7 +11,6 @@ const style = {
 };
 
 const PagingPanelContainer = ({ classes, className, ...restProps }) => {
-  useCountRender('PagingPanelContainer');
   return <PagingPanel.Container {...restProps} className={classNames(className, classes.container)} />;
 };
 

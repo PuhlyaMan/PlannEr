@@ -40,6 +40,12 @@ export const tableColumnVisibility = {
   noColumns: 'Нечего отображать',
 };
 
+export const exportPanel = {
+  showExportMenu: 'Выгрузить',
+  exportAll: 'Выгрузить',
+  exportSelected: 'Выгрузить выделенное',
+};
+
 export const tableSummaryRow = {
   count: 'Кол-во',
   sum: 'Сумма',

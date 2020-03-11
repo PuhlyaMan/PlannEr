@@ -8,37 +8,28 @@ import { getDaysInMonth, eachDayOfInterval, format } from 'date-fns';
 import Holidays from 'date-holidays';
 import { columns as defColumns, tableColumnExtensions as defColumnExtensions } from '../../../settings/settings.js';
 import '../../../settings/style.css';
-import useCountRender from 'utils/useCountRender.js';
 
 const hd = new Holidays('RU');
-const getSettings = (date, editDay) => {
-  const columnName = `day_${date.getDate()}`;
-  if (date.getDay() === 6 || date.getDay() === 0 || hd.isHoliday(date)) {
-    return {
-      [columnName]: {
-        color: 'rgba(245, 153, 147, 0.8)',
-        edit: true,
-      },
-    };
-  } else if (editDay.indexOf(date.getDate()) === -1) {
-    return {
-      [columnName]: {
-        color: 'rgba(224, 224, 224, 0.5)',
-        edit: false,
-      },
-    };
-  } else {
-    return {
-      [columnName]: {
-        color: '#ffffff',
-        edit: true,
-      },
-    };
-  }
+const isWeekend = date => date.getDay() === 6 || date.getDay() === 0 || hd.isHoliday(date);
+const isBefore = date => format(date, 'yyyy-MM-dd') < format(new Date(), 'yyyy-MM-dd');
+
+const getDaySettings = date => {
+  const daySettings = {
+    name: `day_${date.getDate()}`,
+    day: date.getDate(),
+    month: date.getMonth(),
+    color: 'ffffff',
+    edit: true,
+  };
+
+  return isWeekend(date)
+    ? { ...daySettings, color: 'rgba(245, 153, 147, 0.8)' }
+    : isBefore(date)
+    ? { ...daySettings, color: 'rgba(224, 224, 224, 0.5)' }
+    : daySettings;
 };
 
-export default function CustomToolbar({ setColumns, setTableColumnExtensions, setColorCalendar }) {
-  useCountRender('CustomToolbar');
+export default function CustomToolbar({ setColumns, setTableColumnExtensions, setCalendar }) {
   const [focusedInput, setFocus] = useState(null);
   const [disable, setDisable] = useState({ day: false, week: true, month: false });
   const [startDate, setStartDate] = useState(moment().startOf('isoweek'));
@@ -52,33 +43,28 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
       alert('Интервал даты не может превышать месяца');
       return;
     }
-    const resultRange = eachDayOfInterval({ start: startDate._d, end: endDate._d });
 
-    let colorCalendarObj = {};
-    const editDay = resultRange
-      .filter(item => format(item, 'yyyy-MM-dd') >= format(currentDate, 'yyyy-MM-dd'))
-      .map(item => item.getDate());
-    const calendar = resultRange.map(item => {
-      const settings = getSettings(item, editDay);
-      //colorCalendarObj = { ...colorCalendarObj, [`day_${item.getDate()}`]: settings.color, edit: settings.edit };
-      colorCalendarObj = { ...colorCalendarObj, ...settings };
-      return { name: `day_${item.getDate()}`, title: `${item.getDate()}` };
-    });
-
-    setColorCalendar(colorCalendarObj);
-    const columnExtensions = calendar.map(item => ({
-      columnName: item.name,
+    const daysRange = eachDayOfInterval({ start: startDate._d, end: endDate._d });
+    const calendar = daysRange.map(data => getDaySettings(data));
+    setCalendar(calendar);
+    const columnExtensions = daysRange.map(day => ({
+      columnName: `day_${day.getDate()}`,
       width: 40,
       align: 'center',
       sortingEnabled: false,
       filteringEnabled: false,
       togglingEnabled: false,
       groupingEnabled: false,
-      editingEnabled: editDay.indexOf(+item.title) !== -1,
+      editingEnabled: true,
     }));
+    const calendarColumns = daysRange.map(day => ({
+      name: `day_${day.getDate()}`,
+      title: `${day.getDate()}`,
+    }));
+
     setTableColumnExtensions([...defColumnExtensions, ...columnExtensions]);
-    setColumns([...defColumns, ...calendar]);
-  }, [startDate, endDate, setColumns, setTableColumnExtensions, setColorCalendar, currentDate]);
+    setColumns([...defColumns, ...calendarColumns]);
+  }, [startDate, endDate, setColumns, setTableColumnExtensions, setCalendar, currentDate]);
 
   const create = range => {
     switch (range) {
@@ -98,20 +84,22 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
   };
 
   const handleDatesChange = ({ startDate, endDate }) => {
-    const maxResultRangeLength = getDaysInMonth(startDate._d);
-    const curentResultRangeLength = Math.trunc((endDate._d - startDate._d) / 86400000);
-    if (maxResultRangeLength <= curentResultRangeLength) {
-      alert('Интервал даты не может превышать месяца');
-      return;
-    } else {
-      setStartDate(startDate);
-      setEndDate(endDate);
-      setDisable({ day: false, week: false, month: false });
+    if (startDate && endDate) {
+      const maxResultRangeLength = getDaysInMonth(startDate._d);
+      const curentResultRangeLength = Math.trunc((endDate._d - startDate._d) / 86400000);
+      if (maxResultRangeLength <= curentResultRangeLength) {
+        alert('Интервал даты не может превышать месяца');
+        return;
+      } else {
+        setStartDate(startDate);
+        setEndDate(endDate);
+        setDisable({ day: false, week: false, month: false });
+      }
     }
   };
 
   return (
-    <div style={{ position: 'absolute', right: '400px', top: '15px' }}>
+    <div style={{ margin: '0 19px 0 19px', flex: '0 0 auto' }}>
       <DateRangePicker
         startDate={startDate}
         startDateId="start"
@@ -163,5 +151,5 @@ export default function CustomToolbar({ setColumns, setTableColumnExtensions, se
 CustomToolbar.propTypes = {
   setColumns: PropTypes.func,
   setTableColumnExtensions: PropTypes.func,
-  setColorCalendar: PropTypes.func,
+  setCalendar: PropTypes.func,
 };

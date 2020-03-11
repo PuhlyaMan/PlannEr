@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { TableEditRow } from '@devexpress/dx-react-grid-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import useCountRender from 'utils/useCountRender';
 
 const style = {
   editCell: {
@@ -13,7 +12,6 @@ const style = {
 };
 
 const TableEditCell = ({ classes, editingEnabled, onValueChange, className, ...restProps }) => {
-  useCountRender('TableEditCell');
   return (
     <TableEditRow.Cell
       {...restProps}

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Table } from '@devexpress/dx-react-grid-material-ui';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import useCountRender from 'utils/useCountRender';
 
 const style = {
   dateCell: {
@@ -16,7 +15,6 @@ const style = {
 };
 
 const TaskPlanFinishDateTableCell = ({ classes, className, onClick, ...restProps }) => {
-  useCountRender('TaskPlanFinishDateTableCell');
   const { row, value } = restProps;
   const alarm = row.task_state === 'Выполнено' ? '' : new Date(value) > new Date() ? '' : classes.alarmCell;
   return (

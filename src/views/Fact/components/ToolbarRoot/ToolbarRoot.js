@@ -4,26 +4,24 @@ import { Toolbar } from '@devexpress/dx-react-grid-material-ui';
 import CustomToolbar from './CustomToolbar/CustomToolbar.js';
 import GroupBase from './ColumnGroup/GroupBase.js';
 import FilterBase from './ColumnFilter/FilterBase.js';
-import useCountRender from 'utils/useCountRender.js';
 
 const ToolbarRoot = ({
   setFilterKey,
   setGroupingKeys,
   setColumns,
   setTableColumnExtensions,
-  setColorCalendar,
+  setCalendar,
   children,
 }) => {
-  useCountRender('ToolbarRoot');
   return (
-    <Toolbar.Root>
-      <FilterBase setFilterKey={setFilterKey} />
-      <GroupBase setGroupingKeys={setGroupingKeys} />
+    <Toolbar.Root style={{ display: 'flex', alignItems: 'center' }}>
       <CustomToolbar
         setColumns={setColumns}
         setTableColumnExtensions={setTableColumnExtensions}
-        setColorCalendar={setColorCalendar}
+        setCalendar={setCalendar}
       />
+      <FilterBase setFilterKey={setFilterKey} />
+      <GroupBase setGroupingKeys={setGroupingKeys} />
       {children}
     </Toolbar.Root>
   );
@@ -35,7 +33,7 @@ ToolbarRoot.propTypes = {
   setColumns: PropTypes.func,
   setTableColumnExtensions: PropTypes.func,
   setGroupingKeys: PropTypes.func,
-  setColorCalendar: PropTypes.func,
+  setCalendar: PropTypes.func,
 };
 
 export default memo(ToolbarRoot);

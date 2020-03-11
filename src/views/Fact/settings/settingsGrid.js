@@ -90,7 +90,7 @@ export const tableColumnExtensions = [
   },
 ];
 
-export const pageSizes = [15, 20, 30, 0];
+export const pageSizes = [5, 10, 15];
 export const defaultSorting = [{ columnName: 'task_plan_finish_date', direction: 'asc' }];
 export const grouping = [{ columnName: 'default' }];
 export const defaultHiddenColumnNames = [

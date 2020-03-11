@@ -25,7 +25,6 @@ import DashboardPage from 'views/Dashboard/Dashboard.js';
 import UserProfile from 'views/UserProfile/UserProfile.js';
 import Fact from 'views/Fact/Fact.js';
 import EasyTable from 'views/EasyTable/EasyTable.js';
-import Temp from 'views/EasyTable/Temp.js';
 
 const dashboardRoutes = [
   {
@@ -54,13 +53,6 @@ const dashboardRoutes = [
     name: 'EasyTable',
     icon: AccessibilityIcon,
     component: EasyTable,
-    layout: '/admin',
-  },
-  {
-    path: '/tmp',
-    name: 'EasyTable',
-    icon: AccessibilityIcon,
-    component: Temp,
     layout: '/admin',
   },
 ];

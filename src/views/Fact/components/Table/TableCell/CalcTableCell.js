@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import useCountRender from 'utils/useCountRender';
 
 const style = {
   buttonCell: {
@@ -12,7 +11,6 @@ const style = {
 };
 
 const CalcTableCell = ({ classes }) => {
-  useCountRender('CalcTableCell');
   const onChangeClick = () => alert('Что-то заполняем!');
   return (
     <td className={classes.buttonCell}>

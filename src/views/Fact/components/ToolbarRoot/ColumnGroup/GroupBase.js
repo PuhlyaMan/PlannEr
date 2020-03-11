@@ -4,28 +4,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Popover from '@material-ui/core/Popover';
 import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import ListGroup from './ListGroup.js';
-import { withStyles } from '@material-ui/core/styles';
-import useCountRender from 'utils/useCountRender.js';
 
-const style = {
-  iconButton: {
-    position: 'absolute',
-    right: '260px',
-    cursor: 'pointer',
-    border: 'none',
-    bottom: '3px',
-    padding: '12px',
-    borderRadius: '50%',
-    backgroundColor: 'transparent',
-    transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-    '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.08)',
-    },
-  },
-};
-
-const GroupBase = ({ setGroupingKeys, classes }) => {
-  useCountRender('GroupBase');
+const GroupBase = ({ setGroupingKeys }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [checked, setChecked] = useState(['project_name']);
 
@@ -43,9 +23,9 @@ const GroupBase = ({ setGroupingKeys, classes }) => {
   const open = Boolean(anchorEl);
 
   return (
-    <div>
+    <>
       <Tooltip title="Сгруппировать" enterDelay={300} placement="bottom">
-        <button className={classes.iconButton} onClick={handleClick}>
+        <button className="MuiButtonBase-root MuiIconButton-root" onClick={handleClick}>
           <AddToPhotosIcon color="action" />
         </button>
       </Tooltip>
@@ -64,13 +44,12 @@ const GroupBase = ({ setGroupingKeys, classes }) => {
       >
         <ListGroup checked={checked} handleToggle={handleToggle} />
       </Popover>
-    </div>
+    </>
   );
 };
 
 GroupBase.propTypes = {
-  classes: PropTypes.object,
   setGroupingKeys: PropTypes.func,
 };
 
-export default withStyles(style)(GroupBase);
+export default GroupBase;

@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
-import { groupColumn } from '../../settings/settings.js';
+import { groupColumn } from '../../settings/settingsGrid.js';
 import { TableGroupRow } from '@devexpress/dx-react-grid-material-ui';
 
 const GroupCellContent = ({ groupingKeys, row, ...restProps }) => {

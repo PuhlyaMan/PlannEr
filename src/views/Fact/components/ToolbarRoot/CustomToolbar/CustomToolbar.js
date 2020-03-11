@@ -6,7 +6,7 @@ import 'react-dates/initialize';
 import moment from 'moment';
 import { getDaysInMonth, eachDayOfInterval, format } from 'date-fns';
 import Holidays from 'date-holidays';
-import { columns as defColumns, tableColumnExtensions as defColumnExtensions } from '../../../settings/settings.js';
+import { columns as defColumns, tableColumnExtensions as defColumnExtensions } from '../../../settings/settingsGrid.js';
 import '../../../settings/style.css';
 
 const hd = new Holidays('RU');
